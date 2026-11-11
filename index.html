@@ -106,8 +106,19 @@ body{background:linear-gradient(160deg,#42b7ed 0%,#1684d2 42%,#07539f 100%);colo
 .rank-avatar{width:32px;height:32px;vertical-align:middle;margin-right:8px;display:inline-block}
 .profile-preview{background-color:#0b5798;color:#fff}
 .upload-label{background:#0b5798;color:#fff}
+
+/* Schoolblog/School-Block: Spielen nur am Computer oder Laptop */
+.mobile-only-notice{display:none}
+@media(max-width:800px){
+  body>.wrap{display:none!important}
+  .mobile-only-notice{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;padding:24px;background:linear-gradient(160deg,#42b7ed 0%,#1684d2 42%,#07539f 100%);color:#fff;text-align:center;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+  .mobile-only-card{width:min(440px,100%);padding:30px 24px;border:1px solid #ffffff55;border-radius:24px;background:#176fba;box-shadow:0 10px 0 #084b8b,0 20px 45px #073d7555}
+  .mobile-only-card h1{margin:0 0 12px;font-size:28px}
+  .mobile-only-card p{margin:0;color:#e1f3ff;font-size:16px;line-height:1.6}
+  .mobile-only-icon{font-size:44px;margin-bottom:14px}
+}
 </style></head>
-<body><div class="wrap">
+<body><div class="mobile-only-notice"><div class="mobile-only-card"><div class="mobile-only-icon">&#128187;</div><h1>Bitte am Computer spielen</h1><p>School-Block ist nur für Computer und Laptops gedacht. Öffne die Webseite bitte auf einem größeren Bildschirm, um mitzuspielen.</p></div></div><div class="wrap">
 <header class="top"><div class="brand"><div class="logo" aria-hidden="true"><span class="logo-mark"><i></i><i></i><i></i><i></i></span></div><div><h1>School-Block</h1><small>Setzen · Kombinieren · Punkte sammeln</small></div></div><div style="display:flex;gap:8px;align-items:center"><button class="btn secondary" id="soundBtn" aria-pressed="true">Ton an</button><button class="btn secondary" id="newGame">↻ Neues Spiel</button></div></header>
 <div class="layout"><main class="panel"><div class="stats"><div class="stat"><span>Punkte</span><strong id="score">0</strong></div><div class="stat"><span>Rekord</span><strong id="best">0</strong></div><div class="stat"><span>Linien</span><strong id="lines">0</strong></div></div><div class="board" id="board" aria-label="Spielfeld"></div><div class="tray" id="tray"></div><p class="hint">Einen Stein direkt berühren, ziehen und auf dem Feld loslassen.</p></main>
 <aside class="panel side"><section id="joinPanel"><h2>1 · Gruppe beitreten</h2><p class="notice">Gib zuerst den Einladungscode ein. Erst danach kannst du dein Profil erstellen.</p><input class="field" id="joinCode" maxlength="20" placeholder="Einladungscode"><div class="row"><button class="btn primary" id="verifyCode">Code prüfen</button></div><p class="notice" id="onlineStatus">Du benötigst den festen Code des Gruppen-Administrators.</p></section>
