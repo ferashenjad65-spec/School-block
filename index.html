@@ -105,7 +105,7 @@ body{background:linear-gradient(160deg,#42b7ed 0%,#1684d2 42%,#07539f 100%);colo
 <div class="overlay" id="over"><div class="dialog"><h2>Runde beendet</h2><p id="overText">Keine Steine passen mehr.</p><button class="btn primary" id="again">Nochmal spielen</button></div></div><div class="toast" id="toast"></div>
 <script>
 (()=>{const SUPABASE_URL='https://ttjnibweqjqyirzurmxh.supabase.co',SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR0am5pYndlcWpxeWlyenVybXhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQzMzQxNDIsImV4cCI6MjEwOTkxMDE0Mn0.T_pQSH7Gz3WL4Hqw1aMqPOWmHCG9TA1crNGBA-NIrI8';
-const N=8,colors=['#69d5c4','#ffbd69','#9a8cff','#ff7f9f','#77a7ff','#b4df70'];const shapes=[[[1]],[[1,1]],[[1],[1]],[[1,1,1]],[[1],[1],[1]],[[1,1],[1,1]],[[1,0],[1,1]],[[0,1],[1,1]],[[1,1,1],[0,1,0]],[[1,0],[1,0],[1,1]],[[0,1],[0,1],[1,1]],[[1,1,1,1]],[[1],[1],[1],[1]],[[1,1,1],[1,0,0]],[[1,1,0],[0,1,1]]];let grid,score=0,lines=0,pieces=[],selected=-1,player=localStorage.sbNick||'',onlineClassCode=localStorage.sbClassCode||'',onlineClassName=localStorage.sbClassName||'',playerToken=localStorage.sbPlayerToken||'',best=+(localStorage.sbBest||0),drag=null,suppressClick=false,soundOn=true,audioCtx=null,lastPlaced=[];const $=id=>document.getElementById(id);$('nick').value=localStorage.sbPlayerName||'';$('playerClass').value=localStorage.sbPlayerClass||'';$('best').textContent=best;if(onlineClassCode){$('joinCode').value='cyberangriff';$('onlineStatus').textContent='Verbunden mit der Schulgruppe '+onlineClassName;}
+const N=8,colors=['#69d5c4','#ffbd69','#9a8cff','#ff7f9f','#77a7ff','#b4df70'];const shapes=[[[1]],[[1,1]],[[1],[1]],[[1,1,1]],[[1],[1],[1]],[[1,1],[1,1]],[[1,0],[1,1]],[[0,1],[1,1]],[[1,1,1],[0,1,0]],[[1,0],[1,0],[1,1]],[[0,1],[0,1],[1,1]],[[1,1,1,1]],[[1],[1],[1],[1]],[[1,1,1],[1,0,0]],[[1,1,0],[0,1,1]]];let grid,score=0,lines=0,pieces=[],selected=-1,player=localStorage.sbNick||'',onlineClassCode=localStorage.sbPlayerToken?'CYBERANGRIFF':(localStorage.sbClassCode||''),onlineClassName=localStorage.sbClassName||'',playerToken=localStorage.sbPlayerToken||'',best=+(localStorage.sbBest||0),drag=null,suppressClick=false,soundOn=true,audioCtx=null,lastPlaced=[];const $=id=>document.getElementById(id);$('nick').value=localStorage.sbPlayerName||'';$('playerClass').value=localStorage.sbPlayerClass||'';$('best').textContent=best;if(onlineClassCode){$('joinCode').value='cyberangriff';$('onlineStatus').textContent='Verbunden mit der Schulgruppe '+onlineClassName;}
 function toast(t){$('toast').textContent=t;$('toast').style.display='block';clearTimeout(toast.timer);toast.timer=setTimeout(()=>$('toast').style.display='none',1800)}
 function sound(freq=520,duration=.09){if(!soundOn)return;try{audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==='suspended')audioCtx.resume();let o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type='sine';o.frequency.value=freq;g.gain.setValueAtTime(.0001,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.09,audioCtx.currentTime+.012);g.gain.exponentialRampToValueAtTime(.0001,audioCtx.currentTime+duration);o.connect(g);g.connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+duration)}catch(e){}}
 function clearPreview(){document.querySelectorAll('.preview-good,.preview-bad').forEach(c=>c.classList.remove('preview-good','preview-bad'))}
@@ -149,19 +149,8 @@ async function joinOnlineClass(code,quiet=false){
  onlineClassCode=code.toUpperCase().replace(/[^A-Z0-9]/g,'');onlineClassName=data.className;playerToken=data.playerToken;
  localStorage.sbClassCode=onlineClassCode;localStorage.sbClassName=onlineClassName;localStorage.sbPlayerToken=playerToken;
  $('joinCode').value='cyberangriff';showOnlineStatus('Du bist in der gemeinsamen Schulgruppe.');await refreshOnlineRanks();
- if(!quiet)toast('Du bist der Klasse beigetreten.');
+ if(!quiet)toast('Du bist der Schulgruppe beigetreten.');
 }
-$('createClass').onclick=async()=>{
- const name=$('className').value.trim(),adminPassword=$('adminPass').value;
- if($('nick').value.trim().length<2){toast('Bitte zuerst deinen Spitznamen speichern.');return}
- $('createClass').disabled=true;
- try{
-  const data=await onlineRequest({action:'create_class',name,adminPassword});
-  $('classCodeInfo').style.display='block';$('classCodeInfo').textContent='Euer Klassencode: '+data.joinCode+' — bitte sicher aufschreiben und an alle Schüler deiner Klasse weitergeben.';
-  await joinOnlineClass(data.joinCode,true);toast('Klasse erstellt!');
- }catch(e){showOnlineStatus(e.message);toast(e.message)}
- finally{$('createClass').disabled=false}
-};
 $('joinClass').onclick=async()=>{
  const code=$('joinCode').value.trim();if(!code){toast('Bitte Schulcode eingeben.');return}
  $('joinClass').disabled=true;try{await joinOnlineClass(code)}catch(e){showOnlineStatus(e.message);toast(e.message)}finally{$('joinClass').disabled=false}
