@@ -176,6 +176,8 @@ async function submitOnlineScore(){
  catch(e){showOnlineStatus('Punkte konnten nicht online gespeichert werden: '+e.message)}
 }
 if(onlineClassCode&&playerToken){refreshOnlineRanks()}else{renderRanks()}
+window.addEventListener('focus',()=>{if(onlineClassCode&&playerToken)refreshOnlineRanks()});
+setInterval(()=>{if(onlineClassCode&&playerToken)refreshOnlineRanks()},20000);
 
 })();
 </script></body></html>
