@@ -95,21 +95,17 @@ body{background:linear-gradient(160deg,#42b7ed 0%,#1684d2 42%,#07539f 100%);colo
 <body><div class="wrap">
 <header class="top"><div class="brand"><div class="logo" aria-hidden="true"><span class="logo-mark"><i></i><i></i><i></i><i></i></span></div><div><h1>School-Block</h1><small>Setzen · Kombinieren · Punkte sammeln</small></div></div><div style="display:flex;gap:8px;align-items:center"><button class="btn secondary" id="soundBtn" aria-pressed="true">Ton an</button><button class="btn secondary" id="newGame">↻ Neues Spiel</button></div></header>
 <div class="layout"><main class="panel"><div class="stats"><div class="stat"><span>Punkte</span><strong id="score">0</strong></div><div class="stat"><span>Rekord</span><strong id="best">0</strong></div><div class="stat"><span>Linien</span><strong id="lines">0</strong></div></div><div class="board" id="board" aria-label="Spielfeld"></div><div class="tray" id="tray"></div><p class="hint">Einen Stein direkt berühren, ziehen und auf dem Feld loslassen.</p></main>
-<aside class="panel side"><section><h2>Spieler</h2><input class="field" id="nick" maxlength="24" placeholder="Spitzname (max. 24 Zeichen)"><div class="row"><button class="btn primary" id="saveNick">Speichern</button></div><p class="notice">Dein Spielstand wird auf diesem Gerät gespeichert. Nutze bitte einen Spitznamen statt deines echten Namens.</p></section><section><h2>Online-Klasse</h2>
-<input class="field" id="className" maxlength="40" placeholder="Name deiner Klasse (z. B. Da Vinci, Carlo 3)">
-<input class="field" id="adminPass" type="password" minlength="8" placeholder="Admin-Passwort (mind. 8 Zeichen)" style="margin-top:8px">
-<div class="row"><button class="btn primary" id="createClass">Klasse erstellen</button></div>
-<div class="notice" id="classCodeInfo" style="display:none"></div>
-<input class="field" id="joinCode" maxlength="12" placeholder="Klassencode" style="margin-top:9px">
-<div class="row"><button class="btn secondary" id="joinClass">Klasse beitreten</button></div>
-<p class="notice" id="onlineStatus">Jede Klasse bekommt einen eigenen Code. Alle Schüler dieser Klasse benutzen denselben Code.</p>
+<aside class="panel side"><section><h2>Spieler</h2><input class="field" id="nick" maxlength="24" placeholder="Dein Name oder Spitzname"><input class="field" id="playerClass" maxlength="24" placeholder="Deine Klasse (z. B. Carlo 3)" style="margin-top:8px"><div class="row"><button class="btn primary" id="saveNick">Speichern</button></div><p class="notice">Trage deinen Namen und deine Klasse ein. Verwende lieber deinen Vornamen oder Spitznamen.</p></section><section><h2>Schulgruppe</h2>
+<input class="field" id="joinCode" maxlength="20" placeholder="Einladungscode" style="margin-top:2px">
+<div class="row"><button class="btn secondary" id="joinClass">Gruppe beitreten</button></div>
+<p class="notice" id="onlineStatus">Eine gemeinsame Gruppe für alle Klassen. Du brauchst den festen Einladungscode vom Administrator.</p>
 </section>
-<section><h2>Klassen-Bestenliste</h2><div id="leaderboard"><div class="rank"><span>Noch keine Ergebnisse</span><small>—</small></div></div></section><section><h2>Spielregeln</h2><p class="notice">Setze die drei Formen auf das 8×8-Feld. Eine vollständige waagerechte oder senkrechte Linie wird gelöscht. Mehrere Linien bringen Bonuspunkte. Das Spiel endet, wenn kein Stein mehr passt.</p><button class="btn secondary" id="adminBtn">Lokale Einstellungen</button><div class="admin" id="admin"><p class="notice">Die Schulrangliste ist aktiv. Hier kannst du die lokalen Ergebnisse auf diesem Gerät löschen.</p><button class="btn secondary" id="resetSeason">Ergebnisse löschen</button></div></section></aside></div>
+<section><h2>Schul-Bestenliste</h2><div id="leaderboard"><div class="rank"><span>Noch keine Ergebnisse</span><small>—</small></div></div></section><section><h2>Spielregeln</h2><p class="notice">Setze die drei Formen auf das 8×8-Feld. Eine vollständige waagerechte oder senkrechte Linie wird gelöscht. Mehrere Linien bringen Bonuspunkte. Das Spiel endet, wenn kein Stein mehr passt.</p><button class="btn secondary" id="adminBtn">Lokale Einstellungen</button><div class="admin" id="admin"><p class="notice">Die Schulrangliste ist aktiv. Hier kannst du die lokalen Ergebnisse auf diesem Gerät löschen.</p><button class="btn secondary" id="resetSeason">Ergebnisse löschen</button></div></section></aside></div>
 <div class="foot">School-Block · Spielstände werden lokal und Schul-Ergebnisse online gespeichert</div></div>
 <div class="overlay" id="over"><div class="dialog"><h2>Runde beendet</h2><p id="overText">Keine Steine passen mehr.</p><button class="btn primary" id="again">Nochmal spielen</button></div></div><div class="toast" id="toast"></div>
 <script>
 (()=>{const SUPABASE_URL='https://ttjnibweqjqyirzurmxh.supabase.co',SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR0am5pYndlcWpxeWlyenVybXhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQzMzQxNDIsImV4cCI6MjEwOTkxMDE0Mn0.T_pQSH7Gz3WL4Hqw1aMqPOWmHCG9TA1crNGBA-NIrI8';
-const N=8,colors=['#69d5c4','#ffbd69','#9a8cff','#ff7f9f','#77a7ff','#b4df70'];const shapes=[[[1]],[[1,1]],[[1],[1]],[[1,1,1]],[[1],[1],[1]],[[1,1],[1,1]],[[1,0],[1,1]],[[0,1],[1,1]],[[1,1,1],[0,1,0]],[[1,0],[1,0],[1,1]],[[0,1],[0,1],[1,1]],[[1,1,1,1]],[[1],[1],[1],[1]],[[1,1,1],[1,0,0]],[[1,1,0],[0,1,1]]];let grid,score=0,lines=0,pieces=[],selected=-1,player=localStorage.sbNick||'',onlineClassCode=localStorage.sbClassCode||'',onlineClassName=localStorage.sbClassName||'',playerToken=localStorage.sbPlayerToken||'',best=+(localStorage.sbBest||0),drag=null,suppressClick=false,soundOn=true,audioCtx=null,lastPlaced=[];const $=id=>document.getElementById(id);$('nick').value=player;$('best').textContent=best;if(onlineClassCode){$('joinCode').value=onlineClassCode;$('onlineStatus').textContent='Verbunden mit '+onlineClassName;}
+const N=8,colors=['#69d5c4','#ffbd69','#9a8cff','#ff7f9f','#77a7ff','#b4df70'];const shapes=[[[1]],[[1,1]],[[1],[1]],[[1,1,1]],[[1],[1],[1]],[[1,1],[1,1]],[[1,0],[1,1]],[[0,1],[1,1]],[[1,1,1],[0,1,0]],[[1,0],[1,0],[1,1]],[[0,1],[0,1],[1,1]],[[1,1,1,1]],[[1],[1],[1],[1]],[[1,1,1],[1,0,0]],[[1,1,0],[0,1,1]]];let grid,score=0,lines=0,pieces=[],selected=-1,player=localStorage.sbNick||'',onlineClassCode=localStorage.sbClassCode||'',onlineClassName=localStorage.sbClassName||'',playerToken=localStorage.sbPlayerToken||'',best=+(localStorage.sbBest||0),drag=null,suppressClick=false,soundOn=true,audioCtx=null,lastPlaced=[];const $=id=>document.getElementById(id);$('nick').value=localStorage.sbPlayerName||'';$('playerClass').value=localStorage.sbPlayerClass||'';$('best').textContent=best;if(onlineClassCode){$('joinCode').value='cyberangriff';$('onlineStatus').textContent='Verbunden mit der Schulgruppe '+onlineClassName;}
 function toast(t){$('toast').textContent=t;$('toast').style.display='block';clearTimeout(toast.timer);toast.timer=setTimeout(()=>$('toast').style.display='none',1800)}
 function sound(freq=520,duration=.09){if(!soundOn)return;try{audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==='suspended')audioCtx.resume();let o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type='sine';o.frequency.value=freq;g.gain.setValueAtTime(.0001,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.09,audioCtx.currentTime+.012);g.gain.exponentialRampToValueAtTime(.0001,audioCtx.currentTime+duration);o.connect(g);g.connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+duration)}catch(e){}}
 function clearPreview(){document.querySelectorAll('.preview-good,.preview-bad').forEach(c=>c.classList.remove('preview-good','preview-bad'))}
@@ -130,7 +126,7 @@ $('board').addEventListener('click',e=>{if(suppressClick){suppressClick=false;re
 document.addEventListener('pointermove',e=>{if(!drag)return;e.preventDefault();let dx=e.clientX-drag.startX,dy=e.clientY-drag.startY;drag.ghost.style.transform='translate3d('+(e.clientX-drag.offsetX)+'px,'+(e.clientY-drag.offsetY)+'px,0)';let cell=cellAtPoint(e.clientX,e.clientY);if(cell)previewAt(cell);else{clearPreview();drag.target=null}},{passive:false});
 document.addEventListener('pointerup',e=>{if(!drag)return;let d=drag;if(d.started){let cell=cellAtPoint(e.clientX,e.clientY);if(cell)previewAt(cell)}clearPreview();if(d.ghost)d.ghost.remove();drag=null;if(d.started){suppressClick=true;setTimeout(()=>suppressClick=false,400);if(d.target&&d.target.ok)place(d.i,d.target.x,d.target.y);else toast('Ziehe den Stein auf das Spielfeld und lasse ihn dort los.')}});document.addEventListener('pointercancel',()=>{if(drag?.ghost)drag.ghost.remove();drag=null;clearPreview()});
 $('soundBtn').onclick=()=>{soundOn=!soundOn;$('soundBtn').textContent=soundOn?'Ton an':'Ton aus';$('soundBtn').setAttribute('aria-pressed',String(soundOn));if(soundOn)sound(660,.08)};
-$('saveNick').onclick=()=>{let n=$('nick').value.trim().slice(0,24);if(!n){toast('Bitte Spitznamen eingeben.');return}player=n;localStorage.sbNick=n;$('nick').value=n;toast('Spitzname gespeichert.');save()};
+$('saveNick').onclick=()=>{let n=$('nick').value.trim().slice(0,24),cl=$('playerClass').value.trim().slice(0,24);if(!n||!cl){toast('Bitte Namen und Klasse eingeben.');return}player=n+' – '+cl;localStorage.sbPlayerName=n;localStorage.sbPlayerClass=cl;localStorage.sbNick=player;toast('Name und Klasse gespeichert.');save()};
 $('newGame').onclick=()=>{if(score)save();newGame()};$('again').onclick=newGame;$('adminBtn').onclick=()=>$('admin').style.display=$('admin').style.display==='block'?'none':'block';
 $('resetSeason').onclick=()=>{if(confirm('Alle lokalen Ergebnisse auf diesem Gerät löschen?')){localStorage.removeItem('sbScores');renderRanks();toast('Lokale Ergebnisse gelöscht.')}};
 newGame();
@@ -147,12 +143,12 @@ async function refreshOnlineRanks(){
  }catch(e){showOnlineStatus(e.message)}
 }
 async function joinOnlineClass(code,quiet=false){
- const nickname=$('nick').value.trim().slice(0,24);
- if(nickname.length<2)throw new Error('Bitte zuerst deinen Spitznamen speichern.');
+ const n=$('nick').value.trim().slice(0,24),cl=$('playerClass').value.trim().slice(0,24),nickname=n+' – '+cl;
+ if(!n||!cl)throw new Error('Bitte zuerst Namen und Klasse eingeben.');
  const data=await onlineRequest({action:'join_class',joinCode:code,nickname});
  onlineClassCode=code.toUpperCase().replace(/[^A-Z0-9]/g,'');onlineClassName=data.className;playerToken=data.playerToken;
  localStorage.sbClassCode=onlineClassCode;localStorage.sbClassName=onlineClassName;localStorage.sbPlayerToken=playerToken;
- $('joinCode').value=onlineClassCode;showOnlineStatus('Du bist bei '+onlineClassName+'.');await refreshOnlineRanks();
+ $('joinCode').value='cyberangriff';showOnlineStatus('Du bist in der gemeinsamen Schulgruppe.');await refreshOnlineRanks();
  if(!quiet)toast('Du bist der Klasse beigetreten.');
 }
 $('createClass').onclick=async()=>{
@@ -172,7 +168,7 @@ $('joinClass').onclick=async()=>{
 };
 async function submitOnlineScore(){
  if(!onlineClassCode||!playerToken)return;
- try{await onlineRequest({action:'submit_score',joinCode:onlineClassCode,playerToken,score});await refreshOnlineRanks();showOnlineStatus('Dein bester Punktestand wurde in der Klassenrangliste gespeichert.')}
+ try{await onlineRequest({action:'submit_score',joinCode:onlineClassCode,playerToken,score});await refreshOnlineRanks();showOnlineStatus('Dein bester Punktestand wurde in der gemeinsamen Schulrangliste gespeichert.')}
  catch(e){showOnlineStatus('Punkte konnten nicht online gespeichert werden: '+e.message)}
 }
 if(onlineClassCode&&playerToken){refreshOnlineRanks()}else{renderRanks()}
