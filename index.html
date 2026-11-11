@@ -48,6 +48,46 @@ button,input{font:inherit}button{cursor:pointer;border:0}
 .dialog p{color:var(--muted)}.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#20283a;color:white;padding:11px 17px;border-radius:12px;font-weight:800;display:none;z-index:40;box-shadow:0 8px 25px #0003}.admin{display:none}
 @media(max-width:800px){.layout{grid-template-columns:minmax(0,1fr)}.side{display:grid;grid-template-columns:1fr 1fr;gap:14px}.side section+section{border:0;margin:0;padding:0}.side section:last-child{grid-column:1/-1}.wrap{padding:12px}.panel{padding:13px}.piece{height:88px}.top{flex-wrap:wrap}.top>div:last-child{margin-left:auto}.tray{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}#tray .piece{touch-action:none!important;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}}
 @media(max-width:430px){.side{grid-template-columns:1fr}.brand{gap:8px}.logo{width:40px;height:40px}.brand small{font-size:11px}.top{align-items:flex-start}.top>div:last-child{width:100%;justify-content:flex-end}.board{gap:4px;padding:6px}.cell{border-radius:4px}.side section:last-child{grid-column:auto}.stats{gap:6px}.stat strong{font-size:20px}.top .btn{padding:9px 11px}}
+
+/* Eigenständiger, klassischer Block-Puzzle-Look */
+:root{color-scheme:dark;--bg:#1678c8;--panel:#176fba;--panel2:#125b9c;--ink:#fff;--muted:#d4eaff;--accent:#ffd45b;--line:#398bc8}
+body{background:linear-gradient(160deg,#42b7ed 0%,#1684d2 42%,#07539f 100%);color:#fff;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+.wrap{max-width:920px;padding:14px}
+.top{margin-bottom:12px}
+.logo{background:linear-gradient(145deg,#ffe47a,#ffad36);color:#155a9d;box-shadow:0 4px 0 #c87b25}
+.brand h1{color:#fff;text-shadow:0 2px 0 #07539f;letter-spacing:-.7px}
+.brand small{color:#e1f3ff}
+.panel{background:linear-gradient(160deg,#1b83ca,#1266ad);border:1px solid #ffffff35;border-radius:20px;box-shadow:0 9px 0 #084b8b,0 15px 30px #073d7533}
+.stats{margin-bottom:12px}
+.stat{background:#0d5da5;border:1px solid #ffffff20;border-radius:13px;box-shadow:inset 0 2px 0 #ffffff12}
+.stat span{color:#cceaff}
+.stat strong{color:#fff;text-shadow:0 2px 0 #084b8b}
+.board{background:#0b4e8d;padding:7px;gap:4px;border-radius:12px;box-shadow:inset 0 3px 8px #032e5d99,0 3px 0 #063f77}
+.cell{background:#236eaa;border-radius:4px;box-shadow:inset 0 1px 2px #ffffff12}
+.cell.filled{box-shadow:inset 0 -4px #0003,inset 0 2px 0 #ffffff55,0 1px 1px #003b72}
+.cell.preview-good{background:#39d5a2!important;outline:2px solid #c5ffe9}
+.cell.preview-bad{background:#ff6685!important;outline:2px solid #ffe0e8}
+.piece{background:#0d5da5;border:2px solid #ffffff20;box-shadow:0 4px 0 #08477f;border-radius:14px}
+.piece.selected{background:#1b70b5;border-color:#ffe27a;box-shadow:0 4px 0 #08477f,0 0 0 2px #ffe27a55}
+.piece.used{opacity:.18}
+.bit{border-radius:4px;box-shadow:inset 0 -4px #0003,inset 0 2px 0 #ffffff66,0 1px 1px #003c70}
+.drag-ghost{filter:drop-shadow(0 9px 8px #00345f88)}
+.hint{color:#e0f4ff;font-weight:700}
+.side{background:linear-gradient(160deg,#176db1,#105a9d)}
+.side h2{color:#fff}
+.field{background:#0d4f8b;color:#fff;border-color:#ffffff35}
+.field::placeholder{color:#b6d9f5}
+.field:focus{border-color:#ffe27a;box-shadow:0 0 0 3px #ffe27a33}
+.notice{background:#0e5799;color:#d9efff}
+.rank{border-color:#ffffff20;color:#fff}
+.rank small{color:#d4eaff}
+.secondary{background:#0b5798;color:#fff;box-shadow:0 3px 0 #06447a}
+.primary{background:linear-gradient(180deg,#ffe27a,#ffb638);color:#174b7c;box-shadow:0 4px 0 #c77c22}
+.foot{color:#d4ecff}
+.dialog{background:#176fba;color:#fff;border-color:#ffffff35}
+.dialog p{color:#d4eaff}
+.toast{background:#fff;color:#14538b}
+@media(max-width:800px){.panel{box-shadow:0 6px 0 #084b8b,0 12px 24px #073d7533}}
 </style></head>
 <body><div class="wrap">
 <header class="top"><div class="brand"><div class="logo">🧩</div><div><h1>School-Block</h1><small>Setzen · Kombinieren · Punkte sammeln</small></div></div><div style="display:flex;gap:8px;align-items:center"><button class="btn secondary" id="soundBtn" aria-pressed="true">🔊 Ton an</button><button class="btn secondary" id="newGame">↻ Neues Spiel</button></div></header>
