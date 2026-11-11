@@ -95,16 +95,16 @@ body{background:linear-gradient(160deg,#42b7ed 0%,#1684d2 42%,#07539f 100%);colo
 <body><div class="wrap">
 <header class="top"><div class="brand"><div class="logo" aria-hidden="true"><span class="logo-mark"><i></i><i></i><i></i><i></i></span></div><div><h1>School-Block</h1><small>Setzen · Kombinieren · Punkte sammeln</small></div></div><div style="display:flex;gap:8px;align-items:center"><button class="btn secondary" id="soundBtn" aria-pressed="true">Ton an</button><button class="btn secondary" id="newGame">↻ Neues Spiel</button></div></header>
 <div class="layout"><main class="panel"><div class="stats"><div class="stat"><span>Punkte</span><strong id="score">0</strong></div><div class="stat"><span>Rekord</span><strong id="best">0</strong></div><div class="stat"><span>Linien</span><strong id="lines">0</strong></div></div><div class="board" id="board" aria-label="Spielfeld"></div><div class="tray" id="tray"></div><p class="hint">Einen Stein direkt berühren, ziehen und auf dem Feld loslassen.</p></main>
-<aside class="panel side"><section><h2>Spieler</h2><input class="field" id="nick" maxlength="24" placeholder="Spitzname (max. 24 Zeichen)"><div class="row"><button class="btn primary" id="saveNick">Speichern</button></div><p class="notice">Dein Spielstand wird auf diesem Gerät gespeichert. Nutze bitte einen Spitznamen statt deines echten Namens.</p></section><section><h2>Online-Schule</h2>
-<input class="field" id="className" maxlength="40" placeholder="Name deiner Schule">
+<aside class="panel side"><section><h2>Spieler</h2><input class="field" id="nick" maxlength="24" placeholder="Spitzname (max. 24 Zeichen)"><div class="row"><button class="btn primary" id="saveNick">Speichern</button></div><p class="notice">Dein Spielstand wird auf diesem Gerät gespeichert. Nutze bitte einen Spitznamen statt deines echten Namens.</p></section><section><h2>Online-Klasse</h2>
+<input class="field" id="className" maxlength="40" placeholder="Name deiner Klasse (z. B. Da Vinci, Carlo 3)">
 <input class="field" id="adminPass" type="password" minlength="8" placeholder="Admin-Passwort (mind. 8 Zeichen)" style="margin-top:8px">
-<div class="row"><button class="btn primary" id="createClass">Schule erstellen</button></div>
+<div class="row"><button class="btn primary" id="createClass">Klasse erstellen</button></div>
 <div class="notice" id="classCodeInfo" style="display:none"></div>
-<input class="field" id="joinCode" maxlength="12" placeholder="Schulcode" style="margin-top:9px">
-<div class="row"><button class="btn secondary" id="joinClass">Schule beitreten</button></div>
-<p class="notice" id="onlineStatus">Eine Schule bekommt EINEN gemeinsamen Code. Alle Schüler – egal aus welcher Klasse – benutzen denselben Code.</p>
+<input class="field" id="joinCode" maxlength="12" placeholder="Klassencode" style="margin-top:9px">
+<div class="row"><button class="btn secondary" id="joinClass">Klasse beitreten</button></div>
+<p class="notice" id="onlineStatus">Jede Klasse bekommt einen eigenen Code. Alle Schüler dieser Klasse benutzen denselben Code.</p>
 </section>
-<section><h2>Schul-Bestenliste</h2><div id="leaderboard"><div class="rank"><span>Noch keine Ergebnisse</span><small>—</small></div></div></section><section><h2>Spielregeln</h2><p class="notice">Setze die drei Formen auf das 8×8-Feld. Eine vollständige waagerechte oder senkrechte Linie wird gelöscht. Mehrere Linien bringen Bonuspunkte. Das Spiel endet, wenn kein Stein mehr passt.</p><button class="btn secondary" id="adminBtn">Lokale Einstellungen</button><div class="admin" id="admin"><p class="notice">Die Schulrangliste ist aktiv. Hier kannst du die lokalen Ergebnisse auf diesem Gerät löschen.</p><button class="btn secondary" id="resetSeason">Ergebnisse löschen</button></div></section></aside></div>
+<section><h2>Klassen-Bestenliste</h2><div id="leaderboard"><div class="rank"><span>Noch keine Ergebnisse</span><small>—</small></div></div></section><section><h2>Spielregeln</h2><p class="notice">Setze die drei Formen auf das 8×8-Feld. Eine vollständige waagerechte oder senkrechte Linie wird gelöscht. Mehrere Linien bringen Bonuspunkte. Das Spiel endet, wenn kein Stein mehr passt.</p><button class="btn secondary" id="adminBtn">Lokale Einstellungen</button><div class="admin" id="admin"><p class="notice">Die Schulrangliste ist aktiv. Hier kannst du die lokalen Ergebnisse auf diesem Gerät löschen.</p><button class="btn secondary" id="resetSeason">Ergebnisse löschen</button></div></section></aside></div>
 <div class="foot">School-Block · Spielstände werden lokal und Schul-Ergebnisse online gespeichert</div></div>
 <div class="overlay" id="over"><div class="dialog"><h2>Runde beendet</h2><p id="overText">Keine Steine passen mehr.</p><button class="btn primary" id="again">Nochmal spielen</button></div></div><div class="toast" id="toast"></div>
 <script>
@@ -153,7 +153,7 @@ async function joinOnlineClass(code,quiet=false){
  onlineClassCode=code.toUpperCase().replace(/[^A-Z0-9]/g,'');onlineClassName=data.className;playerToken=data.playerToken;
  localStorage.sbClassCode=onlineClassCode;localStorage.sbClassName=onlineClassName;localStorage.sbPlayerToken=playerToken;
  $('joinCode').value=onlineClassCode;showOnlineStatus('Du bist bei '+onlineClassName+'.');await refreshOnlineRanks();
- if(!quiet)toast('Du bist der Schule beigetreten.');
+ if(!quiet)toast('Du bist der Klasse beigetreten.');
 }
 $('createClass').onclick=async()=>{
  const name=$('className').value.trim(),adminPassword=$('adminPass').value;
@@ -161,8 +161,8 @@ $('createClass').onclick=async()=>{
  $('createClass').disabled=true;
  try{
   const data=await onlineRequest({action:'create_class',name,adminPassword});
-  $('classCodeInfo').style.display='block';$('classCodeInfo').textContent='Euer Schulcode: '+data.joinCode+' — bitte sicher aufschreiben und an alle Schüler der Schule weitergeben.';
-  await joinOnlineClass(data.joinCode,true);toast('Schule erstellt!');
+  $('classCodeInfo').style.display='block';$('classCodeInfo').textContent='Euer Klassencode: '+data.joinCode+' — bitte sicher aufschreiben und an alle Schüler deiner Klasse weitergeben.';
+  await joinOnlineClass(data.joinCode,true);toast('Klasse erstellt!');
  }catch(e){showOnlineStatus(e.message);toast(e.message)}
  finally{$('createClass').disabled=false}
 };
@@ -172,7 +172,7 @@ $('joinClass').onclick=async()=>{
 };
 async function submitOnlineScore(){
  if(!onlineClassCode||!playerToken)return;
- try{await onlineRequest({action:'submit_score',joinCode:onlineClassCode,playerToken,score});await refreshOnlineRanks();showOnlineStatus('Dein bester Punktestand wurde in der Schulrangliste gespeichert.')}
+ try{await onlineRequest({action:'submit_score',joinCode:onlineClassCode,playerToken,score});await refreshOnlineRanks();showOnlineStatus('Dein bester Punktestand wurde in der Klassenrangliste gespeichert.')}
  catch(e){showOnlineStatus('Punkte konnten nicht online gespeichert werden: '+e.message)}
 }
 if(onlineClassCode&&playerToken){refreshOnlineRanks()}else{renderRanks()}
