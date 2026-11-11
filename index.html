@@ -1,211 +1,78 @@
 <!doctype html>
 <html lang="de">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#10172a"><title>School-Block</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101b31"><title>Schoolblog – Deine Schulgruppe</title>
 <style>
-:root{color-scheme:light;--bg:#f4f5f8;--panel:#fff;--panel2:#f0f2f7;--ink:#20283a;--muted:#778198;--accent:#596fe8;--line:#e5e8ef}
-*{box-sizing:border-box}body{margin:0;min-height:100vh;background:var(--bg);color:var(--ink);font-family:ui-rounded,"SF Pro Rounded",system-ui,-apple-system,"Segoe UI",sans-serif}
-button,input{font:inherit}button{cursor:pointer;border:0}
-.wrap{max-width:1080px;margin:auto;padding:22px}
-.top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:20px}
-.brand{display:flex;align-items:center;gap:12px}.logo{width:48px;height:48px;border-radius:16px;background:#20283a;color:white;display:grid;place-items:center;font-size:25px;box-shadow:0 5px 0 #d9dce5}
-.brand h1{font-size:clamp(24px,4vw,32px);letter-spacing:-1.2px;margin:0;font-weight:900}.brand small{color:var(--muted);font-size:13px;font-weight:600}
-.btn{border-radius:12px;padding:11px 15px;font-weight:800;transition:transform .12s,box-shadow .12s}.btn:active{transform:translateY(2px)}
-.primary{background:#596fe8;color:white;box-shadow:0 4px 0 #3d50bd}.secondary{background:#e9ecf4;color:#30394e}
-.layout{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:18px;align-items:start;min-width:0}
-.panel{min-width:0;background:var(--panel);border:1px solid #e8eaf0;border-radius:22px;padding:18px;box-shadow:0 8px 24px #26314b0b}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:15px}
-.stat{background:#f4f5fa;border:1px solid #eceef4;border-radius:15px;padding:10px;text-align:center}
-.stat span{display:block;color:var(--muted);font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.7px}.stat strong{font-size:25px;font-weight:900;letter-spacing:-.5px}
-.board{display:grid;width:min(100%,590px);min-width:0;grid-template-columns:repeat(8,minmax(0,1fr));grid-template-rows:repeat(8,minmax(0,1fr));grid-auto-flow:row;gap:5px;background:#dfe3ec;padding:8px;border-radius:16px;aspect-ratio:1;max-width:590px;margin:auto;touch-action:manipulation;overflow:hidden;box-shadow:inset 0 2px 5px #1d29451c}
-.cell{display:block;width:100%;height:100%;min-width:0;min-height:0;min-inline-size:0;min-block-size:0;padding:0;margin:0;border:0;border-radius:5px;background:#f8f9fc;aspect-ratio:auto;justify-self:stretch;align-self:stretch}
-.cell.filled{background:var(--c);box-shadow:inset 0 -3px #00000017,inset 0 1px #ffffff80}
-.cell.preview-good{outline:2px solid #159e75;background:#36c99a!important;opacity:.95}
-.cell.preview-bad{outline:2px solid #e34c70;background:#f07891!important;opacity:.9}
-.cell.just-placed{animation:blockPop .2s ease-out}.board.clear-pulse{animation:clearPulse .28s ease-out}
-.piece{user-select:none;-webkit-user-select:none;touch-action:none!important;-webkit-touch-callout:none}
-#tray,#tray *{touch-action:none!important}.bit{pointer-events:auto}
-.drag-ghost{position:fixed;left:0;top:0;z-index:30;pointer-events:none;opacity:.98;filter:drop-shadow(0 8px 9px #20283a35);will-change:transform;transform:translate3d(-200vw,-200vh,0)}
-@keyframes blockPop{0%{transform:scale(.72);filter:brightness(1.2)}100%{transform:scale(1);filter:brightness(1)}}
-@keyframes clearPulse{50%{box-shadow:0 0 0 5px #a9b4ff88,0 0 24px #a9b4ff88}}
-.tray{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:16px;min-height:112px}
-.tray .piece{min-width:0;min-height:100px;display:flex;align-items:center;justify-content:center}
-.tray .shape{display:grid;gap:4px;justify-content:center;align-content:center}
-.tray .bit{display:block;flex:none;width:clamp(16px,4.5vw,22px);height:clamp(16px,4.5vw,22px)}
-.piece{height:104px;border-radius:16px;background:#f0f2f8;display:grid;place-items:center;border:2px solid #e8ebf3;box-shadow:0 3px 0 #e1e4ed}
-.piece.selected{border-color:#8292f2;background:#edf0ff}.piece.used{opacity:.2;box-shadow:none}
-.shape{display:grid;gap:4px}.bit{width:clamp(15px,4.5vw,22px);height:clamp(15px,4.5vw,22px);border-radius:5px;background:var(--c);box-shadow:inset 0 -3px #00000018,inset 0 1px #ffffff80}
-.hint{text-align:center;color:var(--muted);font-size:13px;font-weight:600;margin:13px 0 0}
-.side h2{font-size:17px;letter-spacing:-.3px;margin:0 0 12px;font-weight:900}.side section+section{border-top:1px solid var(--line);margin-top:17px;padding-top:16px}
-.field{width:100%;background:#f8f9fc;border:1px solid #e2e6ef;border-radius:12px;padding:12px;color:var(--ink);outline:none}.field:focus{border-color:#8292f2;box-shadow:0 0 0 3px #8292f222}
-.row{display:flex;gap:8px;margin-top:9px}.row button{flex:1}
-.notice{font-size:12px;line-height:1.55;color:var(--muted);background:#f5f6fa;padding:11px;border-radius:12px;margin-top:11px}
-.rank{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #edf0f5;font-weight:700}.rank small{color:var(--muted)}
-.foot{text-align:center;color:#9aa2b3;font-size:11px;padding:18px}
-.overlay{position:fixed;inset:0;background:#20283a99;display:none;place-items:center;padding:20px;z-index:5}
-.dialog{width:min(420px,100%);background:white;border:1px solid #ffffff;border-radius:22px;padding:24px;text-align:center;box-shadow:0 20px 60px #10172a44}
-.dialog p{color:var(--muted)}.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#20283a;color:white;padding:11px 17px;border-radius:12px;font-weight:800;display:none;z-index:40;box-shadow:0 8px 25px #0003}.admin{display:none}
-@media(max-width:800px){.layout{grid-template-columns:minmax(0,1fr)}.side{display:grid;grid-template-columns:1fr 1fr;gap:14px}.side section+section{border:0;margin:0;padding:0}.side section:last-child{grid-column:1/-1}.wrap{padding:12px}.panel{padding:13px}.piece{height:88px}.top{flex-wrap:wrap}.top>div:last-child{margin-left:auto}.tray{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}#tray .piece{touch-action:none!important;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}}
-@media(max-width:430px){.side{grid-template-columns:1fr}.brand{gap:8px}.logo{width:40px;height:40px}.brand small{font-size:11px}.top{align-items:flex-start}.top>div:last-child{width:100%;justify-content:flex-end}.board{gap:4px;padding:6px}.cell{border-radius:4px}.side section:last-child{grid-column:auto}.stats{gap:6px}.stat strong{font-size:20px}.top .btn{padding:9px 11px}}
-
-/* Eigenständiger, klassischer Block-Puzzle-Look */
-:root{color-scheme:dark;--bg:#1678c8;--panel:#176fba;--panel2:#125b9c;--ink:#fff;--muted:#d4eaff;--accent:#ffd45b;--line:#398bc8}
-body{background:linear-gradient(160deg,#42b7ed 0%,#1684d2 42%,#07539f 100%);color:#fff;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
-.wrap{max-width:920px;padding:14px}
-.top{margin-bottom:12px}
-.logo{background:linear-gradient(145deg,#ffe47a,#ffad36);color:#155a9d;box-shadow:0 4px 0 #c87b25}
-.logo-mark{width:25px;height:25px;display:grid;grid-template-columns:repeat(2,1fr);gap:3px;transform:rotate(-7deg)}
-.logo-mark i{display:block;border-radius:3px;background:#155a9d;box-shadow:inset 0 1px 0 #ffffff66}
-.logo-mark i:nth-child(2){opacity:.72}.logo-mark i:nth-child(3){opacity:.86}
-.brand h1{color:#fff;text-shadow:0 2px 0 #07539f;letter-spacing:-.7px}
-.brand small{color:#e1f3ff}
-.panel{background:linear-gradient(160deg,#1b83ca,#1266ad);border:1px solid #ffffff35;border-radius:20px;box-shadow:0 9px 0 #084b8b,0 15px 30px #073d7533}
-.stats{margin-bottom:12px}
-.stat{background:#0d5da5;border:1px solid #ffffff20;border-radius:13px;box-shadow:inset 0 2px 0 #ffffff12}
-.stat span{color:#cceaff}
-.stat strong{color:#fff;text-shadow:0 2px 0 #084b8b}
-.board{background:#0b4e8d;padding:7px;gap:4px;border-radius:12px;box-shadow:inset 0 3px 8px #032e5d99,0 3px 0 #063f77}
-.cell{background:#236eaa;border-radius:4px;box-shadow:inset 0 1px 2px #ffffff12}
-.cell.filled{box-shadow:inset 0 -4px #0003,inset 0 2px 0 #ffffff55,0 1px 1px #003b72}
-.cell.preview-good{background:#39d5a2!important;outline:2px solid #c5ffe9}
-.cell.preview-bad{background:#ff6685!important;outline:2px solid #ffe0e8}
-.piece{background:#0d5da5;border:2px solid #ffffff20;box-shadow:0 4px 0 #08477f;border-radius:14px}
-.piece.selected{background:#1b70b5;border-color:#ffe27a;box-shadow:0 4px 0 #08477f,0 0 0 2px #ffe27a55}
-.piece.used{opacity:.18}
-.bit{border-radius:4px;box-shadow:inset 0 -4px #0003,inset 0 2px 0 #ffffff66,0 1px 1px #003c70}
-.drag-ghost{filter:drop-shadow(0 9px 8px #00345f88)}
-.hint{color:#e0f4ff;font-weight:700}
-.side{background:linear-gradient(160deg,#176db1,#105a9d)}
-.side h2{color:#fff}
-.field{background:#0d4f8b;color:#fff;border-color:#ffffff35}
-.field::placeholder{color:#b6d9f5}
-.field:focus{border-color:#ffe27a;box-shadow:0 0 0 3px #ffe27a33}
-.notice{background:#0e5799;color:#d9efff}
-.rank{border-color:#ffffff20;color:#fff}
-.rank small{color:#d4eaff}
-.secondary{background:#0b5798;color:#fff;box-shadow:0 3px 0 #06447a}
-.primary{background:linear-gradient(180deg,#ffe27a,#ffb638);color:#174b7c;box-shadow:0 4px 0 #c77c22}
-.foot{color:#d4ecff}
-.dialog{background:#176fba;color:#fff;border-color:#ffffff35}
-.dialog p{color:#d4eaff}
-.toast{background:#fff;color:#14538b}
-@media(max-width:800px){.panel{box-shadow:0 6px 0 #084b8b,0 12px 24px #073d7533}}
-
-.profile-preview{width:94px;height:94px;border-radius:50%;margin:10px auto;background:linear-gradient(145deg,#ffd86e,#ff9e36);border:4px solid #fff;box-shadow:0 4px 0 #08477f;display:grid;place-items:center;font-weight:900;color:#174b7c;overflow:hidden;background-size:cover;background-position:center}
-.upload-label{display:block;text-align:center;width:max-content;margin:0 auto;cursor:pointer}
-.rank-tabs{display:flex;gap:8px;margin-bottom:10px}.rank-tabs span{flex:1;text-align:center;padding:8px 5px;border-radius:10px;background:#0b5798;font-size:12px;font-weight:900}
-#leaderboard .rank:first-child{background:linear-gradient(90deg,#ffdf79,#ffb638);color:#174b7c;border-radius:12px;padding:12px;margin-bottom:5px;box-shadow:0 3px 0 #c77c22}
-#leaderboard .rank:nth-child(2){background:#d9e3ef;color:#26364b;border-radius:10px;padding:10px;margin-bottom:5px}
-#leaderboard .rank:nth-child(3){background:#d69a70;color:#392317;border-radius:10px;padding:10px;margin-bottom:5px}
-
-
-.member-card{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid #ffffff24}
-.member-avatar{width:44px;height:44px;flex:0 0 44px;border-radius:50%;object-fit:cover;background:#0b4e8d;border:2px solid #ffffff70}
-.member-info{min-width:0;flex:1}.member-info strong{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.member-info small{color:#d4eaff}.member-meta{text-align:right;font-size:12px;font-weight:800;white-space:nowrap}
-.rank-avatar{width:32px;height:32px;vertical-align:middle;margin-right:8px;display:inline-block}
-.profile-preview{background-color:#0b5798;color:#fff}
-.upload-label{background:#0b5798;color:#fff}
-
-/* Schoolblog/School-Block: Spielen nur am Computer oder Laptop */
-.mobile-only-notice{display:none}
-@media(max-width:800px){
-  body>.wrap{display:none!important}
-  .mobile-only-notice{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;padding:24px;background:linear-gradient(160deg,#42b7ed 0%,#1684d2 42%,#07539f 100%);color:#fff;text-align:center;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
-  .mobile-only-card{width:min(440px,100%);padding:30px 24px;border:1px solid #ffffff55;border-radius:24px;background:#176fba;box-shadow:0 10px 0 #084b8b,0 20px 45px #073d7555}
-  .mobile-only-card h1{margin:0 0 12px;font-size:28px}
-  .mobile-only-card p{margin:0;color:#e1f3ff;font-size:16px;line-height:1.6}
-  .mobile-only-icon{font-size:44px;margin-bottom:14px}
-}
-</style></head>
-<body><div class="mobile-only-notice"><div class="mobile-only-card"><div class="mobile-only-icon">&#128187;</div><h1>Bitte am Computer spielen</h1><p>School-Block ist nur für Computer und Laptops gedacht. Öffne die Webseite bitte auf einem größeren Bildschirm, um mitzuspielen.</p></div></div><div class="wrap">
-<header class="top"><div class="brand"><div class="logo" aria-hidden="true"><span class="logo-mark"><i></i><i></i><i></i><i></i></span></div><div><h1>School-Block</h1><small>Setzen · Kombinieren · Punkte sammeln</small></div></div><div style="display:flex;gap:8px;align-items:center"><button class="btn secondary" id="soundBtn" aria-pressed="true">Ton an</button><button class="btn secondary" id="newGame">↻ Neues Spiel</button></div></header>
-<div class="layout"><main class="panel"><div class="stats"><div class="stat"><span>Punkte</span><strong id="score">0</strong></div><div class="stat"><span>Rekord</span><strong id="best">0</strong></div><div class="stat"><span>Linien</span><strong id="lines">0</strong></div></div><div class="board" id="board" aria-label="Spielfeld"></div><div class="tray" id="tray"></div><p class="hint">Einen Stein direkt berühren, ziehen und auf dem Feld loslassen.</p></main>
-<aside class="panel side"><section id="joinPanel"><h2>1 · Gruppe beitreten</h2><p class="notice">Gib zuerst den Einladungscode ein. Erst danach kannst du dein Profil erstellen.</p><input class="field" id="joinCode" maxlength="20" placeholder="Einladungscode"><div class="row"><button class="btn primary" id="verifyCode">Code prüfen</button></div><p class="notice" id="onlineStatus">Du benötigst den festen Code des Gruppen-Administrators.</p></section>
-<section id="profilePanel" style="display:none"><h2>2 · Dein Spielerprofil</h2><div class="profile-preview" id="avatarPreview">Profilbild</div><label class="btn secondary upload-label" id="avatarLabel" for="avatarFile" style="display:none">Eigenes Foto auswählen</label><input id="avatarFile" type="file" accept="image/*" hidden><input class="field" id="nick" maxlength="24" placeholder="Dein Name oder Spitzname" style="margin-top:12px"><input class="field" id="playerClass" maxlength="24" placeholder="Deine Klasse (z. B. Carlo 3)" style="margin-top:8px"><div class="row"><button class="btn primary" id="joinClass">Profil erstellen & beitreten</button><button class="btn secondary" id="saveProfile" type="button" style="display:none">Profil speichern</button></div><p class="notice">Dein Foto kannst du jederzeit ändern. Verwende am besten deinen Vornamen oder Spitznamen.</p></section>
-<section><h2>Schul-Rangliste</h2><div id="leaderboard"><div class="rank"><span>Noch keine Ergebnisse</span><small>—</small></div></div></section><section><h2>Mitglieder der Gruppe</h2><div id="memberList"><div class="rank"><span>Noch keine Spieler angemeldet</span><small>—</small></div></div></section><section><h2>Spielregeln</h2><p class="notice">Setze die drei Formen auf das 8×8-Feld. Eine vollständige waagerechte oder senkrechte Linie wird gelöscht. Mehrere Linien bringen Bonuspunkte. Das Spiel endet, wenn kein Stein mehr passt.</p><button class="btn secondary" id="adminBtn">Lokale Einstellungen</button><div class="admin" id="admin"><p class="notice">Die Schulrangliste ist aktiv. Hier kannst du die lokalen Ergebnisse auf diesem Gerät löschen.</p><button class="btn secondary" id="resetSeason">Ergebnisse löschen</button></div></section></aside></div>
-<div class="foot">School-Block · Spielstände werden lokal und Schul-Ergebnisse online gespeichert</div></div>
-<div class="overlay" id="over"><div class="dialog"><h2>Runde beendet</h2><p id="overText">Keine Steine passen mehr.</p><button class="btn primary" id="again">Nochmal spielen</button></div></div><div class="toast" id="toast"></div>
+:root{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;color:#172238;background:#f4f6fb;font-synthesis:none}
+*{box-sizing:border-box}body{margin:0}button,input,textarea{font:inherit}button{cursor:pointer;border:0}
+:root{--navy:#101b31;--blue:#3158d8;--blue2:#eaf0ff;--muted:#71809a;--line:#e7ebf3;--card:#fff}
+header{background:var(--navy);color:white;padding:18px max(22px,calc((100vw - 1120px)/2));display:flex;align-items:center;justify-content:space-between;gap:14px}
+.brand{display:flex;align-items:center;gap:12px}.mark{width:42px;height:42px;border-radius:13px;background:linear-gradient(145deg,#8fa8ff,#4969ed);display:grid;place-items:center;font-size:20px;font-weight:900;color:#fff}.brand strong{font-size:21px;letter-spacing:-.6px}.brand small{display:block;color:#aebbd3;font-size:12px;margin-top:2px}
+main{max-width:1120px;margin:32px auto;padding:0 20px}.hero{margin-bottom:24px}.eyebrow{color:var(--blue);font-weight:800;font-size:12px;text-transform:uppercase;letter-spacing:1.3px}.hero h1{font-size:clamp(28px,5vw,42px);letter-spacing:-1.5px;margin:8px 0}.hero p{color:var(--muted);margin:0;line-height:1.6}
+.grid{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(280px,.8fr);gap:18px;align-items:start}.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:0 8px 28px #14264b08;margin-bottom:16px}.card h2{font-size:18px;margin:0 0 16px;letter-spacing:-.3px}.muted{color:var(--muted)}.field{width:100%;padding:13px 14px;border:1px solid #dce2ed;border-radius:12px;background:#fbfcff;outline:none;margin:6px 0}.field:focus{border-color:#8298f4;box-shadow:0 0 0 3px #3158d81a}.btn{padding:12px 16px;border-radius:12px;font-weight:800}.primary{background:var(--blue);color:#fff}.light{background:var(--blue2);color:#2949b3}.danger{background:#fff0f0;color:#b63232}.full{width:100%;margin-top:8px}.row{display:flex;gap:9px;align-items:center;flex-wrap:wrap}.row>*{flex:1}.hidden{display:none!important}.tabs{display:flex;gap:8px;margin-bottom:14px}.tabs button{flex:1}.tag{display:inline-flex;padding:5px 9px;border-radius:20px;background:#eef2ff;color:#3655bf;font-size:11px;font-weight:800}.member{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}.avatar{width:42px;height:42px;border-radius:50%;background:#e8edff;color:#3655bf;display:grid;place-items:center;font-weight:900;object-fit:cover}.member-info{flex:1;min-width:0}.member-info strong{display:block}.member-info small{color:var(--muted)}.points{font-weight:900;color:#3158d8}.post{padding:14px 0;border-bottom:1px solid var(--line)}.post h3{margin:0 0 6px;font-size:16px}.post p{white-space:pre-wrap;line-height:1.55;margin:0 0 8px;color:#4e5b72}.post small{color:var(--muted)}.statline{display:flex;gap:10px;margin-bottom:14px}.stat{flex:1;padding:13px;background:#f5f7fc;border-radius:13px}.stat b{display:block;font-size:24px}.stat span{font-size:12px;color:var(--muted)}.admin-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:10px 0;border-bottom:1px solid var(--line)}.admin-row .member-info{min-width:130px}.smallbtn{padding:8px 10px;border-radius:9px;font-size:12px;font-weight:800}.empty{padding:22px;text-align:center;color:var(--muted);background:#f7f8fc;border-radius:14px}.status{font-size:13px;color:var(--muted);margin-top:10px;min-height:18px}footer{text-align:center;color:#9aa5b8;padding:30px;font-size:12px}
+@media(max-width:760px){header{padding:14px 18px}.grid{grid-template-columns:1fr}main{margin:24px auto;padding:0 14px}.card{padding:18px}.hero h1{font-size:30px}}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+<header><div class="brand"><div class="mark">S</div><div><strong>Schoolblog</strong><small>Eine Gruppe. Eine Schule. Gemeinsam.</small></div></div><button id="logout" class="btn light hidden">Abmelden</button></header>
+<main>
+<section class="hero"><div class="eyebrow">Deine Schul-Community</div><h1>Willkommen bei Schoolblog.</h1><p>Finde deine Mitschüler, entdecke Neuigkeiten und sieh die gemeinsame Rangliste.</p></section>
+<section id="auth" class="card" style="max-width:520px;margin:auto">
+<h2 id="authTitle">Anmelden oder Konto erstellen</h2>
+<div class="tabs"><button id="loginTab" class="btn primary">Anmelden</button><button id="signupTab" class="btn light">Registrieren</button></div>
+<input id="email" class="field" type="email" placeholder="E-Mail-Adresse" autocomplete="email">
+<input id="password" class="field" type="password" placeholder="Passwort (mindestens 8 Zeichen)" autocomplete="current-password">
+<button id="authAction" class="btn primary full">Anmelden</button>
+<button id="ownerInvite" class="btn light full">Hauptadmin-Einladung an meine E-Mail senden</button>
+<div id="authStatus" class="status"></div>
+</section>
+<section id="join" class="card hidden" style="max-width:520px;margin:auto">
+<h2>Der Schulgruppe beitreten</h2><p class="muted">Gib deinen Namen, deine Klasse und den Gruppencode ein.</p>
+<input id="displayName" class="field" maxlength="32" placeholder="Dein Name">
+<input id="className" class="field" maxlength="24" placeholder="Deine Klasse (z. B. 7A)">
+<input id="groupCode" class="field" placeholder="Gruppencode" value="cyberangriff">
+<button id="joinAction" class="btn primary full">Gruppe beitreten</button><div id="joinStatus" class="status"></div>
+</section>
+<section id="app" class="hidden">
+<div class="statline"><div class="stat"><b id="memberCount">0</b><span>Mitglieder</span></div><div class="stat"><b id="postCount">0</b><span>Beiträge</span></div><div class="stat"><b id="myRole">Mitglied</b><span>Deine Rolle</span></div></div>
+<div class="grid"><div>
+<section class="card"><h2>Neuigkeiten</h2><div id="postComposer" class="hidden"><input id="postTitle" class="field" placeholder="Überschrift"><textarea id="postBody" class="field" rows="3" placeholder="Was gibt es Neues?"></textarea><button id="publishPost" class="btn primary">Beitrag veröffentlichen</button><hr style="border:0;border-top:1px solid var(--line);margin:18px 0"></div><div id="posts"><div class="empty">Noch keine Beiträge.</div></div></section>
+<section class="card"><h2>Mitglieder</h2><div id="members"></div></section>
+</div><aside>
+<section class="card"><h2>Rangliste</h2><p class="muted" style="font-size:13px">Punkte werden vom Admin vergeben. Keine Beliebtheitswertung.</p><div id="ranking"></div></section>
+<section id="adminPanel" class="card hidden"><h2>Admin-Bereich</h2><p class="muted" style="font-size:13px">Verwalte Mitglieder, Rollen und Punkte.</p><div id="inviteAdmin" class="hidden"><input id="adminEmail" class="field" placeholder="E-Mail des neuen Admins"><button id="inviteAdminBtn" class="btn light full">Admin einladen</button></div><div id="adminUsers"></div><div id="adminStatus" class="status"></div></section>
+</aside></div>
+</section>
+</main><footer>Schoolblog · Gemeinsam lernen und wachsen</footer>
 <script>
-(()=>{const SUPABASE_URL='https://ttjnibweqjqyirzurmxh.supabase.co',SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR0am5pYndlcWpxeWlyenVybXhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQzMzQxNDIsImV4cCI6MjEwOTkxMDE0Mn0.T_pQSH7Gz3WL4Hqw1aMqPOWmHCG9TA1crNGBA-NIrI8';
-const N=8,colors=['#69d5c4','#ffbd69','#9a8cff','#ff7f9f','#77a7ff','#b4df70'];const shapes=[[[1]],[[1,1]],[[1],[1]],[[1,1,1]],[[1],[1],[1]],[[1,1],[1,1]],[[1,0],[1,1]],[[0,1],[1,1]],[[1,1,1],[0,1,0]],[[1,0],[1,0],[1,1]],[[0,1],[0,1],[1,1]],[[1,1,1,1]],[[1],[1],[1],[1]],[[1,1,1],[1,0,0]],[[1,1,0],[0,1,1]]];let grid,score=0,lines=0,pieces=[],selected=-1,player=localStorage.sbNick||'',verifiedGroupCode='',avatarData='',onlineClassCode=localStorage.sbPlayerToken?'CYBERANGRIFF':(localStorage.sbClassCode||''),onlineClassName=localStorage.sbClassName||'',playerToken=localStorage.sbPlayerToken||'',best=+(localStorage.sbBest||0),drag=null,suppressClick=false,soundOn=true,audioCtx=null,lastPlaced=[];const $=id=>document.getElementById(id);$('nick').value=localStorage.sbPlayerName||'';$('playerClass').value=localStorage.sbPlayerClass||'';if(onlineClassCode&&playerToken){$('joinPanel').style.display='none';$('profilePanel').style.display='block';$('profilePanel').querySelector('h2').textContent='Dein Spielerprofil';$('avatarLabel').style.display='block';$('saveProfile').style.display='block';$('joinClass').style.display='none';}if(avatarData){$('avatarPreview').style.backgroundImage='url('+avatarData+')';$('avatarPreview').textContent='';}$('best').textContent=best;if(onlineClassCode){$('joinCode').value='cyberangriff';$('onlineStatus').textContent='Verbunden mit der Schulgruppe '+onlineClassName;}
-function toast(t){$('toast').textContent=t;$('toast').style.display='block';clearTimeout(toast.timer);toast.timer=setTimeout(()=>$('toast').style.display='none',1800)}
-function sound(freq=520,duration=.09){if(!soundOn)return;try{audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==='suspended')audioCtx.resume();let o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type='sine';o.frequency.value=freq;g.gain.setValueAtTime(.0001,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.09,audioCtx.currentTime+.012);g.gain.exponentialRampToValueAtTime(.0001,audioCtx.currentTime+duration);o.connect(g);g.connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+duration)}catch(e){}}
-function clearPreview(){document.querySelectorAll('.preview-good,.preview-bad').forEach(c=>c.classList.remove('preview-good','preview-bad'))}
-function cellAtPoint(clientX,clientY){const cells=$('board').children;if(cells.length!==N*N)return null;let nearest=null,best=Infinity;for(let i=0;i<cells.length;i++){const cell=cells[i],r=cell.getBoundingClientRect();if(!r.width||!r.height)continue;const cx=r.left+r.width/2,cy=r.top+r.height/2,dx=Math.abs(clientX-cx),dy=Math.abs(clientY-cy);const score=dx/r.width+dy/r.height;if(dx<=r.width*.5+8&&dy<=r.height*.5+8&&score<best){best=score;nearest=cell}}return nearest}
-function previewAt(cell){clearPreview();if(!drag||!cell)return;let x=+cell.dataset.x-drag.dx,y=+cell.dataset.y-drag.dy,p=pieces[drag.i];if(!p)return;let ok=canPlace(p.shape,x,y);drag.target={x,y,ok};for(let dy=0;dy<p.shape.length;dy++)for(let dx=0;dx<p.shape[dy].length;dx++)if(p.shape[dy][dx]){let xx=x+dx,yy=y+dy;if(xx>=0&&xx<N&&yy>=0&&yy<N){let c=$('board').children[yy*N+xx];c.classList.add(ok?'preview-good':'preview-bad')}}}
-function save(){best=Math.max(best,score);localStorage.sbBest=best;$('best').textContent=best;let d=JSON.parse(localStorage.sbScores||'{}');if(player)d[player]=Math.max(d[player]||0,score);localStorage.sbScores=JSON.stringify(d);if(!onlineClassCode)renderRanks()}
-function esc(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function renderRanks(){let d={};try{d=JSON.parse(localStorage.getItem('sbScores')||'{}');if(!d||typeof d!=='object'||Array.isArray(d))d={}}catch(e){d={};localStorage.removeItem('sbScores')}let a=Object.entries(d).sort((x,y)=>y[1]-x[1]).slice(0,8);$('leaderboard').innerHTML=a.length?a.map(([n,s],i)=>'<div class="rank"><span>'+(i+1)+'. '+esc(n)+'</span><strong>'+s+'</strong></div>').join(''):'<div class="rank"><span>Noch keine Ergebnisse</span><small>—</small></div>'}
-function newGame(){grid=Array.from({length:N},()=>Array(N).fill(null));score=0;lines=0;selected=-1;$('over').style.display='none';$('score').textContent=0;$('lines').textContent=0;makePieces();draw()}
-function makePieces(){pieces=Array.from({length:3},()=>({shape:shapes[Math.floor(Math.random()*shapes.length)].map(r=>r.slice()),color:colors[Math.floor(Math.random()*colors.length)],used:false}));selected=-1;drawTray()}
-function draw(){let b=$('board');b.innerHTML='';for(let y=0;y<N;y++)for(let x=0;x<N;x++){let c=document.createElement('button');c.type='button';c.className='cell'+(grid[y][x]?' filled':'')+(lastPlaced.includes(y+','+x)?' just-placed':'');c.setAttribute('aria-label','Feld '+(y+1)+', '+(x+1));if(grid[y][x])c.style.setProperty('--c',grid[y][x]);c.dataset.x=x;c.dataset.y=y;b.append(c)}lastPlaced=[];$('score').textContent=score;$('lines').textContent=lines}
-function drawTray(){let t=$('tray');t.innerHTML='';pieces.forEach((p,i)=>{let box=document.createElement('button');box.type='button';box.className='piece'+(p.used?' used':'')+(selected===i?' selected':'');box.disabled=p.used;if(!p.used){let sh=document.createElement('div');sh.className='shape';sh.style.gridTemplateColumns='repeat('+p.shape[0].length+',var(--bit,22px))';p.shape.forEach(row=>row.forEach(v=>{let bit=document.createElement('i');bit.className='bit';bit.style.visibility=v?'visible':'hidden';bit.style.setProperty('--c',p.color);sh.append(bit)}));box.append(sh);box.onpointerdown=e=>{if(p.used||drag)return;let shape=box.querySelector('.shape'),bits=Array.from(shape.children),w=p.shape[0].length,hit=e.target.closest('.bit'),idx=hit?bits.indexOf(hit):-1;if(idx<0||!p.shape[Math.floor(idx/w)]?.[idx%w]){let best=Infinity;bits.forEach((b,k)=>{let yy=Math.floor(k/w),xx=k%w;if(!p.shape[yy]?.[xx])return;let r=b.getBoundingClientRect(),d=Math.hypot(e.clientX-(r.left+r.width/2),e.clientY-(r.top+r.height/2));if(d<best){best=d;idx=k}})}if(idx<0)return;let bitRect=bits[idx].getBoundingClientRect(),shapeRect=shape.getBoundingClientRect(),ghost=shape.cloneNode(true);ghost.className='shape drag-ghost';ghost.style.gridTemplateColumns='repeat('+w+',auto)';Array.from(ghost.children).forEach((g,k)=>{const cs=getComputedStyle(bits[k]);g.style.width=cs.width;g.style.height=cs.height});document.body.append(ghost);drag={i,dx:idx%w,dy:Math.floor(idx/w),started:true,target:null,pointerId:e.pointerId,startX:e.clientX,startY:e.clientY,ghost,offsetX:bitRect.left-shapeRect.left+bitRect.width/2,offsetY:bitRect.top-shapeRect.top+bitRect.height/2};selected=-1;ghost.style.gap=getComputedStyle(shape).gap;ghost.style.transform='translate3d('+(e.clientX-drag.offsetX)+'px,'+(e.clientY-drag.offsetY)+'px,0)';try{box.setPointerCapture(e.pointerId)}catch(err){}e.preventDefault()};
-}t.append(box)})}
-function canPlace(shape,x,y){for(let dy=0;dy<shape.length;dy++)for(let dx=0;dx<shape[dy].length;dx++)if(shape[dy][dx]&&(y+dy<0||y+dy>=N||x+dx<0||x+dx>=N||grid[y+dy][x+dx]))return false;return true}
-function place(i,x,y){let p=pieces[i];if(!p||p.used)return;if(!canPlace(p.shape,x,y)){toast('Dort passt der Stein nicht.');return}lastPlaced=[];for(let dy=0;dy<p.shape.length;dy++)for(let dx=0;dx<p.shape[dy].length;dx++)if(p.shape[dy][dx]){grid[y+dy][x+dx]=p.color;lastPlaced.push((y+dy)+','+(x+dx))}score+=p.shape.flat().filter(Boolean).length;sound(560,.07);let rows=[],cols=[];for(let yy=0;yy<N;yy++)if(grid[yy].every(Boolean))rows.push(yy);for(let xx=0;xx<N;xx++)if(grid.every(r=>r[xx]))cols.push(xx);let count=rows.length+cols.length;if(count){sound(820,.16);$('board').classList.remove('clear-pulse');void $('board').offsetWidth;$('board').classList.add('clear-pulse');setTimeout(()=>$('board').classList.remove('clear-pulse'),320);let cells=new Set();rows.forEach(yy=>{for(let xx=0;xx<N;xx++)cells.add(yy+','+xx)});cols.forEach(xx=>{for(let yy=0;yy<N;yy++)cells.add(yy+','+xx)});cells.forEach(k=>{let [yy,xx]=k.split(',').map(Number);grid[yy][xx]=null});score+=count*10+(count>1?(count-1)*10:0);lines+=count;toast(count>1?count+' Linien! Stark!':'Linie gelöscht!')}p.used=true;selected=-1;if(pieces.every(q=>q.used))makePieces();draw();drawTray();save();if(!hasMove())setTimeout(()=>{$('over').style.display='grid';submitOnlineScore()},180)}
-function hasMove(){return pieces.some(p=>{if(p.used)return false;for(let y=0;y<N;y++)for(let x=0;x<N;x++)if(canPlace(p.shape,x,y))return true;return false})}
-$('board').addEventListener('click',e=>{if(suppressClick){suppressClick=false;return}let c=e.target.closest('.cell');if(!c)return;if(selected<0){toast('Berühre einen Stein unten und ziehe ihn direkt auf das Spielfeld.');return}place(selected,+c.dataset.x,+c.dataset.y)});
-document.addEventListener('pointermove',e=>{if(!drag)return;e.preventDefault();let dx=e.clientX-drag.startX,dy=e.clientY-drag.startY;drag.ghost.style.transform='translate3d('+(e.clientX-drag.offsetX)+'px,'+(e.clientY-drag.offsetY)+'px,0)';let cell=cellAtPoint(e.clientX,e.clientY);if(cell)previewAt(cell);else{clearPreview();drag.target=null}},{passive:false});
-document.addEventListener('pointerup',e=>{if(!drag)return;let d=drag;if(d.started){let cell=cellAtPoint(e.clientX,e.clientY);if(cell)previewAt(cell)}clearPreview();if(d.ghost)d.ghost.remove();drag=null;if(d.started){suppressClick=true;setTimeout(()=>suppressClick=false,400);if(d.target&&d.target.ok)place(d.i,d.target.x,d.target.y);else toast('Ziehe den Stein auf das Spielfeld und lasse ihn dort los.')}});document.addEventListener('pointercancel',()=>{if(drag?.ghost)drag.ghost.remove();drag=null;clearPreview()});
-$('soundBtn').onclick=()=>{soundOn=!soundOn;$('soundBtn').textContent=soundOn?'Ton an':'Ton aus';$('soundBtn').setAttribute('aria-pressed',String(soundOn));if(soundOn)sound(660,.08)};
-
-$('newGame').onclick=()=>{if(score)save();newGame()};$('again').onclick=newGame;$('adminBtn').onclick=()=>$('admin').style.display=$('admin').style.display==='block'?'none':'block';
-$('resetSeason').onclick=()=>{if(confirm('Alle lokalen Ergebnisse auf diesem Gerät löschen?')){localStorage.removeItem('sbScores');renderRanks();toast('Lokale Ergebnisse gelöscht.')}};
-newGame();
-async function onlineRequest(payload){
- const response=await fetch(SUPABASE_URL+'/functions/v1/school-block-api',{method:'POST',headers:{'Content-Type':'application/json','apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY},body:JSON.stringify(payload)});
- const data=await response.json();if(!response.ok)throw new Error(data.error||'Verbindung fehlgeschlagen.');return data;
-}
-function showOnlineStatus(message){$('onlineStatus').textContent=message}
-async function refreshOnlineRanks(){
- if(!onlineClassCode){renderRanks();return}
- try{
-  const data=await onlineRequest({action:'leaderboard',joinCode:onlineClassCode});
-  const members=data.members||[];
-  const sortedMembers=members.slice().sort((a,b)=>(b.score||0)-(a.score||0));
-  $('leaderboard').innerHTML=sortedMembers.length?sortedMembers.map((m,i)=>'<div class="rank"><span>'+(m.avatarUrl?'<img class="member-avatar rank-avatar" src="'+esc(m.avatarUrl)+'" alt="">':'<span class="member-avatar rank-avatar"></span>')+(i+1)+'. '+esc(m.nickname)+' <small>· '+esc(m.classLabel||'Klasse offen')+'</small></span><strong>'+(m.score||0)+' Pkt.</strong></div>').join(''):'<div class="rank"><span>Noch keine Ergebnisse</span><small>—</small></div>';
-  $('memberList').innerHTML=members.length?members.map(m=>'<div class="member-card">'+(m.avatarUrl?'<img class="member-avatar" src="'+esc(m.avatarUrl)+'" alt="Profilbild">':'<div class="member-avatar"></div>')+'<div class="member-info"><strong>'+esc(m.nickname)+'</strong><small>'+esc(m.classLabel||'Klasse nicht angegeben')+'</small></div><div class="member-meta">'+(m.score||0)+' Pkt.</div></div>').join(''):'<div class="rank"><span>Noch keine Spieler angemeldet</span><small>—</small></div>';
-  const me=members.find(m=>m.id&&m.avatarUrl&&m.nickname===localStorage.sbPlayerName);if(me){avatarData=me.avatarUrl;$('avatarPreview').style.backgroundImage='url('+me.avatarUrl+')';$('avatarPreview').textContent='';}
- }catch(e){showOnlineStatus(e.message)}
-}
-
-async function joinOnlineClass(code,quiet=false){
- const n=$('nick').value.trim().slice(0,24),cl=$('playerClass').value.trim().slice(0,24);
- if(!n||!cl)throw new Error('Bitte Namen und Klasse eingeben.');
- const data=await onlineRequest({action:'join_class',joinCode:code,nickname:n,classLabel:cl});
- onlineClassCode=code.toUpperCase().replace(/[^A-Z0-9]/g,'');onlineClassName=data.className;playerToken=data.playerToken;localStorage.sbPlayerId=data.playerId||'';
- localStorage.sbClassCode=onlineClassCode;localStorage.sbClassName=onlineClassName;localStorage.sbPlayerToken=playerToken;
- $('joinCode').value='cyberangriff';$('joinPanel').style.display='none';$('profilePanel').style.display='block';$('profilePanel').querySelector('h2').textContent='Dein Spielerprofil';$('avatarLabel').style.display='block';$('saveProfile').style.display='block';$('joinClass').style.display='none';localStorage.sbPlayerName=n;localStorage.sbPlayerClass=cl;localStorage.sbNick=n+' – '+cl;player=localStorage.sbNick;$('nick').value=n;$('playerClass').value=cl;showOnlineStatus('Du bist in der gemeinsamen Schulgruppe.');await refreshOnlineRanks();
- if(!quiet)toast('Erfolgreich beigetreten!');
-}
-$('verifyCode').onclick=async()=>{const code=$('joinCode').value.trim().toLowerCase();if(!code){toast('Bitte Einladungscode eingeben.');return}const digest=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(code.toUpperCase()));const hash=Array.from(new Uint8Array(digest)).map(b=>b.toString(16).padStart(2,'0')).join('');if(hash!=='c634fd9f2738dcf4bb358f4e5750d5330213d8699471aa5efb20bf9db42cc053'){showOnlineStatus('Der Code ist leider nicht richtig.');toast('Falscher Einladungscode.');return}verifiedGroupCode='CYBERANGRIFF';$('profilePanel').style.display='block';$('verifyCode').disabled=true;$('verifyCode').textContent='✓ Code erfolgreich';showOnlineStatus('Code erfolgreich geprüft. Erstelle jetzt dein Profil.');toast('Code erfolgreich!');};
-$('avatarFile').onchange=async e=>{
- const file=e.target.files?.[0];if(!file)return;
- if(!playerToken){toast('Bitte zuerst der Schulgruppe beitreten.');return}
- if(!['image/jpeg','image/png','image/webp'].includes(file.type)){toast('Bitte JPG, PNG oder WebP auswählen.');return}
- if(file.size>8*1024*1024){toast('Das Foto darf höchstens 8 MB groß sein.');return}
- try{
-  const bitmap=await createImageBitmap(file);const side=480;const scale=Math.min(1,side/Math.max(bitmap.width,bitmap.height));const canvas=document.createElement('canvas');canvas.width=Math.round(bitmap.width*scale);canvas.height=Math.round(bitmap.height*scale);canvas.getContext('2d').drawImage(bitmap,0,0,canvas.width,canvas.height);bitmap.close();
-  const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/jpeg',.84));if(!blob)throw new Error('Foto konnte nicht verarbeitet werden.');
-  const prep=await onlineRequest({action:'create_avatar_upload',playerToken,contentType:'image/jpeg'});const up=await fetch(prep.signedUrl,{method:'PUT',headers:{'Content-Type':'image/jpeg','x-upsert':'false'},body:blob});if(!up.ok)throw new Error('Foto-Upload fehlgeschlagen.');
-  const saved=await onlineRequest({action:'save_avatar',playerToken,path:prep.path});avatarData=saved.avatarUrl;$('avatarPreview').style.backgroundImage='url('+avatarData+')';$('avatarPreview').textContent='';toast('Profilbild gespeichert!');await refreshOnlineRanks();
- }catch(err){toast(err.message||'Foto konnte nicht gespeichert werden.')}
-};
-$('saveProfile').onclick=async()=>{if(!playerToken){toast('Bitte zuerst der Gruppe beitreten.');return}const n=$('nick').value.trim().slice(0,24),cl=$('playerClass').value.trim().slice(0,24);try{await onlineRequest({action:'update_profile',playerToken,nickname:n,classLabel:cl});localStorage.sbPlayerName=n;localStorage.sbPlayerClass=cl;toast('Profil gespeichert!');await refreshOnlineRanks()}catch(e){toast(e.message)}};
-$('joinClass').onclick=async()=>{
- const code=verifiedGroupCode;if(!code){toast('Bitte zuerst den richtigen Einladungscode prüfen.');return}
- $('joinClass').disabled=true;try{await joinOnlineClass(code)}catch(e){showOnlineStatus(e.message);toast(e.message)}finally{$('joinClass').disabled=false}
-};
-
-async function submitOnlineScore(){
- if(!onlineClassCode||!playerToken)return;
- try{await onlineRequest({action:'submit_score',joinCode:onlineClassCode,playerToken,score});await refreshOnlineRanks();showOnlineStatus('Dein bester Punktestand wurde in der gemeinsamen Schulrangliste gespeichert.')}
- catch(e){showOnlineStatus('Punkte konnten nicht online gespeichert werden: '+e.message)}
-}
-if(onlineClassCode&&playerToken){refreshOnlineRanks()}else{renderRanks()}
-window.addEventListener('focus',()=>{if(onlineClassCode&&playerToken)refreshOnlineRanks()});
-setInterval(()=>{if(onlineClassCode&&playerToken)refreshOnlineRanks()},20000);
-
-})();
+const SB_URL="https://ttjnibweqjqyirzurmxh.supabase.co", SB_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR0am5pYndlcWpxeWlyenVybXhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQzMzQxNDIsImV4cCI6MjEwOTkxMDE0Mn0.T_pQSH7Gz3WL4Hqw1aMqPOWmHCG9TA1crNGBA-NIrI8";
+const sb=window.supabase.createClient(SB_URL,SB_KEY);
+let mode="login",session=null,profile=null;
+const $=id=>document.getElementById(id);
+function say(id,msg){$(id).textContent=msg}
+function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+async function api(action,extra={}){const {data:{session:s}}=await sb.auth.getSession();const token=s?.access_token||SB_KEY;const r=await fetch(SB_URL+"/functions/v1/school-block-api",{method:"POST",headers:{"Content-Type":"application/json","apikey":SB_KEY,"Authorization":"Bearer "+token},body:JSON.stringify({action,...extra})});const d=await r.json();if(!r.ok)throw new Error(d.error||"Fehler");return d}
+function setMode(m){mode=m;$("loginTab").className="btn "+(m==="login"?"primary":"light");$("signupTab").className="btn "+(m==="signup"?"primary":"light");$("authTitle").textContent=m==="login"?"Anmelden":"Konto erstellen";$("authAction").textContent=m==="login"?"Anmelden":"Registrieren";$("ownerInvite").classList.toggle("hidden",m!=="login");}
+$("loginTab").onclick=()=>setMode("login");$("signupTab").onclick=()=>setMode("signup");
+$("authAction").onclick=async()=>{say("authStatus","");const email=$("email").value.trim(),password=$("password").value;if(!email||password.length<8){say("authStatus","Bitte E-Mail und Passwort (mindestens 8 Zeichen) eingeben.");return}try{if(mode==="signup"){const {data,error}=await sb.auth.signUp({email,password});if(error)throw error;if(!data.session){say("authStatus","Bitte bestätige deine E-Mail. Danach kannst du dich anmelden.");return}await load()}else{const {error}=await sb.auth.signInWithPassword({email,password});if(error)throw error;await load()}}catch(e){say("authStatus",e.message)}};
+$("ownerInvite").onclick=async()=>{try{say("authStatus","Einladung wird vorbereitet …");const r=await api("invite_owner",{email:"ferashenjad65@gmail.com"});say("authStatus",r.invited?"Die Hauptadmin-Einladung wurde an ferashenjad65@gmail.com gesendet.":"Dein Hauptadmin-Konto ist bereits eingerichtet. Bitte Passwort zurücksetzen oder anmelden.")}catch(e){say("authStatus",e.message)}};
+$("joinAction").onclick=async()=>{try{say("joinStatus","Wird gespeichert …");await api("join_group",{name:$("displayName").value,className:$("className").value,code:$("groupCode").value});await load()}catch(e){say("joinStatus",e.message)}};
+$("logout").onclick=()=>sb.auth.signOut();
+$("publishPost").onclick=async()=>{try{const title=$("postTitle").value.trim(),body=$("postBody").value.trim();if(!title||!body)throw new Error("Bitte Überschrift und Text eingeben.");const {error}=await sb.from("school_posts").insert({title,body,author_id:session.user.id});if(error)throw error;$("postTitle").value="";$("postBody").value="";await load()}catch(e){say("adminStatus",e.message)}};
+$("inviteAdminBtn").onclick=async()=>{try{const r=await api("invite_admin",{email:$("adminEmail").value});say("adminStatus",r.invited?"Admin-Einladung wurde gesendet.":"Dieses Konto hatte bereits einen Zugang und wurde zum Admin gemacht.");$("adminEmail").value="";await load()}catch(e){say("adminStatus",e.message)}};
+async function adminAction(action,userId,extra={}){try{await api(action,{userId,...extra});await load()}catch(e){say("adminStatus",e.message)}}
+async function load(){const {data:{session:s}}=await sb.auth.getSession();session=s;if(!s){$("auth").classList.remove("hidden");$("join").classList.add("hidden");$("app").classList.add("hidden");$("logout").classList.add("hidden");return}
+$("auth").classList.add("hidden");$("logout").classList.remove("hidden");try{const d=await api("dashboard");profile=d.profile;if(!profile.joined&&profile.role==="member"){$("join").classList.remove("hidden");$("app").classList.add("hidden");return}
+$("join").classList.add("hidden");$("app").classList.remove("hidden");$("memberCount").textContent=d.members.length;$("postCount").textContent=d.posts.length;$("myRole").textContent=profile.role==="owner"?"Hauptadmin":profile.role==="admin"?"Admin":"Mitglied";
+$("posts").innerHTML=d.posts.length?d.posts.map(p=>'<article class="post"><h3>'+esc(p.title)+'</h3><p>'+esc(p.body)+'</p><small>'+new Date(p.created_at).toLocaleString("de-DE")+'</small>'+(["owner","admin"].includes(profile.role)?' <button class="smallbtn danger" onclick="deletePost(\''+p.id+'\')">Löschen</button>':"")+'</article>').join(""):'<div class="empty">Noch keine Beiträge.</div>';
+$("postComposer").classList.toggle("hidden",!["owner","admin"].includes(profile.role));
+$("members").innerHTML=d.members.map(m=>'<div class="member"><div class="avatar">'+esc((m.display_name||"?").slice(0,1).toUpperCase())+'</div><div class="member-info"><strong>'+esc(m.display_name||"Mitglied")+'</strong><small>'+esc(m.class_name||"Klasse offen")+' · '+esc(m.role==="owner"?"Hauptadmin":m.role==="admin"?"Admin":"Mitglied")+'</small></div><span class="points">'+m.points+' Pkt.</span></div>').join("")||'<div class="empty">Noch keine Mitglieder.</div>';
+$("ranking").innerHTML=d.members.slice().sort((a,b)=>b.points-a.points).map((m,i)=>'<div class="member"><b style="width:22px">'+(i+1)+'.</b><div class="member-info"><strong>'+esc(m.display_name)+'</strong><small>'+esc(m.class_name)+'</small></div><span class="points">'+m.points+'</span></div>').join("")||'<div class="empty">Noch keine Rangliste.</div>';
+$("adminPanel").classList.toggle("hidden",!["owner","admin"].includes(profile.role));$("inviteAdmin").classList.toggle("hidden",profile.role!=="owner");
+if(["owner","admin"].includes(profile.role)){const u=await api("admin_list");$("adminUsers").innerHTML=u.users.map(m=>'<div class="admin-row"><div class="member-info"><strong>'+esc(m.display_name||m.email)+'</strong><small>'+esc(m.class_name||m.email)+' · '+esc(m.role)+'</small></div>'+(m.role==="owner"?"<span class=tag>Hauptadmin</span>":(profile.role==="owner"?'<button class="smallbtn light" onclick="adminAction(\'admin_set_role\',\''+m.user_id+'\',{role:\''+(m.role==="admin"?"member":"admin")+'\'})">'+(m.role==="admin"?"Admin entfernen":"Zum Admin machen")+'</button>':"") )+(m.role!=="owner"?'<button class="smallbtn light" onclick="adminAction(\'admin_points\',\''+m.user_id+'\',{points:'+Math.max(0,m.points+10)+'})">+10 Punkte</button><button class="smallbtn danger" onclick="adminAction(\'admin_suspend\',\''+m.user_id+'\',{suspended:'+(!m.is_suspended)+'})">'+(m.is_suspended?"Freigeben":"Sperren")+'</button>':"")+'</div>').join("")}}
+catch(e){$("join").classList.add("hidden");$("app").classList.add("hidden");$("auth").classList.remove("hidden");say("authStatus",e.message)}}
+window.adminAction=adminAction;window.deletePost=async id=>{if(confirm("Diesen Beitrag löschen?")){try{await api("admin_delete_post",{postId:id});await load()}catch(e){say("adminStatus",e.message)}}};
+sb.auth.onAuthStateChange(()=>setTimeout(load,0));load();
 </script></body></html>
