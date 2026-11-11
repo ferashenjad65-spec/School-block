@@ -103,7 +103,7 @@ body{background:linear-gradient(160deg,#42b7ed 0%,#1684d2 42%,#07539f 100%);colo
 .member-card{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid #ffffff24}
 .member-avatar{width:44px;height:44px;flex:0 0 44px;border-radius:50%;object-fit:cover;background:#0b4e8d;border:2px solid #ffffff70}
 .member-info{min-width:0;flex:1}.member-info strong{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.member-info small{color:#d4eaff}.member-meta{text-align:right;font-size:12px;font-weight:800;white-space:nowrap}
-.like-btn{background:#ffdf79;color:#174b7c;border-radius:9px;padding:7px 9px;font-size:12px;font-weight:900}
+.rank-avatar{width:32px;height:32px;vertical-align:middle;margin-right:8px;display:inline-block}.like-btn{background:#ffdf79;color:#174b7c;border-radius:9px;padding:7px 9px;font-size:12px;font-weight:900}
 .profile-preview{background-color:#0b5798;color:#fff}
 .upload-label{background:#0b5798;color:#fff}
 </style></head>
@@ -152,7 +152,7 @@ async function refreshOnlineRanks(){
  try{
   const data=await onlineRequest({action:'leaderboard',joinCode:onlineClassCode});
   const sortedMembers=(data.members||[]).slice().sort((a,b)=>rankingMode==='popular'?(b.popularity-a.popularity):(b.score-a.score));
-  $('leaderboard').innerHTML=sortedMembers.length?sortedMembers.map((m,i)=>'<div class="rank"><span>'+(i+1)+'. '+esc(m.nickname)+' <small>· '+esc(m.classLabel||'Klasse offen')+'</small></span><strong>'+(rankingMode==='popular'?m.popularity+' ♥':m.score+' Pkt.')+'</strong></div>').join(''):'<div class="rank"><span>Noch keine Ergebnisse</span><small>—</small></div>';
+  $('leaderboard').innerHTML=sortedMembers.length?sortedMembers.map((m,i)=>'<div class="rank"><span>'+(m.avatarUrl?'<img class="member-avatar rank-avatar" src="'+esc(m.avatarUrl)+'" alt="">':'<span class="member-avatar rank-avatar"></span>')+(i+1)+'. '+esc(m.nickname)+' <small>· '+esc(m.classLabel||'Klasse offen')+'</small></span><strong>'+(rankingMode==='popular'?m.popularity+' ♥':m.score+' Pkt.')+'</strong></div>').join(''):'<div class="rank"><span>Noch keine Ergebnisse</span><small>—</small></div>';
   $('pointsTab').classList.toggle('active',rankingMode==='score');$('popularTab').classList.toggle('active',rankingMode==='popular');
   $('memberList').innerHTML=data.members?.length?data.members.map(m=>'<div class="member-card">'+(m.avatarUrl?'<img class="member-avatar" src="'+esc(m.avatarUrl)+'" alt="Profilbild">':'<div class="member-avatar"></div>')+'<div class="member-info"><strong>'+esc(m.nickname)+'</strong><small>'+esc(m.classLabel||'Klasse nicht angegeben')+'</small></div><div class="member-meta">'+m.popularity+' ♥<br>'+m.score+' Pkt.</div>'+(playerToken&&m.id&&m.id!==localStorage.sbPlayerId?'<button class="like-btn" data-like="'+m.id+'">+ ♥</button>':'')+'</div>').join(''):'<div class="rank"><span>Noch keine Spieler angemeldet</span><small>—</small></div>';
   $('memberList').querySelectorAll('[data-like]').forEach(btn=>btn.onclick=async()=>{btn.disabled=true;try{await onlineRequest({action:'popularity_vote',playerToken,targetPlayerId:btn.dataset.like});toast('Beliebtheitspunkt vergeben!');await refreshOnlineRanks()}catch(e){toast(e.message);btn.disabled=false}});
