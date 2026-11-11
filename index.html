@@ -100,7 +100,7 @@ body{background:linear-gradient(160deg,#42b7ed 0%,#1684d2 42%,#07539f 100%);colo
 <div class="row"><button class="btn secondary" id="joinClass">Gruppe beitreten</button></div>
 <p class="notice" id="onlineStatus">Eine gemeinsame Gruppe für alle Klassen. Du brauchst den festen Einladungscode vom Administrator.</p>
 </section>
-<section><h2>Schul-Bestenliste</h2><div id="leaderboard"><div class="rank"><span>Noch keine Ergebnisse</span><small>—</small></div></div></section><section><h2>Spielregeln</h2><p class="notice">Setze die drei Formen auf das 8×8-Feld. Eine vollständige waagerechte oder senkrechte Linie wird gelöscht. Mehrere Linien bringen Bonuspunkte. Das Spiel endet, wenn kein Stein mehr passt.</p><button class="btn secondary" id="adminBtn">Lokale Einstellungen</button><div class="admin" id="admin"><p class="notice">Die Schulrangliste ist aktiv. Hier kannst du die lokalen Ergebnisse auf diesem Gerät löschen.</p><button class="btn secondary" id="resetSeason">Ergebnisse löschen</button></div></section></aside></div>
+<section><h2>Schul-Bestenliste</h2><div id="leaderboard"><div class="rank"><span>Noch keine Ergebnisse</span><small>—</small></div></div></section><section><h2>Angemeldete Spieler</h2><div id="memberList"><div class="rank"><span>Noch keine Spieler angemeldet</span><small>—</small></div></div></section><section><h2>Spielregeln</h2><p class="notice">Setze die drei Formen auf das 8×8-Feld. Eine vollständige waagerechte oder senkrechte Linie wird gelöscht. Mehrere Linien bringen Bonuspunkte. Das Spiel endet, wenn kein Stein mehr passt.</p><button class="btn secondary" id="adminBtn">Lokale Einstellungen</button><div class="admin" id="admin"><p class="notice">Die Schulrangliste ist aktiv. Hier kannst du die lokalen Ergebnisse auf diesem Gerät löschen.</p><button class="btn secondary" id="resetSeason">Ergebnisse löschen</button></div></section></aside></div>
 <div class="foot">School-Block · Spielstände werden lokal und Schul-Ergebnisse online gespeichert</div></div>
 <div class="overlay" id="over"><div class="dialog"><h2>Runde beendet</h2><p id="overText">Keine Steine passen mehr.</p><button class="btn primary" id="again">Nochmal spielen</button></div></div><div class="toast" id="toast"></div>
 <script>
@@ -140,6 +140,7 @@ async function refreshOnlineRanks(){
  try{
   const data=await onlineRequest({action:'leaderboard',joinCode:onlineClassCode});
   $('leaderboard').innerHTML=data.scores.length?data.scores.map((r,i)=>'<div class="rank"><span>'+(i+1)+'. '+esc(r.nickname)+'</span><strong>'+r.score+'</strong></div>').join(''):'<div class="rank"><span>Noch keine Ergebnisse</span><small>—</small></div>';
+  $('memberList').innerHTML=data.members?.length?data.members.map((m,i)=>'<div class="rank"><span>'+ (i+1)+'. '+esc(m.nickname)+'</span><small>'+(Number(m.score)>0?Number(m.score)+' Punkte':'Noch keine Punkte')+'</small></div>').join(''):'<div class="rank"><span>Noch keine Spieler angemeldet</span><small>—</small></div>';
  }catch(e){showOnlineStatus(e.message)}
 }
 async function joinOnlineClass(code,quiet=false){
