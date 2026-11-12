@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="de">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#101b31"><title>Schoolblog – Deine Schulgruppe</title>
 <style>
 :root{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;color:#172238;background:#f4f6fb;font-synthesis:none}
@@ -398,6 +398,22 @@ hr{border-color:#315d91!important}
 #app .ranking-mini .ranking-member .member-info{min-width:0}
 #app .ranking-mini .ranking-member .member-info strong{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 #app .ranking-mini .ranking-member .points{margin-left:auto;white-space:nowrap}
+
+/* iPadOS/Safari: Safe Area, ruhige Layouts und performantes Ziehen */
+html{min-height:100%;-webkit-text-size-adjust:100%}
+body{min-height:100vh;min-height:100dvh;padding-top:env(safe-area-inset-top)}
+header.blast-header{min-height:calc(76px + env(safe-area-inset-top));height:auto;padding-top:calc(12px + env(safe-area-inset-top));padding-bottom:12px;flex-wrap:wrap;overflow:visible;position:relative;z-index:2}
+#app .game-board,#app .game-piece,#app .game-pieces,.game-drag-ghost{touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+#app .game-board{overscroll-behavior:contain}
+#app .game-cell{touch-action:none}
+.game-drag-ghost{position:fixed;left:0;top:0;z-index:99999;pointer-events:none;filter:drop-shadow(0 3px 5px #00142e55);will-change:transform;contain:layout paint}
+.game-drag-ghost span{box-shadow:inset 0 1px 1px #ffffff75,inset 0 -2px 2px #0003!important}
+#app .game-cell.preview{outline:2px solid #fff2bd;outline-offset:-2px;box-shadow:inset 0 0 0 1px #fff8!important}
+#app .game-cell.preview.invalid{outline:0!important}
+#app .game-piece.dragging{opacity:.25!important;filter:none!important;box-shadow:none!important;transition:none!important}
+#app .game-piece:not(.dragging){transition:transform .12s ease}
+@media(max-width:700px){header.blast-header{align-items:center;row-gap:9px}}
+@media(prefers-reduced-motion:reduce){.game-drag-ghost{filter:none!important}#app .game-piece{transition:none!important}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -488,7 +504,7 @@ $("join").classList.add("hidden");$("app").classList.remove("hidden");$("memberC
 $("posts").innerHTML=d.posts.length?d.posts.map(p=>'<article class="post"><h3>'+esc(p.title)+'</h3><p>'+esc(p.body)+'</p><small>'+new Date(p.created_at).toLocaleString("de-DE")+'</small>'+(["owner","admin"].includes(profile.role)?' <button class="smallbtn danger" onclick="deletePost(\''+p.id+'\')">Löschen</button>':"")+'</article>').join(""):'<div class="empty">Noch keine Beiträge.</div>';
 $("postComposer").classList.toggle("hidden",!["owner","admin"].includes(profile.role));$("myName").textContent=profile.display_name||s.user.email;$("myClass").textContent=profile.class_name||"Hauptadmin";$("myAvatar").innerHTML=profile.avatar_url?'<img src="'+esc(profile.avatar_url)+'" style="width:100%;height:100%;object-fit:cover;border-radius:50%" alt="">':esc((profile.display_name||"S").slice(0,1).toUpperCase());
 visibleMembers=d.members.slice();$("members").innerHTML=d.members.map(m=>'<div class="member"><div class="avatar">'+esc((m.display_name||"?").slice(0,1).toUpperCase())+'</div><div class="member-info"><strong>'+esc(m.display_name||"Mitglied")+'</strong><small>'+esc(m.class_name||"Klasse offen")+' · '+esc(m.role==="owner"?"Hauptadmin":m.role==="admin"?"Admin":"Mitglied")+'</small></div><span class="points">'+m.points+' Pkt.</span></div>').join("")||'<div class="empty">Noch keine Mitglieder.</div>';
-$("ranking").innerHTML=d.members.slice().sort((a,b)=>b.points-a.points).map((m,i)=>'<div class="member ranking-member"><b class="rank-number">'+(i+1)+'.</b><div class="avatar ranking-avatar">'+(m.avatar_url?'<img src="'+esc(m.avatar_url)+'" alt="Profilbild von '+esc(m.display_name||"Mitglied")+'" loading="lazy">':esc((m.display_name||"?").slice(0,1).toUpperCase()))+'</div><div class="member-info"><strong>'+esc(m.display_name||"Mitglied")+'</strong><small>'+esc(m.class_name||"Klasse offen")+'</small></div><span class="points">'+Number(m.points)||0+'</span></div>').join("")||'<div class="empty">Noch keine Rangliste.</div>';
+$("ranking").innerHTML=d.members.slice().sort((a,b)=>b.points-a.points).map((m,i)=>'<div class="member ranking-member"><b class="rank-number">'+(i+1)+'.</b><div class="avatar ranking-avatar">'+(m.avatar_url?'<img src="'+esc(m.avatar_url)+'" alt="Profilbild von '+esc(m.display_name||"Mitglied")+'" loading="lazy">':esc((m.display_name||"?").slice(0,1).toUpperCase()))+'</div><div class="member-info"><strong>'+esc(m.display_name||"Mitglied")+'</strong><small>'+esc(m.class_name||"Klasse offen")+'</small></div><span class="points">'+Number(m.points||0)+'</span></div>').join("")||'<div class="empty">Noch keine Rangliste.</div>';
 const storedAdminToken=sessionStorage.getItem("schoolblogAdminToken");const hasAdminAccess=!!storedAdminToken&&Number(storedAdminToken.split(".")[1])>Math.floor(Date.now()/1000);if(storedAdminToken&&!hasAdminAccess)sessionStorage.removeItem("schoolblogAdminToken");$("adminUnlock").classList.toggle("hidden",hasAdminAccess||["owner","admin"].includes(profile.role));$("adminPanel").classList.toggle("hidden",!["owner","admin"].includes(profile.role));$("inviteAdmin").classList.toggle("hidden",profile.role!=="owner");
 if(["owner","admin"].includes(profile.role)){const u=await api("admin_list");$("adminUsers").innerHTML=u.users.map(m=>'<div class="admin-row"><div class="member-info"><strong>'+esc(m.display_name||m.email)+'</strong><small>'+esc(m.class_name||m.email)+' · '+esc(m.role)+'</small></div>'+(m.role==="owner"?"<span class=tag>Hauptadmin</span>":(profile.role==="owner"?'<button class="smallbtn light" onclick="adminAction(\'admin_set_role\',\''+m.user_id+'\',{role:\''+(m.role==="admin"?"member":"admin")+'\'})">'+(m.role==="admin"?"Admin entfernen":"Zum Admin machen")+'</button>':"") )+(m.role!=="owner"?'<button class="smallbtn light" onclick="adminAction(\'admin_points\',\''+m.user_id+'\',{points:'+Math.max(0,m.points+10)+'})">+10 Punkte</button><button class="smallbtn danger" onclick="adminAction(\'admin_suspend\',\''+m.user_id+'\',{suspended:'+(!m.is_suspended)+'})">'+(m.is_suspended?"Freigeben":"Sperren")+'</button>':"")+'</div>').join("")}}
 catch(e){$("join").classList.add("hidden");$("app").classList.add("hidden");$("auth").classList.remove("hidden");say("authStatus",e.message)}}
@@ -514,7 +530,7 @@ const gameColors=["cyan","blue","green","yellow","red","purple","pink"];
 const GAME_N=8;
 let gameGrid=Array.from({length:GAME_N},()=>Array(GAME_N).fill(null));
 let gameScore=0,gameStreak=0,gameMisses=0,gamePieces=[],gameSelected=-1,gameEnded=false,gameAwarded=false,gameDrag=null,gameSoundOn=localStorage.getItem("schoolblogSound")!=="off",gameAudio=null;
-let gameBest=Math.max(0,Number(localStorage.getItem("blockBlastBestScore")||0));let gameSuppressPieceClick=false;
+let gameBest=Math.max(0,Number(localStorage.getItem("blockBlastBestScore")||0));let gameSuppressPieceClick=false,gameDragRaf=0,gamePendingPointer=null;
 const gameBonus={1:0,2:10,3:30,4:60,5:100,6:150};
 function gamePlaySound(kind){
  if(!gameSoundOn)return;
@@ -525,7 +541,7 @@ function gameRandomPiece(){return {shape:gameShapes[Math.floor(Math.random()*gam
 function gameNewHand(){const occupied=gameGrid.flat().filter(Boolean).length,fill=occupied/(GAME_N*GAME_N),maxBlocks=fill>.85?2:fill>.75?3:fill>.65?4:fill>.4?6:9;const pool=gameShapes.filter(shape=>shape.length<=maxBlocks);gamePieces=Array.from({length:3},()=>{let options=pool.length?pool:gameShapes;for(let tries=0;tries<80;tries++){const shape=options[Math.floor(Math.random()*options.length)];if(Array.from({length:GAME_N},(_,r)=>Array.from({length:GAME_N},(_,c)=>gameCanPlace(shape,r,c))).some(row=>row.some(Boolean)))return {shape:shape.map(p=>p.slice()),color:gameColors[Math.floor(Math.random()*gameColors.length)]}}return gameRandomPiece()});gameSelected=-1;gameRenderPieces()}
 function gameCanPlace(shape,r,c,grid=gameGrid){return shape.every(([y,x])=>r+y>=0&&r+y<GAME_N&&c+x>=0&&c+x<GAME_N&&!grid[r+y][c+x])}
 function gameHasMove(){return gamePieces.some(p=>p&&Array.from({length:GAME_N},(_,r)=>Array.from({length:GAME_N},(_,c)=>gameCanPlace(p.shape,r,c))).some(row=>row.some(Boolean)))}
-function gameClearPreview(){document.querySelectorAll("#gameBoard .preview").forEach(el=>el.classList.remove("preview","invalid"))}
+function gameClearPreview(){document.querySelectorAll("#gameBoard .game-cell").forEach(el=>el.classList.remove("preview","invalid"))}
 function gameRenderBoard(){
  $("gameBoard").innerHTML=gameGrid.map((row,r)=>row.map((v,c)=>'<button type="button" tabindex="-1" class="game-cell '+(v?'filled color-'+(gameColors.indexOf(v)+1):'')+'" data-r="'+r+'" data-c="'+c+'" aria-label="Feld '+(r+1)+', '+(c+1)+'"></button>').join("")).join("");
 }
@@ -534,7 +550,7 @@ function gameRenderPieces(){
  $("gamePieces").querySelectorAll(".game-piece[data-piece]").forEach(el=>{
   const i=Number(el.dataset.piece);
   el.addEventListener("click",()=>{if(gameSuppressPieceClick){gameSuppressPieceClick=false;return}if(gameDrag||gameEnded)return;gameSelected=i;gameRenderPieces();gameSay("Stein "+(i+1)+" ausgewählt. Tippe auf ein freies Feld.")});
-  el.addEventListener("pointerdown",e=>{if(gameEnded||!gamePieces[i])return;const cell=e.target.closest(".piece-cell.on");if(!cell)return;e.preventDefault();try{el.setPointerCapture(e.pointerId)}catch(_){}gameSelected=i;gameDrag={index:i,piece:gamePieces[i],offsetR:Number(cell.dataset.r),offsetC:Number(cell.dataset.c),row:null,col:null,valid:false,source:el,startX:e.clientX,startY:e.clientY,pointerId:e.pointerId,moved:false};el.classList.add("dragging");gameMakeGhost();gameMoveDrag(e);});
+  el.addEventListener("pointerdown",e=>{if(gameEnded||!gamePieces[i])return;const cell=e.target.closest(".piece-cell.on");if(!cell)return;e.preventDefault();try{el.setPointerCapture(e.pointerId)}catch(_){}gameSelected=i;gameDrag={index:i,piece:gamePieces[i],offsetR:Number(cell.dataset.r),offsetC:Number(cell.dataset.c),row:null,col:null,valid:false,source:el,startX:e.clientX,startY:e.clientY,pointerId:e.pointerId,pointerType:e.pointerType||"mouse",moved:false};gameClearPreview();el.classList.add("dragging");gameMakeGhost();gameMoveDrag(e);});
  });
 }
 function gameRender(){
@@ -544,21 +560,28 @@ function gameMakeGhost(){
  const d=gameDrag,p=d.piece,h=Math.max(...p.shape.map(v=>v[0]))+1,w=Math.max(...p.shape.map(v=>v[1]))+1,g=document.createElement("div");
  const board=$("gameBoard"),sample=board.querySelector(".game-cell"),boardStyle=getComputedStyle(board);
  const cellSize=sample?sample.getBoundingClientRect().width:30,gap=parseFloat(boardStyle.gap)||4;
- d.ghostCellSize=cellSize;d.ghostGap=gap;
+ d.ghostCellSize=cellSize;d.ghostGap=gap;d.ghostPitch=cellSize+gap;d.liftY=d.pointerType==="touch"?72:0;
  g.className="game-drag-ghost";g.style.gridTemplateColumns="repeat("+w+","+cellSize+"px)";g.style.gridTemplateRows="repeat("+h+","+cellSize+"px)";g.style.gap=gap+"px";
  for(let r=0;r<h;r++)for(let c=0;c<w;c++){const on=p.shape.some(v=>v[0]===r&&v[1]===c),cell=document.createElement("span");if(on)cell.className="color-"+(gameColors.indexOf(p.color)+1);cell.style.visibility=on?"visible":"hidden";cell.style.width=cellSize+"px";cell.style.height=cellSize+"px";g.appendChild(cell)}
  document.body.appendChild(g);d.ghost=g;
 }
 function gameCellAt(x,y){const el=document.elementFromPoint(x,y)?.closest("#gameBoard .game-cell");return el?{r:Number(el.dataset.r),c:Number(el.dataset.c)}:null}
-function gameMoveDrag(e){
- if(!gameDrag)return;const d=gameDrag;
- d.moved ||= Math.hypot(e.clientX-d.startX,e.clientY-d.startY)>4;
- if(d.ghost){const cell=d.ghostCellSize||30,gap=d.ghostGap||4;d.ghost.style.left=(e.clientX-d.offsetC*(cell+gap)-cell/2)+"px";d.ghost.style.top=(e.clientY-d.offsetR*(cell+gap)-cell/2)+"px"}
- const hit=gameCellAt(e.clientX,e.clientY);
- if(!hit){d.row=null;d.col=null;d.valid=false;gameClearPreview();return}
- d.row=hit.r-d.offsetR;d.col=hit.c-d.offsetC;d.valid=gameCanPlace(d.piece.shape,d.row,d.col);gameClearPreview();
- d.piece.shape.forEach(([y,x])=>{const el=$("gameBoard").querySelector('[data-r="'+(d.row+y)+'"][data-c="'+(d.col+x)+'"]');if(el){el.classList.add("preview");if(!d.valid)el.classList.add("invalid")}});
+function gameProcessDrag(point){
+ if(!gameDrag)return;const d=gameDrag,x=point.clientX,y=point.clientY;
+ d.moved ||= Math.hypot(x-d.startX,y-d.startY)>4;gameClearPreview();
+ if(d.ghost){const pitch=d.ghostPitch||((d.ghostCellSize||30)+(d.ghostGap||4));const gx=x-d.offsetC*pitch-(d.ghostCellSize||30)/2;const gy=y-(d.liftY||0)-d.offsetR*pitch-(d.ghostCellSize||30)/2;d.ghost.style.transform="translate3d("+gx+"px,"+gy+"px,0)";}
+ const hit=gameCellAt(x,y-(d.liftY||0));
+ if(!hit){d.row=null;d.col=null;d.valid=false;return}
+ const row=hit.r-d.offsetR,col=hit.c-d.offsetC;d.row=row;d.col=col;d.valid=gameCanPlace(d.piece.shape,row,col);
+ if(!d.valid)return;
+ d.piece.shape.forEach(([dy,dx])=>{const el=$("gameBoard").querySelector('[data-r="'+(row+dy)+'"][data-c="'+(col+dx)+'"]');if(el)el.classList.add("preview")});
 }
+function gameMoveDrag(e){
+ if(!gameDrag)return;gamePendingPointer={clientX:e.clientX,clientY:e.clientY};
+ if(gameDragRaf)return;
+ gameDragRaf=requestAnimationFrame(()=>{gameDragRaf=0;const point=gamePendingPointer;gamePendingPointer=null;if(gameDrag&&point)gameProcessDrag(point)});
+}
+function gameStopDragFrame(){if(gameDragRaf)cancelAnimationFrame(gameDragRaf);gameDragRaf=0;gamePendingPointer=null}
 function gameClearLines(){
  const rows=[],cols=[];for(let i=0;i<GAME_N;i++){if(gameGrid[i].every(Boolean))rows.push(i);if(gameGrid.every(row=>row[i]))cols.push(i)}
  const cells=[];for(let r=0;r<GAME_N;r++)for(let c=0;c<GAME_N;c++)if(rows.includes(r)||cols.includes(c)){if(gameGrid[r][c])cells.push({r,c,color:gameGrid[r][c]});gameGrid[r][c]=null}
@@ -581,14 +604,16 @@ function gamePlace(r,c,index){
  if(!gameHasMove())gameFinish();return true;
 }
 function gameReset(){
- gameGrid=Array.from({length:GAME_N},()=>Array(GAME_N).fill(null));gameScore=0;gameStreak=0;gameMisses=0;gameEnded=false;gameAwarded=false;gameDrag?.ghost?.remove();gameDrag=null;$("gameOverlay").classList.add("hidden");$("gameSettingsOverlay").classList.add("hidden");gameNewHand();gameRender();gamePlaySound("new");gameSay("Neues Spiel! Platziere deine drei Steine.");
+ gameStopDragFrame();gameClearPreview();gameDrag?.source?.classList.remove("dragging");gameDrag?.ghost?.remove();gameDrag=null;gameGrid=Array.from({length:GAME_N},()=>Array(GAME_N).fill(null));gameScore=0;gameStreak=0;gameMisses=0;gameEnded=false;gameAwarded=false;$("gameOverlay").classList.add("hidden");$("gameSettingsOverlay").classList.add("hidden");gameNewHand();gameRender();gamePlaySound("new");gameSay("Neues Spiel! Platziere deine drei Steine.");
 }
 function gameDrop(e){
- if(!gameDrag)return;if(e)gameMoveDrag(e);const d=gameDrag;gameDrag=null;gameSuppressPieceClick=d.moved;setTimeout(()=>{gameSuppressPieceClick=false},500);gameClearPreview();d.source.classList.remove("dragging");d.ghost?.remove();if(d.row!==null&&d.valid){gamePlace(d.row,d.col,d.index)}else if(d.moved){gamePlaySound("wrong");gameSay("Der Stein muss vollständig auf freie Felder passen.")}else{gameSelected=d.index;gameRenderPieces()}
+ if(!gameDrag)return;gameStopDragFrame();if(e)gameProcessDrag(e);const d=gameDrag;gameDrag=null;gameSuppressPieceClick=d.moved;setTimeout(()=>{gameSuppressPieceClick=false},500);gameClearPreview();d.source.classList.remove("dragging");d.ghost?.remove();if(d.row!==null&&d.valid){gamePlace(d.row,d.col,d.index)}else if(d.moved){gamePlaySound("wrong");gameSay("Der Stein muss vollständig auf freie Felder passen.")}else{gameSelected=d.index;gameRenderPieces()}
 }
-window.addEventListener("pointermove",e=>{if(gameDrag)gameMoveDrag(e)},{passive:false});
+function gameCancelDrag(){if(!gameDrag)return;gameStopDragFrame();const d=gameDrag;gameDrag=null;gameClearPreview();d.source?.classList.remove("dragging");d.ghost?.remove();gameSelected=-1}
+window.addEventListener("pointermove",e=>{if(gameDrag)gameMoveDrag(e)},{passive:true});
 window.addEventListener("pointerup",e=>{if(gameDrag)gameDrop(e)});
-window.addEventListener("pointercancel",()=>{if(gameDrag){gameDrag.ghost?.remove();gameDrag=null;gameClearPreview()}});
+window.addEventListener("pointercancel",gameCancelDrag);
+window.addEventListener("blur",gameCancelDrag);
 $("gameBoard").addEventListener("click",e=>{const cell=e.target.closest(".game-cell");if(!cell||gameSelected<0||gameEnded||gameDrag)return;gamePlace(Number(cell.dataset.r),Number(cell.dataset.c),gameSelected)});
 $("gameNew").onclick=()=>{gameReset()};
 $("gameSettings").onclick=()=>$("gameSettingsOverlay").classList.remove("hidden");
