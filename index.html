@@ -54,11 +54,56 @@ main{color:#e8eefc}.hero p,.muted{color:#a2b0c8}.eyebrow{color:#9bb0ff}
 .game-cell.preview{background:#829cff!important;outline:2px solid #d1dcff}
 .game-board{touch-action:none}
 @media(max-width:760px){.grid{grid-template-columns:1fr}.game-card{position:static}.ranking-top #ranking{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* Spiel-zentriertes Layout */
+header{padding:12px clamp(14px,2.5vw,36px);min-height:76px}
+.header-account{display:flex;align-items:center;gap:12px}
+.header-profile{display:flex;align-items:center;gap:10px}
+.header-profile .avatar{width:46px;height:46px;overflow:hidden;flex:none}
+.header-profile-info{display:flex;flex-direction:column;line-height:1.25}
+.header-profile-info strong{font-size:14px;color:#fff}
+.header-profile-info small{font-size:12px;color:#a2b0c8}
+main{max-width:1600px;margin:18px auto;padding:0 clamp(12px,2vw,28px)}
+.hero{display:none}
+#auth.auth-panel{margin:18px 0 0 auto!important;max-width:430px!important}
+#app>.statline{display:none}
+#app .grid{grid-template-columns:minmax(0,1fr) 270px;gap:18px;align-items:start}
+#app .game-card{position:static;padding:clamp(14px,2vw,26px)}
+#app .game-head h2{font-size:clamp(24px,3vw,34px)}
+#app .game-board{width:min(100%,min(72vh,760px));gap:clamp(4px,.7vw,8px);padding:clamp(6px,1vw,10px)}
+#app .game-pieces{gap:clamp(12px,2vw,24px);margin:18px auto}
+#app .game-piece{grid-template-columns:repeat(4,clamp(18px,2.2vw,26px));grid-template-rows:repeat(4,clamp(18px,2.2vw,26px));gap:4px;padding:12px}
+#app aside{display:flex;flex-direction:column;gap:14px;position:sticky;top:12px}
+#app aside .card{margin:0;padding:15px}
+#app .ranking-mini{order:2;margin-top:auto}
+#app #ranking{max-height:34vh;overflow:auto}
+#app .ranking-mini .member{gap:7px;padding:8px 0;font-size:13px}
+#app .ranking-mini .avatar{width:30px;height:30px}
+#app .ranking-mini .member-info strong{font-size:13px}
+#app .ranking-mini .member-info small{font-size:11px}
+#app .ranking-mini .points{font-size:12px}
+#app aside #adminUnlock,#app aside #adminPanel{order:3}
+@media(max-width:850px){
+ #app .grid{grid-template-columns:minmax(0,1fr)}
+ #app aside{position:static;display:grid;grid-template-columns:1fr}
+ #app .game-board{width:min(100%,min(78vw,680px))}
+ #app #ranking{max-height:280px}
+}
+@media(max-width:520px){
+ header{align-items:flex-start;gap:8px}
+ .brand strong{font-size:18px}
+ .header-profile .avatar{width:38px;height:38px}
+ .header-profile-info .smallbtn{font-size:10px;padding:5px}
+ #logout{font-size:11px;padding:8px}
+ #app .game-piece{grid-template-columns:repeat(4,17px);grid-template-rows:repeat(4,17px);padding:8px}
+ #auth.auth-panel{margin:14px auto!important}
+}
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
-<header><div class="brand"><div class="mark">S</div><div><strong>Schoolblog</strong><small>Eine Gruppe. Eine Schule. Gemeinsam.</small></div></div><button id="logout" class="btn light hidden">Abmelden</button></header>
+<header><div class="brand"><div class="mark">S</div><div><strong>Schoolblog</strong><small>Eine Gruppe. Eine Schule. Gemeinsam.</small></div></div><div class="header-account"><div class="header-profile hidden" id="headerProfile"><div class="avatar" id="myAvatar">S</div><div class="header-profile-info"><strong id="myName">Mein Konto</strong><small id="myClass">Deine Klasse</small><label class="smallbtn light" style="display:inline-block;margin-top:4px;cursor:pointer">Bild ändern<input id="avatarFile" type="file" accept="image/jpeg,image/png,image/webp" hidden></label></div></div><div id="profileStatus" class="status"></div><button id="logout" class="btn light hidden">Abmelden</button></div></header>
 <main>
 <section class="hero"><div class="eyebrow">Deine Schul-Community</div><h1>Willkommen bei Schoolblog.</h1><p>Finde deine Mitschüler, entdecke Neuigkeiten und sieh die gemeinsame Rangliste.</p></section>
 <section id="auth" class="card" style="max-width:520px;margin:auto">
@@ -93,7 +138,7 @@ main{color:#e8eefc}.hero p,.muted{color:#a2b0c8}.eyebrow{color:#9bb0ff}
 
 
 <div class="statline"><div class="stat"><b id="memberCount">0</b><span>Mitglieder</span></div><div class="stat"><b id="postCount">0</b><span>Beiträge</span></div><div class="stat"><b id="myRole">Mitglied</b><span>Deine Rolle</span></div></div>
-<section class="card"><h2>Mein Profil</h2><div class="row" style="align-items:center"><div class="avatar" id="myAvatar" style="width:64px;height:64px;font-size:24px">S</div><div style="flex:2"><strong id="myName">Mein Konto</strong><div class="muted" id="myClass" style="font-size:13px">Deine Klasse</div><label class="smallbtn light" style="display:inline-block;margin-top:7px;cursor:pointer">Profilbild ändern<input id="avatarFile" type="file" accept="image/jpeg,image/png,image/webp" hidden></label></div></div><div class="status" id="profileStatus"></div></section><div class="ranking-top"><section class="card"><h2>Rangliste</h2><p class="muted" style="font-size:13px">Die besten Spieler der Gruppe</p><div id="ranking"></div></section></div><div class="grid"><div>
+<div class="grid"><div>
 <section class="card game-card">
   <div class="game-head"><div><span class="eyebrow">Das Schulspiel</span><h2>School-Block</h2><p class="muted">Setze die Steine, fülle Reihen und Spalten und sammle Punkte für deine Gruppe.</p></div><div class="game-best">Bestleistung<br><strong id="gameBest">0</strong></div></div>
   <div class="game-meta"><span>Punkte <b id="gameScore">0</b></span><span>Rekord <b id="gameBestSmall">0</b></span><button id="gameNew" class="btn light">Neues Spiel</button></div>
@@ -104,7 +149,7 @@ main{color:#e8eefc}.hero p,.muted{color:#a2b0c8}.eyebrow{color:#9bb0ff}
 </section>
 <section class="card"><h2>Neuigkeiten</h2><div id="postComposer" class="hidden"><input id="postTitle" class="field" placeholder="Überschrift"><textarea id="postBody" class="field" rows="3" placeholder="Was gibt es Neues?"></textarea><button id="publishPost" class="btn primary">Beitrag veröffentlichen</button><hr style="border:0;border-top:1px solid var(--line);margin:18px 0"></div><div id="posts"><div class="empty">Noch keine Beiträge.</div></div></section>
 <section class="card"><h2>Mitglieder</h2><div id="members"></div></section>
-</div><aside>
+</div><aside><section class="card ranking-mini"><h2>🏆 Rangliste</h2><p class="muted" style="font-size:12px">Die besten Spieler der Gruppe</p><div id="ranking"></div></section>
 
 <section id="adminUnlock" class="card"><h2>Admin-Zugang</h2><p class="muted" style="font-size:13px">Nur für die Person mit dem Admin-Code.</p><input id="adminUnlockCode" class="field" type="password" placeholder="Admin-Code" autocomplete="off"><button id="adminUnlockBtn" class="btn light full">Admin-Bereich freischalten</button><div id="adminUnlockStatus" class="status"></div></section>
 <section id="adminPanel" class="card hidden"><h2>Admin-Bereich</h2><p class="muted" style="font-size:13px">Verwalte Mitglieder, Rollen und Punkte.</p><div id="inviteAdmin" class="hidden"><input id="adminEmail" class="field" placeholder="E-Mail des neuen Admins"><button id="inviteAdminBtn" class="btn light full">Admin einladen</button></div><div id="adminUsers"></div><div id="adminStatus" class="status"></div></section>
@@ -128,8 +173,8 @@ $("publishPost").onclick=async()=>{try{const title=$("postTitle").value.trim(),b
 $("avatarFile").onchange=async e=>{const file=e.target.files?.[0];if(!file)return;if(file.size>5*1024*1024){say("profileStatus","Das Bild darf höchstens 5 MB groß sein.");return}try{say("profileStatus","Bild wird hochgeladen …");const prep=await api("create_avatar_upload",{contentType:file.type});const up=await fetch(prep.signedUrl,{method:"PUT",headers:{"Content-Type":file.type,"x-upsert":"false"},body:file});if(!up.ok)throw new Error("Upload fehlgeschlagen.");await api("save_avatar",{path:prep.path});say("profileStatus","Profilbild gespeichert.");await load()}catch(err){say("profileStatus",err.message)}};
 $("inviteAdminBtn").onclick=async()=>{try{const r=await api("invite_admin",{email:$("adminEmail").value});say("adminStatus",r.invited?"Admin-Einladung wurde gesendet.":"Dieses Konto hatte bereits einen Zugang und wurde zum Admin gemacht.");$("adminEmail").value="";await load()}catch(e){say("adminStatus",e.message)}};
 async function adminAction(action,userId,extra={}){try{await api(action,{userId,...extra});await load()}catch(e){say("adminStatus",e.message)}}
-async function load(){const {data:{session:s}}=await sb.auth.getSession();session=s;if(!s){$("auth").classList.remove("hidden");$("join").classList.add("hidden");$("app").classList.add("hidden");$("logout").classList.add("hidden");return}
-$("auth").classList.add("hidden");$("logout").classList.remove("hidden");try{const d=await api("dashboard");profile=d.profile;if(!profile.joined&&profile.role==="member"){$("join").classList.remove("hidden");$("app").classList.add("hidden");return}
+async function load(){const {data:{session:s}}=await sb.auth.getSession();session=s;if(!s){$("auth").classList.remove("hidden");$("join").classList.add("hidden");$("app").classList.add("hidden");$("logout").classList.add("hidden");$("headerProfile").classList.add("hidden");return}
+$("auth").classList.add("hidden");$("logout").classList.remove("hidden");$("headerProfile").classList.remove("hidden");try{const d=await api("dashboard");profile=d.profile;if(!profile.joined&&profile.role==="member"){$("join").classList.remove("hidden");$("app").classList.add("hidden");return}
 $("join").classList.add("hidden");$("app").classList.remove("hidden");$("memberCount").textContent=d.members.length;$("postCount").textContent=d.posts.length;$("myRole").textContent=profile.role==="owner"?"Hauptadmin":profile.role==="admin"?"Admin":"Mitglied";
 $("posts").innerHTML=d.posts.length?d.posts.map(p=>'<article class="post"><h3>'+esc(p.title)+'</h3><p>'+esc(p.body)+'</p><small>'+new Date(p.created_at).toLocaleString("de-DE")+'</small>'+(["owner","admin"].includes(profile.role)?' <button class="smallbtn danger" onclick="deletePost(\''+p.id+'\')">Löschen</button>':"")+'</article>').join(""):'<div class="empty">Noch keine Beiträge.</div>';
 $("postComposer").classList.toggle("hidden",!["owner","admin"].includes(profile.role));$("myName").textContent=profile.display_name||s.user.email;$("myClass").textContent=profile.class_name||"Hauptadmin";$("myAvatar").innerHTML=profile.avatar_url?'<img src="'+esc(profile.avatar_url)+'" style="width:100%;height:100%;object-fit:cover;border-radius:50%" alt="">':esc((profile.display_name||"S").slice(0,1).toUpperCase());
