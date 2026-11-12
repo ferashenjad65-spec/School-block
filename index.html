@@ -543,7 +543,7 @@ function gamePlace(r,c,index){
  if(!gameHasMove())gameFinish();return true;
 }
 function gameReset(){
- gameGrid=Array.from({length:GAME_N},()=>Array(GAME_N).fill(null));gameScore=0;gameStreak=0;gameMisses=0;gameEnded=false;gameAwarded=false;gameDrag?.ghost?.remove();gameDrag=null;gameParticles=[];$("gameOverlay").classList.add("hidden");$("gameSettingsOverlay").classList.add("hidden");gameNewHand();gameRender();gamePlaySound("new");gameSay("Neues Spiel! Platziere deine drei Steine.");
+ gameGrid=Array.from({length:GAME_N},()=>Array(GAME_N).fill(null));gameScore=0;gameStreak=0;gameMisses=0;gameEnded=false;gameAwarded=false;gameDrag?.ghost?.remove();gameDrag=null;$("gameOverlay").classList.add("hidden");$("gameSettingsOverlay").classList.add("hidden");gameNewHand();gameRender();gamePlaySound("new");gameSay("Neues Spiel! Platziere deine drei Steine.");
 }
 function gameDrop(e){
  if(!gameDrag)return;if(e)gameMoveDrag(e);const d=gameDrag;gameDrag=null;gameSuppressPieceClick=d.moved;setTimeout(()=>{gameSuppressPieceClick=false},500);gameClearPreview();d.source.classList.remove("dragging");d.ghost?.remove();if(d.row!==null&&d.valid){gamePlace(d.row,d.col,d.index)}else if(d.moved){gamePlaySound("wrong");gameSay("Der Stein muss vollständig auf freie Felder passen.")}else{gameSelected=d.index;gameRenderPieces()}
