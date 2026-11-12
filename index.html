@@ -142,7 +142,7 @@ function gameRender(){
   b.onpointerdown=e=>{if(b.disabled||gameEnded||e.button>0)return;e.preventDefault();const index=Number(b.dataset.piece);cancelPieceDrag();dragPiece=index;dragPointerId=e.pointerId;gameSelected=index;dragMoved=false;const rect=b.getBoundingClientRect();dragGrab={r:Math.max(0,Math.min(3,Math.floor((e.clientY-rect.top)/rect.height*4))),c:Math.max(0,Math.min(3,Math.floor((e.clientX-rect.left)/rect.width*4)))};b.classList.add("dragging");createDragGhost(index,e.clientX,e.clientY);updateDragPreview(e.clientX,e.clientY);say("gameMessage","Loslassen, um den Stein zu platzieren.");};
  });
 }
-document.addEventListener("pointermove",e=>{if(dragPiece<0||e.pointerId!==dragPointerId)return;e.preventDefault();if(Math.abs(e.movementX)+Math.abs(e.movementY)>0)dragMoved=true;moveDragGhost(e.clientX,e.clientY);updateDragPreview(e.clientX,e.clientY)},{passive:false});
+document.addEventListener("pointermove",e=>{if(dragPiece<0||e.pointerId!==dragPointerId)return;e.preventDefault();dragMoved=true;moveDragGhost(e.clientX,e.clientY);updateDragPreview(e.clientX,e.clientY)},{passive:false});
 document.addEventListener("pointerup",async e=>{if(dragPiece<0||e.pointerId!==dragPointerId)return;const index=dragPiece,cell=dragCell?{r:dragCell.r,c:dragCell.c}:null;const moved=dragMoved;cancelPieceDrag();if(moved&&cell){await gamePlace(cell.r,cell.c,index)}else{gameSelected=index;gameRender()}},{passive:false});
 document.addEventListener("pointercancel",()=>{if(dragPiece>=0)cancelPieceDrag()});
 async function gamePlace(r,c,selected=gameSelected){
