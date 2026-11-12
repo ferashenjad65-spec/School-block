@@ -311,6 +311,56 @@ hr{border-color:#315d91!important}
  #app .piece-cell.on{border-radius:4px}
 }
 
+ 
+/* Recreated 8x8 Block Blast game — original CSS artwork, no third-party assets */
+#app .game-card{position:relative;overflow:hidden;background:linear-gradient(155deg,#e9f5ff 0%,#cfe5ff 58%,#b9d9ff 100%);border:2px solid #fff;border-radius:26px;color:#173c6e;box-shadow:0 8px 0 #0a55a7,0 18px 35px #063c7b55}
+#app .game-head h2{color:#153f79;font-size:clamp(25px,3vw,38px);margin:4px 0}
+#app .game-head p{color:#5e7fa5}
+#app .game-best{background:linear-gradient(145deg,#ffe48a,#f5ad2d);border:1px solid #ffe9a5;color:#85510b;box-shadow:inset 0 2px #fff9,0 4px 0 #bf7817}
+#app .game-best strong{color:#754006}
+#app .game-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+#app .score-crown{display:flex;align-items:center;gap:8px;padding:7px 13px;border-radius:14px;background:linear-gradient(145deg,#ffe58d,#f7b632);box-shadow:inset 0 2px #fff9,0 4px 0 #bd781b;color:#87520b}
+#app .score-crown span{font-size:10px;font-weight:900;letter-spacing:.6px}
+#app .score-crown b{font-size:22px;color:#704006}
+#app .record-score{font-size:12px;color:#54749b;font-weight:800}
+#app .record-score b{color:#194d88;font-size:16px}
+#app #gameNew,#app #gameSettings{background:linear-gradient(145deg,#fff,#e3f0ff);color:#2365ad;box-shadow:0 3px 0 #a9c9ec;padding:10px 14px}
+#app .game-board{width:min(100%,min(75vh,680px));aspect-ratio:1;margin:12px auto 0;padding:clamp(7px,1vw,12px);display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:clamp(4px,.7vw,8px);border-radius:20px;background:linear-gradient(145deg,#0a3974,#0e4f98);border:2px solid #79baff;box-shadow:inset 0 5px 14px #001f4b99,0 6px 0 #084486;touch-action:none}
+#app .game-cell{min-width:0;min-height:0;aspect-ratio:1;padding:0;border-radius:6px;background:linear-gradient(145deg,#123f78,#0c3266);border:1px solid #22528a;box-shadow:inset 0 2px 3px #001b4266;cursor:default}
+#app .game-cell.filled{border:1px solid #ffffff80;box-shadow:inset 0 3px 2px #ffffff70,inset 0 -4px 3px #001d4b50,0 2px 1px #001d4b80}
+#app .game-cell.color-1,.game-piece .piece-cell.color-1{background:linear-gradient(145deg,#ffc36b,#ff8b22 52%,#d95508)}
+#app .game-cell.color-2,.game-piece .piece-cell.color-2{background:linear-gradient(145deg,#e0b5ff,#a75be9 52%,#6829b7)}
+#app .game-cell.color-3,.game-piece .piece-cell.color-3{background:linear-gradient(145deg,#b7ff91,#58d968 52%,#168b3b)}
+#app .game-cell.color-4,.game-piece .piece-cell.color-4{background:linear-gradient(145deg,#80e9ff,#20a9df 52%,#0874b0)}
+#app .game-cell.color-5,.game-piece .piece-cell.color-5{background:linear-gradient(145deg,#ff9da9,#ed4563 52%,#b71e45)}
+#app .game-cell.preview{background:linear-gradient(145deg,#ffe68a,#f7bb31)!important;border:2px solid #fff2bd!important;opacity:.95;box-shadow:0 0 14px #fff}
+#app .game-cell.preview.invalid{background:#f36b75!important;border-color:#ffc5c9!important}
+#app .game-message{min-height:24px;text-align:center;color:#456c98;font-weight:800;font-size:13px;margin:13px 0 5px}
+#app .game-pieces{display:flex;justify-content:space-evenly;align-items:center;gap:10px;min-height:120px;margin:10px auto 4px}
+#app .game-piece{display:grid;grid-template-columns:repeat(5,clamp(14px,2vw,22px));grid-template-rows:repeat(5,clamp(14px,2vw,22px));gap:3px;padding:10px;border:1px solid #ffffffaa;border-radius:13px;background:linear-gradient(145deg,#eaf5ff,#c9e2ff);box-shadow:inset 0 2px #fff,0 4px 0 #83b1e2,0 8px 14px #275d9633;touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab;transition:transform .15s,box-shadow .15s}
+#app .game-piece:active{cursor:grabbing}
+#app .game-piece.selected{outline:3px solid #ffcf57;background:#fff;transform:translateY(-3px)}
+#app .game-piece.used{visibility:hidden;pointer-events:none}
+#app .piece-cell{width:100%;height:100%;border-radius:4px;background:transparent}
+#app .piece-cell.on{border:1px solid #ffffffa8;box-shadow:inset 0 2px 2px #ffffff8a,inset 0 -4px 3px #0004,0 2px 2px #001b3d88}
+#app .game-help{text-align:center;color:#54749b;font-size:12px;line-height:1.5}
+.game-drag-ghost{position:fixed;z-index:9999;pointer-events:none;display:grid;gap:4px;transform:translate(-50%,-50%);filter:drop-shadow(0 8px 8px #001b4c66);opacity:.95}
+.game-drag-ghost span{width:clamp(27px,4vw,42px);height:clamp(27px,4vw,42px);border-radius:6px;border:1px solid #ffffffa8;box-shadow:inset 0 2px 2px #ffffff80,inset 0 -4px 3px #0003}
+.game-overlay{position:absolute;inset:0;z-index:20;display:grid;place-items:center;padding:20px;background:#061a36b8;backdrop-filter:blur(5px)}
+.game-overlay.hidden{display:none!important}
+.game-dialog{position:relative;width:min(100%,380px);padding:30px 24px 24px;border-radius:24px;text-align:center;background:linear-gradient(160deg,#fff,#dceeff);color:#194577;box-shadow:0 12px 0 #0a55a7,0 24px 55px #001a3d80;animation:gamePop .22s ease-out}
+@keyframes gamePop{from{opacity:0;transform:translateY(12px) scale(.94)}to{opacity:1;transform:translateY(0) scale(1)}}
+.game-dialog-kicker{font-size:11px;font-weight:1000;letter-spacing:2px;color:#347fcb}
+.game-dialog h3{font-size:28px;margin:8px 0;color:#173f70}
+.game-dialog p{color:#6482a5;line-height:1.5}
+.game-dialog-actions{display:flex;justify-content:center;margin-top:18px}
+.game-dialog .primary{background:linear-gradient(145deg,#ffb84d,#f27b16);color:#fff;box-shadow:0 4px 0 #bd5608;padding:13px 20px}
+.game-close{position:absolute;right:12px;top:10px;width:34px;height:34px;border-radius:50%;background:#e5f1ff;color:#2764a3;font-size:23px}
+.setting-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 0;border-bottom:1px solid #c9def3;color:#315d8a;font-weight:700;text-align:left}
+.setting-row:last-child{border:0}.setting-row button{flex:none}
+@media(max-width:560px){#app .game-board{gap:3px;padding:6px;border-radius:15px}#app .game-cell{border-radius:4px}#app .game-pieces{min-height:96px;gap:4px}#app .game-piece{grid-template-columns:repeat(5,15px);grid-template-rows:repeat(5,15px);gap:2px;padding:7px}#app .game-head{gap:8px}#app .game-best{padding:8px 10px;font-size:10px}#app .game-best strong{font-size:20px}}
+@media(prefers-reduced-motion:reduce){.game-dialog{animation:none}#app .game-piece{transition:none}}
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -352,12 +402,22 @@ hr{border-color:#315d91!important}
 <div class="statline"><div class="stat"><b id="memberCount">0</b><span>Mitglieder</span></div><div class="stat"><b id="postCount">0</b><span>Beiträge</span></div><div class="stat"><b id="myRole">Mitglied</b><span>Deine Rolle</span></div></div>
 <div class="grid"><div>
 <section class="card game-card">
-  <div class="game-head"><div><span class="eyebrow">BLOCK BLAST</span><h2>Blast</h2><p class="muted">Ziehe deine Blöcke auf das Spielfeld und sammle Punkte.</p></div><div class="game-best">👑 Bestwert<br><strong id="gameBest">0</strong></div></div>
-  <div class="game-meta"><div class="score-crown">👑 <span>PUNKTE</span><b id="gameScore">0</b></div><span class="record-score">Rekord <b id="gameBestSmall">0</b></span><button id="gameNew" class="btn light">Neues Spiel</button></div>
-  <div id="gameBoard" class="game-board" aria-label="10 mal 10 Spielfeld"></div>
-  <p id="gameMessage" class="game-message">Ziehe deine Blöcke auf das 10×10-Spielfeld!</p>
-  <div id="gamePieces" class="game-pieces"></div>
-  <p class="game-help">Lösche vollständige Reihen und Spalten. Mehrere Treffer hintereinander bringen Combo-Punkte für die Gruppenrangliste.</p>
+  <div class="game-head"><div><span class="eyebrow">BLOCK PUZZLE</span><h2>Block Blast</h2><p class="muted">Platziere Steine, räume Reihen und Spalten ab und knacke deinen Rekord.</p></div><div class="game-best">🏆 BESTWERT<br><strong id="gameBest">0</strong></div></div>
+  <div class="game-meta"><div class="score-crown">✦ <span>PUNKTE</span><b id="gameScore">0</b></div><span class="record-score">STREAK <b id="gameStreak">×1</b></span><button id="gameSettings" class="btn light" aria-label="Einstellungen">⚙</button><button id="gameNew" class="btn light">Neustart</button></div>
+  <div id="gameBoard" class="game-board" aria-label="8 mal 8 Spielfeld"></div>
+  <div class="game-message" id="gameMessage" aria-live="polite">Wähle einen Stein oder ziehe ihn auf das Spielfeld.</div>
+  <div class="game-pieces" id="gamePieces" aria-label="Drei verfügbare Steine"></div>
+  <p class="game-help">Vollständige Reihen und Spalten verschwinden. Drei Züge ohne Treffer setzen deine Serie zurück.</p>
+  <div id="gameOverlay" class="game-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="gameOverlayTitle">
+    <div class="game-dialog"><button id="gameOverlayClose" class="game-close" aria-label="Schließen">×</button><div class="game-dialog-kicker">BLOCK BLAST</div><h3 id="gameOverlayTitle">Spiel beendet</h3><p id="gameOverlayText">Dein Ergebnis</p><div class="game-dialog-actions"><button id="gameOverlayPrimary" class="btn primary">Noch einmal spielen</button></div></div>
+  </div>
+  <div id="gameSettingsOverlay" class="game-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="gameSettingsTitle">
+    <div class="game-dialog"><button id="gameSettingsClose" class="game-close" aria-label="Schließen">×</button><div class="game-dialog-kicker">OPTIONEN</div><h3 id="gameSettingsTitle">Einstellungen</h3>
+      <div class="setting-row"><span>Soundeffekte</span><button id="gameSoundToggle" class="btn light">Ein</button></div>
+      <div class="setting-row"><span>Bestwert zurücksetzen</span><button id="gameResetBest" class="btn light">Zurücksetzen</button></div>
+      <div class="setting-row"><span>Neues Spiel starten</span><button id="gameSettingsRestart" class="btn primary">Neustart</button></div>
+    </div>
+  </div>
 </section>
 <section class="card"><h2>Neuigkeiten</h2><div id="postComposer" class="hidden"><input id="postTitle" class="field" placeholder="Überschrift"><textarea id="postBody" class="field" rows="3" placeholder="Was gibt es Neues?"></textarea><button id="publishPost" class="btn primary">Beitrag veröffentlichen</button><hr style="border:0;border-top:1px solid var(--line);margin:18px 0"></div><div id="posts"><div class="empty">Noch keine Beiträge.</div></div></section>
 <section class="card"><h2>Mitglieder</h2><div id="members"></div></section>
@@ -397,61 +457,108 @@ if(["owner","admin"].includes(profile.role)){const u=await api("admin_list");$("
 catch(e){$("join").classList.add("hidden");$("app").classList.add("hidden");$("auth").classList.remove("hidden");say("authStatus",e.message)}}
 
 
+
+/* Independent 8x8 block puzzle implementation */
 const gameShapes=[
  [[0,0]],
- [[0,0],[0,1]],[[0,0],[0,1],[0,2]],[[0,0],[0,1],[0,2],[0,3]],
- [[0,0],[1,0]],[[0,0],[1,0],[2,0]],[[0,0],[1,0],[2,0],[3,0]],
- [[0,0],[0,1],[1,0],[1,1]],
- [[0,0],[0,1],[0,2],[1,0],[1,1],[1,2]],
- [[0,0],[0,1],[1,0],[1,1],[2,0],[2,1]],
- [[0,0],[1,0],[1,1]],[[0,1],[1,0],[1,1]],
- [[0,0],[1,0],[2,0],[2,1]],[[0,1],[1,1],[2,0],[2,1]],
+ [[0,0],[0,1]],[[0,0],[0,1],[0,2]],[[0,0],[0,1],[0,2],[0,3]],[[0,0],[0,1],[0,2],[0,3],[0,4]],
+ [[0,0],[1,0]],[[0,0],[1,0],[2,0]],[[0,0],[1,0],[2,0],[3,0]],[[0,0],[1,0],[2,0],[3,0],[4,0]],
+ [[0,0],[0,1],[1,0],[1,1]],[[0,0],[0,1],[0,2],[1,0],[1,1],[1,2]],[[0,0],[0,1],[0,2],[1,0],[1,1],[1,2],[2,0],[2,1],[2,2]],
+ [[0,0],[1,0],[1,1]],[[0,1],[1,0],[1,1]],[[0,0],[0,1],[1,0]],[[0,0],[0,1],[1,1]],
+ [[0,0],[1,0],[2,0],[2,1]],[[0,1],[1,1],[2,0],[2,1]],[[0,0],[0,1],[0,2],[1,2]],[[0,0],[0,1],[0,2],[1,0]],
  [[0,0],[0,1],[0,2],[1,1]],[[0,1],[1,0],[1,1],[1,2]],
  [[0,0],[1,0],[1,1],[2,1]],[[0,1],[1,0],[1,1],[2,0]],
- [[0,0],[1,0],[2,0],[2,1],[2,2]],
- [[0,0],[0,1],[0,2],[1,2],[2,2]],
- [[0,0],[0,1],[0,2],[1,0],[2,0]]
+ [[0,0],[0,1],[0,2],[1,0],[2,0]],[[0,0],[0,1],[0,2],[1,2],[2,2]],
+ [[0,0],[0,1],[0,2],[1,1],[2,1]],[[0,1],[1,0],[1,1],[1,2],[2,1]],
+ [[0,0],[0,1],[1,1],[1,2]],[[0,1],[0,2],[1,0],[1,1]],
+ [[0,0],[0,1],[0,2],[1,0],[1,1],[1,2]],[[0,0],[0,1],[1,0],[1,1],[2,0],[2,1]]
 ];
-const gameColors=["purple","orange","green"];
-let gameGrid=Array.from({length:10},()=>Array(10).fill(null)),gameScore=0,gameCombo=0,gamePieces=[],gameSelected=-1,gameEnded=false,gameAwarded=false,gameDrag=null;
-let gameAudio=null;
-function gameSound(kind){try{const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;if(!gameAudio)gameAudio=new AC();if(gameAudio.state==="suspended")gameAudio.resume();const now=gameAudio.currentTime;const notes=kind==="clear"?[660,880,1100]:kind==="invalid"?[180,130]:kind==="over"?[440,330,220]:kind==="new"?[520,680]:[420,620];notes.forEach((hz,i)=>{const o=gameAudio.createOscillator(),g=gameAudio.createGain();o.type=kind==="clear"?"sine":"triangle";o.frequency.setValueAtTime(hz,now+i*.065);g.gain.setValueAtTime(.0001,now+i*.065);g.gain.exponentialRampToValueAtTime(kind==="clear"?.11:.075,now+i*.065+.012);g.gain.exponentialRampToValueAtTime(.0001,now+i*.065+(kind==="clear"?.22:.13));o.connect(g);g.connect(gameAudio.destination);o.start(now+i*.065);o.stop(now+i*.065+.25)})}catch(e){}}
-let gameBest=Number(localStorage.getItem("blastBest")||localStorage.getItem("schoolBlockBest")||0);
-function newGame(){gameSound("new");gameGrid=Array.from({length:10},()=>Array(10).fill(null));gameScore=0;gameCombo=0;gameSelected=-1;gameEnded=false;gameAwarded=false;gameDrag=null;gameBest=Math.max(gameBest,Number(localStorage.getItem("blastBest")||0));makeGamePieces();gameRender();say("gameMessage","Halte einen Stein gedrückt und ziehe ihn aufs Spielfeld!")}
-function makeGamePieces(){gamePieces=Array.from({length:3},(_,i)=>({id:Math.random().toString(36).slice(2),shape:gameShapes[Math.floor(Math.random()*gameShapes.length)].map(p=>[...p]),color:gameColors[Math.floor(Math.random()*gameColors.length)]}))}
-function canPlace(shape,r,c){return shape.every(([y,x])=>r+y>=0&&r+y<10&&c+x>=0&&c+x<10&&!gameGrid[r+y][c+x])}
-function anyMove(){return gamePieces.some(p=>p&&Array.from({length:10},(_,r)=>Array.from({length:10},(_,c)=>canPlace(p.shape,r,c))).some(row=>row.some(Boolean)))}
-function cellAtPoint(x,y){const el=document.elementFromPoint(x,y)?.closest(".game-cell");return el?{r:Number(el.dataset.r),c:Number(el.dataset.c)}:null}
-function clearGamePreview(){$("gameBoard").querySelectorAll(".preview").forEach(el=>el.classList.remove("preview","invalid"))}
-function previewGamePiece(){clearGamePreview();if(!gameDrag||gameDrag.row===null)return;gameDrag.valid=canPlace(gameDrag.piece.shape,gameDrag.row,gameDrag.col);gameDrag.piece.shape.forEach(([y,x])=>{const cell=$("gameBoard").querySelector('[data-r="'+(gameDrag.row+y)+'"][data-c="'+(gameDrag.col+x)+'"]');if(cell){cell.classList.add("preview");if(!gameDrag.valid)cell.classList.add("invalid")}})}
-function gameRender(){
- $("gameScore").textContent=gameScore;$("gameBest").textContent=gameBest;$("gameBestSmall").textContent=gameBest;
- $("gameBoard").innerHTML=gameGrid.map((row,r)=>row.map((v,c)=>'<button type="button" class="game-cell '+(v?'filled color-'+(gameColors.indexOf(v)+1):'')+'" data-r="'+r+'" data-c="'+c+'" aria-label="Feld '+(r+1)+','+(c+1)+'"></button>').join("")).join("");
- $("gameBoard").querySelectorAll(".game-cell").forEach(cell=>cell.onclick=()=>{if(gameDrag)return;if(gameSelected>=0)gamePlace(Number(cell.dataset.r),Number(cell.dataset.c),gameSelected)});
- $("gamePieces").innerHTML=gamePieces.map((piece,i)=>{if(!piece)return '<span class="game-piece used" aria-hidden="true"></span>';const maxR=Math.max(...piece.shape.map(p=>p[0])),maxC=Math.max(...piece.shape.map(p=>p[1]));return '<button type="button" class="game-piece '+(i===gameSelected?'selected':'')+'" data-piece="'+i+'" data-color="'+piece.color+'" aria-label="Stein '+(i+1)+'">'+Array.from({length:(maxR+1)*(maxC+1)},(_,n)=>{const r=Math.floor(n/(maxC+1)),c=n%(maxC+1),on=piece.shape.some(p=>p[0]===r&&p[1]===c);return '<span class="piece-cell '+(on?'on color-'+(gameColors.indexOf(piece.color)+1):'')+'" data-r="'+r+'" data-c="'+c+'"></span>'}).join("")+'</button>'}).join("");
+const gameColors=["orange","purple","green","cyan","pink"];
+const GAME_N=8;
+let gameGrid=Array.from({length:GAME_N},()=>Array(GAME_N).fill(null));
+let gameScore=0,gameStreak=0,gameMisses=0,gamePieces=[],gameSelected=-1,gameEnded=false,gameAwarded=false,gameDrag=null,gameSoundOn=localStorage.getItem("schoolblogSound")!=="off",gameAudio=null,gameParticles=[];
+let gameBest=Math.max(0,Number(localStorage.getItem("blockBlastBestScore")||0));
+const gameBonus={1:0,2:10,3:30,4:60,5:100,6:150};
+function gamePlaySound(kind){
+ if(!gameSoundOn)return;
+ try{const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;if(!gameAudio)gameAudio=new AC();if(gameAudio.state==="suspended")gameAudio.resume();const t=gameAudio.currentTime;const tones=kind==="clear"?[620,820,1040]:kind==="wrong"?[190,140]:kind==="over"?[440,330,220]:kind==="new"?[480,660]:kind==="place"?[440,580]:[520];tones.forEach((hz,i)=>{const o=gameAudio.createOscillator(),g=gameAudio.createGain();o.type=kind==="clear"?"sine":"triangle";o.frequency.setValueAtTime(hz,t+i*.055);g.gain.setValueAtTime(.0001,t+i*.055);g.gain.exponentialRampToValueAtTime(kind==="clear"?.09:.045,t+i*.055+.012);g.gain.exponentialRampToValueAtTime(.0001,t+i*.055+.17);o.connect(g);g.connect(gameAudio.destination);o.start(t+i*.055);o.stop(t+i*.055+.19)})}catch(_){}
+}
+function gameSay(msg){$("gameMessage").textContent=msg}
+function gameRandomPiece(){return {shape:gameShapes[Math.floor(Math.random()*gameShapes.length)].map(p=>p.slice()),color:gameColors[Math.floor(Math.random()*gameColors.length)]}}
+function gameNewHand(){gamePieces=Array.from({length:3},gameRandomPiece);gameSelected=-1;gameRenderPieces()}
+function gameCanPlace(shape,r,c,grid=gameGrid){return shape.every(([y,x])=>r+y>=0&&r+y<GAME_N&&c+x>=0&&c+x<GAME_N&&!grid[r+y][c+x])}
+function gameHasMove(){return gamePieces.some(p=>p&&Array.from({length:GAME_N},(_,r)=>Array.from({length:GAME_N},(_,c)=>gameCanPlace(p.shape,r,c))).some(row=>row.some(Boolean)))}
+function gameClearPreview(){document.querySelectorAll("#gameBoard .preview").forEach(el=>el.classList.remove("preview","invalid"))}
+function gameRenderBoard(){
+ $("gameBoard").innerHTML=gameGrid.map((row,r)=>row.map((v,c)=>'<button type="button" tabindex="-1" class="game-cell '+(v?'filled color-'+(gameColors.indexOf(v)+1):'')+'" data-r="'+r+'" data-c="'+c+'" aria-label="Feld '+(r+1)+', '+(c+1)+'"></button>').join("")).join("");
+}
+function gameRenderPieces(){
+ $("gamePieces").innerHTML=gamePieces.map((p,i)=>{if(!p)return '<span class="game-piece used" aria-hidden="true"></span>';const h=Math.max(...p.shape.map(v=>v[0]))+1,w=Math.max(...p.shape.map(v=>v[1]))+1;let cells="";for(let r=0;r<5;r++)for(let c=0;c<5;c++){const on=p.shape.some(v=>v[0]===r&&v[1]===c);cells+='<span class="piece-cell '+(on?'on color-'+(gameColors.indexOf(p.color)+1):'')+'" data-r="'+r+'" data-c="'+c+'"></span>'}return '<button type="button" class="game-piece '+(i===gameSelected?'selected':'')+'" data-piece="'+i+'" aria-label="Stein '+(i+1)+'">'+cells+'</button>'}).join("");
  $("gamePieces").querySelectorAll(".game-piece[data-piece]").forEach(el=>{
-  const index=Number(el.dataset.piece);
-  el.onclick=()=>{if(gameDrag)return;gameSelected=index;gameRender()};
-  el.onpointerdown=e=>{if(gameEnded||!gamePieces[index])return;e.preventDefault();const mini=e.target.closest(".piece-cell");if(!mini||!mini.classList.contains("on"))return;gameSelected=index;gameDrag={piece:gamePieces[index],index,offsetR:Number(mini.dataset.r),offsetC:Number(mini.dataset.c),row:null,col:null,valid:false,element:el};el.classList.add("dragging");makeGameDragGhost();moveGameDrag(e)};
+  const i=Number(el.dataset.piece);
+  el.addEventListener("click",()=>{if(gameDrag||gameEnded)return;gameSelected=i;gameRenderPieces();gameSay("Stein "+(i+1)+" ausgewählt. Tippe auf ein freies Feld.")});
+  el.addEventListener("pointerdown",e=>{if(gameEnded||!gamePieces[i])return;const cell=e.target.closest(".piece-cell.on");if(!cell)return;e.preventDefault();gameSelected=i;gameDrag={index:i,piece:gamePieces[i],offsetR:Number(cell.dataset.r),offsetC:Number(cell.dataset.c),row:null,col:null,valid:false,source:el,startX:e.clientX,startY:e.clientY,moved:false};el.classList.add("dragging");gameMakeGhost();gameMoveDrag(e);});
  });
 }
-function makeGameDragGhost(){const p=gameDrag?.piece;if(!p)return;const maxR=Math.max(...p.shape.map(v=>v[0])),maxC=Math.max(...p.shape.map(v=>v[1]));const ghost=document.createElement("div");ghost.className="game-drag-ghost";ghost.style.gridTemplateColumns="repeat("+(maxC+1)+",auto)";ghost.style.gridTemplateRows="repeat("+(maxR+1)+",auto)";for(let r=0;r<=maxR;r++)for(let c=0;c<=maxC;c++){const s=document.createElement("span");if(p.shape.some(v=>v[0]===r&&v[1]===c))s.className="color-"+(gameColors.indexOf(p.color)+1);s.style.visibility=p.shape.some(v=>v[0]===r&&v[1]===c)?"visible":"hidden";ghost.appendChild(s)}document.body.appendChild(ghost);gameDrag.ghost=ghost}
-function moveGameDrag(e){if(!gameDrag)return;if(gameDrag.ghost){gameDrag.ghost.style.left=e.clientX+"px";gameDrag.ghost.style.top=e.clientY+"px"}const cell=cellAtPoint(e.clientX,e.clientY);if(!cell){gameDrag.row=null;gameDrag.col=null;gameDrag.valid=false;clearGamePreview();return}gameDrag.col=cell.c-gameDrag.offsetC;gameDrag.row=cell.r-gameDrag.offsetR;previewGamePiece()}
-window.addEventListener("pointermove",e=>{if(gameDrag)moveGameDrag(e)});
-window.addEventListener("pointerup",e=>{if(!gameDrag)return;const d=gameDrag;const target=cellAtPoint(e.clientX,e.clientY);gameDrag=null;clearGamePreview();d.element.classList.remove("dragging");if(d.ghost)d.ghost.remove();if(target){const r=target.r-d.offsetR,c=target.c-d.offsetC;if(canPlace(d.piece.shape,r,c))gamePlace(r,c,d.index);else{gameSound("invalid");say("gameMessage","Dort passt der Stein leider nicht hin.")}}});
-window.addEventListener("pointercancel",()=>{if(gameDrag){gameDrag.element.classList.remove("dragging");if(gameDrag.ghost)gameDrag.ghost.remove();gameDrag=null;clearGamePreview()}});
-async function gamePlace(r,c,selected=gameSelected){
- if(gameEnded||selected<0||!gamePieces[selected])return;
- const piece=gamePieces[selected];if(!canPlace(piece.shape,r,c)){gameSound("invalid");say("gameMessage","Dort passt der Stein leider nicht hin.");return}
- piece.shape.forEach(([y,x])=>gameGrid[r+y][c+x]=piece.color);gameSound("place");gamePieces[selected]=null;gameSelected=-1;
- const rows=[];const cols=[];for(let y=0;y<10;y++)if(gameGrid[y].every(Boolean))rows.push(y);for(let x=0;x<10;x++)if(gameGrid.every(row=>row[x]))cols.push(x);
- rows.forEach(y=>gameGrid[y].fill(null));cols.forEach(x=>gameGrid.forEach(row=>row[x]=null));
- const cleared=rows.length+cols.length;
- if(cleared){gameCombo++;gameSound("clear");gameScore+=cleared*100*gameCombo;say("gameMessage",cleared+" Reihe(n)/Spalte(n) gelöscht · Combo x"+gameCombo+" · +"+(cleared*100*gameCombo)+" Punkte!")}else{gameCombo=0;say("gameMessage","Gut platziert! Weiter geht's.")}
- if(gamePieces.every(p=>!p))makeGamePieces();
- if(gameScore>gameBest){gameBest=gameScore;localStorage.setItem("blastBest",String(gameBest));localStorage.setItem("schoolBlockBest",String(gameBest))}
- gameRender();if(!anyMove()){gameEnded=true;gameSound("over");gameRender();say("gameMessage","GAME OVER – Dein Punktestand: "+gameScore);if(!gameAwarded&&gameScore>0){gameAwarded=true;try{await api("game_score",{score:gameScore});say("gameMessage","Game Over – "+gameScore+" Punkte wurden deiner Gruppenrangliste gutgeschrieben.");await load();gameRender()}catch(e){say("gameMessage","Game Over – "+gameScore+" Punkte. Gruppenpunkte konnten nicht gespeichert werden: "+e.message)}}}
+function gameRender(){
+ $("gameScore").textContent=gameScore;$("gameBest").textContent=gameBest;$("gameStreak").textContent="×"+Math.max(1,gameStreak);gameRenderBoard();gameRenderPieces();
 }
+function gameMakeGhost(){
+ const p=gameDrag.piece,h=Math.max(...p.shape.map(v=>v[0]))+1,w=Math.max(...p.shape.map(v=>v[1]))+1,g=document.createElement("div");
+ g.className="game-drag-ghost";g.style.gridTemplateColumns="repeat("+w+",auto)";g.style.gridTemplateRows="repeat("+h+",auto)";
+ for(let r=0;r<h;r++)for(let c=0;c<w;c++){const on=p.shape.some(v=>v[0]===r&&v[1]===c),cell=document.createElement("span");if(on)cell.className="color-"+(gameColors.indexOf(p.color)+1);cell.style.visibility=on?"visible":"hidden";g.appendChild(cell)}
+ document.body.appendChild(g);gameDrag.ghost=g;
+}
+function gameCellAt(x,y){const el=document.elementFromPoint(x,y)?.closest("#gameBoard .game-cell");return el?{r:Number(el.dataset.r),c:Number(el.dataset.c)}:null}
+function gameMoveDrag(e){
+ if(!gameDrag)return;const d=gameDrag;d.moved ||= Math.hypot(e.clientX-d.startX,e.clientY-d.startY)>5;
+ if(d.ghost){d.ghost.style.left=e.clientX+"px";d.ghost.style.top=(e.clientY-54)+"px"}
+ const hit=gameCellAt(e.clientX,e.clientY-54);if(!hit){d.row=null;d.col=null;d.valid=false;gameClearPreview();return}
+ d.row=hit.r-d.offsetR;d.col=hit.c-d.offsetC;d.valid=gameCanPlace(d.piece.shape,d.row,d.col);gameClearPreview();
+ d.piece.shape.forEach(([y,x])=>{const el=$("gameBoard").querySelector('[data-r="'+(d.row+y)+'"][data-c="'+(d.col+x)+'"]');if(el){el.classList.add("preview");if(!d.valid)el.classList.add("invalid")}});
+}
+function gameClearLines(){
+ const rows=[],cols=[];for(let i=0;i<GAME_N;i++){if(gameGrid[i].every(Boolean))rows.push(i);if(gameGrid.every(row=>row[i]))cols.push(i)}
+ const cells=[];for(let r=0;r<GAME_N;r++)for(let c=0;c<GAME_N;c++)if(rows.includes(r)||cols.includes(c)){if(gameGrid[r][c])cells.push({r,c,color:gameGrid[r][c]});gameGrid[r][c]=null}
+ return {count:rows.length+cols.length,cells};
+}
+function gameFinish(){
+ if(gameEnded)return;gameEnded=true;gameAwarded=true;gamePlaySound("over");gameSay("Spiel vorbei · "+gameScore+" Punkte");
+ $("gameOverlayTitle").textContent="Spiel beendet";$("gameOverlayText").textContent="Du hast "+gameScore+" Punkte erreicht. Dein Bestwert: "+gameBest+"."; $("gameOverlayPrimary").textContent="Noch einmal spielen";$("gameOverlay").classList.remove("hidden");
+ if(gameScore>0){api("game_score",{score:gameScore}).then(()=>{gameSay("Dein Ergebnis ("+gameScore+" Punkte) wurde in der Gruppenrangliste gespeichert.");load().catch(()=>{})}).catch(e=>gameSay("Spiel vorbei · "+gameScore+" Punkte. Gruppenpunkte konnten nicht gespeichert werden: "+e.message))}
+}
+function gamePlace(r,c,index){
+ if(gameEnded||index<0||!gamePieces[index])return false;const p=gamePieces[index];if(!gameCanPlace(p.shape,r,c)){gamePlaySound("wrong");gameSay("Hier passt der Stein nicht hin.");return false}
+ p.shape.forEach(([y,x])=>gameGrid[r+y][c+x]=p.color);gamePieces[index]=null;gameSelected=-1;gamePlaySound("place");
+ const blocks=p.shape.length,cleared=gameClearLines(),lines=cleared.count;
+ let earned=blocks;
+ if(lines){gameStreak++;gameMisses=0;const multi=gameBonus[lines]??(150+(lines-6)*50);const multiplier=gameStreak;earned+=(lines*10+multi)*multiplier;gameSay(lines+" Linie(n) gelöscht · Combo ×"+multiplier+" · +"+earned+" Punkte!");gamePlaySound("clear");cleared.cells.forEach(cell=>{for(let k=0;k<5;k++)gameParticles.push({x:cell.c,y:cell.r,vx:(Math.random()-.5)*.18,vy:(Math.random()-.5)*.18,life:1,color:cell.color})})}
+ else{gameMisses++;if(gameMisses>=3){gameStreak=0;gameMisses=0;gameSay("Serie zurückgesetzt. Drei Züge ohne Treffer.");}else gameSay("+"+blocks+" Punkte für den Stein. Noch "+(3-gameMisses)+" Zug/Züge bis zum Serien-Reset.");}
+ gameScore+=earned;if(gameScore>gameBest){gameBest=gameScore;localStorage.setItem("blockBlastBestScore",String(gameBest))}
+ if(gamePieces.every(x=>!x))gameNewHand();gameRender();
+ if(!gameHasMove())gameFinish();return true;
+}
+function gameReset(){
+ gameGrid=Array.from({length:GAME_N},()=>Array(GAME_N).fill(null));gameScore=0;gameStreak=0;gameMisses=0;gameEnded=false;gameAwarded=false;gameDrag?.ghost?.remove();gameDrag=null;gameParticles=[];$("gameOverlay").classList.add("hidden");$("gameSettingsOverlay").classList.add("hidden");gameNewHand();gameRender();gamePlaySound("new");gameSay("Neues Spiel! Platziere deine drei Steine.");
+}
+function gameDrop(){
+ if(!gameDrag)return;const d=gameDrag;gameDrag=null;gameClearPreview();d.source.classList.remove("dragging");d.ghost?.remove();if(d.row!==null&&d.valid){gamePlace(d.row,d.col,d.index)}else if(d.moved){gamePlaySound("wrong");gameSay("Der Stein muss vollständig auf freie Felder passen.")}else{gameSelected=d.index;gameRenderPieces()}
+}
+window.addEventListener("pointermove",e=>{if(gameDrag)gameMoveDrag(e)},{passive:false});
+window.addEventListener("pointerup",()=>{if(gameDrag)gameDrop()});
+window.addEventListener("pointercancel",()=>{if(gameDrag){gameDrag.ghost?.remove();gameDrag=null;gameClearPreview()}});
+$("gameBoard").addEventListener("click",e=>{const cell=e.target.closest(".game-cell");if(!cell||gameSelected<0||gameEnded||gameDrag)return;gamePlace(Number(cell.dataset.r),Number(cell.dataset.c),gameSelected)});
+$("gameNew").onclick=()=>{gameReset()};
+$("gameSettings").onclick=()=>$("gameSettingsOverlay").classList.remove("hidden");
+$("gameSettingsClose").onclick=()=>$("gameSettingsOverlay").classList.add("hidden");
+$("gameOverlayClose").onclick=()=>$("gameOverlay").classList.add("hidden");
+$("gameOverlayPrimary").onclick=gameReset;
+$("gameSettingsRestart").onclick=gameReset;
+$("gameSoundToggle").onclick=()=>{gameSoundOn=!gameSoundOn;localStorage.setItem("schoolblogSound",gameSoundOn?"on":"off");$("gameSoundToggle").textContent=gameSoundOn?"Ein":"Aus";if(gameSoundOn)gamePlaySound("click")};
+$("gameResetBest").onclick=()=>{if(confirm("Bestwert wirklich zurücksetzen?")){gameBest=0;localStorage.removeItem("blockBlastBestScore");$("gameBest").textContent="0";gameSay("Bestwert wurde zurückgesetzt.")}};
+$("gameSoundToggle").textContent=gameSoundOn?"Ein":"Aus";
+gameReset();
+
 $("siteSearch").addEventListener("input",()=>{const q=$("siteSearch").value.trim().toLowerCase();const list=visibleMembers.filter(m=>(m.display_name||"").toLowerCase().includes(q)||(m.class_name||"").toLowerCase().includes(q));$("members").innerHTML=list.map(m=>'<div class="member"><div class="avatar">'+esc((m.display_name||"?").slice(0,1).toUpperCase())+'</div><div class="member-info"><strong>'+esc(m.display_name||"Mitglied")+'</strong><small>'+esc(m.class_name||"Klasse offen")+'</small></div><span class="points">'+m.points+' Pkt.</span></div>').join("")||'<div class="empty">Keine Spieler gefunden.</div>';});
 $("gameNew").onclick=newGame;
 window.adminAction=adminAction;window.deletePost=async id=>{if(confirm("Diesen Beitrag löschen?")){try{await api("admin_delete_post",{postId:id});await load()}catch(e){say("adminStatus",e.message)}}};
