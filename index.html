@@ -572,7 +572,26 @@ function gameRenderPieces(){
  $("gamePieces").querySelectorAll(".game-piece[data-piece]").forEach(el=>{
   const i=Number(el.dataset.piece);
   el.addEventListener("click",()=>{if(gameSuppressPieceClick){gameSuppressPieceClick=false;return}if(gameDrag||gameEnded)return;gameSelected=i;gameRenderPieces();gameSay("Stein "+(i+1)+" ausgewählt. Tippe auf ein freies Feld.")});
-  el.addEventListener("pointerdown",e=>{if(gameEnded||!gamePieces[i])return;const cell=e.target.closest(".piece-cell.on");if(!cell)return;e.preventDefault();try{el.setPointerCapture(e.pointerId)}catch(_){}gameSelected=i;gameDrag={index:i,piece:gamePieces[i],offsetR:Number(cell.dataset.r),offsetC:Number(cell.dataset.c),row:null,col:null,valid:false,source:el,startX:e.clientX,startY:e.clientY,pointerId:e.pointerId,pointerType:e.pointerType||"mouse",moved:false};gameClearPreview();el.classList.add("dragging");gameMakeGhost();gameMoveDrag(e);});
+  el.addEventListener("pointerdown",e=>{
+   if(gameEnded||!gamePieces[i]||(e.pointerType==="mouse"&&e.button!==0))return;
+   e.preventDefault();
+   /* Auch auf freie Fläche/Padding des Steins reagieren: den nächstgelegenen belegten Block greifen. */
+   const cells=[...el.querySelectorAll(".piece-cell.on")];
+   if(!cells.length)return;
+   let cell=e.target.closest(".piece-cell.on");
+   if(!cell){
+    let best=Infinity;
+    for(const candidate of cells){
+     const rect=candidate.getBoundingClientRect();
+     const dx=e.clientX-(rect.left+rect.width/2),dy=e.clientY-(rect.top+rect.height/2);
+     const distance=dx*dx+dy*dy;
+     if(distance<best){best=distance;cell=candidate}
+    }
+   }
+   gameSelected=i;
+   gameDrag={index:i,piece:gamePieces[i],offsetR:Number(cell.dataset.r),offsetC:Number(cell.dataset.c),row:null,col:null,valid:false,source:el,startX:e.clientX,startY:e.clientY,pointerId:e.pointerId,pointerType:e.pointerType||"mouse",moved:false};
+   gameClearPreview();el.classList.add("dragging");gameMakeGhost();gameMoveDrag(e);
+  });
  });
 }
 function gameRender(){
