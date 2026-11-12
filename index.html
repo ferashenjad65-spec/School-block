@@ -232,7 +232,7 @@ const gameShapes=[
 ];
 let gameGrid=Array.from({length:8},()=>Array(8).fill(0)),gameScore=0,gamePieces=[],gamePieceColors=[1,2,3],gameSelected=-1,gameEnded=false,gameAwarded=false,dragPiece=-1,dragCell=null,dragMoved=false;
 let gameBest=Number(localStorage.getItem("schoolBlockBest")||0);
-function newGame(){gameGrid=Array.from({length:8},()=>Array(8).fill(0));gameScore=0;gamePieces=[0,1,2].map(()=>gameShapes[Math.floor(Math.random()*gameShapes.length)]);gamePieceColors=[1,2,3].sort(()=>Math.random()-.5);gameSelected=-1;gameEnded=false;gameAwarded=false;dragPiece=-1;dragCell=null;gameRender();say("gameMessage","Ziehe einen Stein mit dem Finger oder der Maus auf das Spielfeld.")}
+function newGame(){gameGrid=Array.from({length:8},()=>Array(8).fill(0));gameScore=0;gamePieces=[0,1,2].map(()=>gameShapes[Math.floor(Math.random()*gameShapes.length)]);gamePieceColors=[1,2,3];gameSelected=-1;gameEnded=false;gameAwarded=false;dragPiece=-1;dragCell=null;gameRender();say("gameMessage","Ziehe einen Stein mit dem Finger oder der Maus auf das Spielfeld.")}
 function canPlace(shape,r,c){for(let y=0;y<shape.length;y++)for(let x=0;x<shape[y].length;x++)if(shape[y][x]&&(r+y>=8||c+x>=8||gameGrid[r+y][c+x]))return false;return true}
 function anyMove(){return gamePieces.some(s=>s&&gameGrid.some((row,r)=>row.some((v,c)=>canPlace(s,r,c))))}
 function cellAtPoint(x,y){const el=document.elementFromPoint(x,y)?.closest(".game-cell");return el?{r:Number(el.dataset.r),c:Number(el.dataset.c)}:null}
