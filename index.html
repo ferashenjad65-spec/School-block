@@ -115,6 +115,17 @@ main{max-width:1700px;margin:14px auto;padding:0 clamp(10px,1.8vw,26px)}.hero{di
 #app .game-best{background:linear-gradient(145deg,#ffe48a,#f5ad2d);border:1px solid #ffe9a5;color:#85510b;box-shadow:inset 0 2px #fff9,0 4px 0 #bf7817}#app .game-best strong{color:#754006}
 #app .game-meta{display:flex;align-items:center;gap:12px;margin:16px 0}
 .score-crown{position:relative;overflow:visible;display:flex;align-items:center;gap:8px;padding:7px 13px;border-radius:14px;background:linear-gradient(145deg,#ffe58d,#f7b632);box-shadow:inset 0 2px #fff9,0 4px 0 #bd781b;color:#87520b}.score-crown span{font-size:10px;font-weight:900;letter-spacing:.6px}.score-crown b{font-size:22px;color:#704006}.score-crown b.score-pop{animation:scorePop .42s cubic-bezier(.2,.8,.2,1)}.score-float{position:absolute;right:4px;top:-20px;z-index:5;pointer-events:none;color:#087b36;font-size:20px;font-weight:1000;text-shadow:0 2px #fff,0 0 8px #fff;animation:scoreFloat .9s ease-out forwards}@keyframes scorePop{0%{transform:scale(1)}35%{transform:scale(1.55);color:#138a43;text-shadow:0 0 14px #7dffad}100%{transform:scale(1)}}@keyframes scoreFloat{0%{opacity:0;transform:translateY(10px) scale(.7)}18%{opacity:1;transform:translateY(0) scale(1.15)}100%{opacity:0;transform:translateY(-34px) scale(1)}}
+
+/* Block-Blast-Effekte: reine Optik, Spielregeln bleiben unverändert */
+#app .game-cell.placed{animation:blockPlace .24s cubic-bezier(.2,.85,.25,1) both}
+@keyframes blockPlace{0%{transform:scale(.55);filter:brightness(1.8)}65%{transform:scale(1.12);filter:brightness(1.35)}100%{transform:scale(1);filter:brightness(1)}}
+#app .game-piece.slide-in{animation:pieceSlideIn .38s cubic-bezier(.2,.8,.25,1) both}
+@keyframes pieceSlideIn{0%{opacity:0;transform:translateY(24px) scale(.88)}100%{opacity:1;transform:translateY(0) scale(1)}}
+#app .game-board.screen-shake{animation:boardShake .34s ease-out}
+@keyframes boardShake{0%,100%{transform:translateX(0)}18%{transform:translateX(-4px)}36%{transform:translateX(4px)}54%{transform:translateX(-3px)}72%{transform:translateX(2px)}}
+.game-particle-layer{position:fixed;inset:0;z-index:9999;pointer-events:none;overflow:hidden}
+.game-spark{position:absolute;width:7px;height:7px;border-radius:2px;box-shadow:0 0 9px currentColor;animation:sparkBurst .58s cubic-bezier(.12,.65,.25,1) forwards}
+@keyframes sparkBurst{0%{opacity:1;transform:translate(0,0) rotate(0) scale(1.15)}100%{opacity:0;transform:translate(var(--dx),var(--dy)) rotate(var(--spin)) scale(.1)}}
 .record-score{font-size:12px;color:#54749b;font-weight:800}.record-score b{color:#194d88}#gameNew{margin-left:auto;background:linear-gradient(145deg,#fff,#e3f0ff);color:#2365ad;box-shadow:0 3px 0 #a9c9ec}
 #app .game-board{width:min(100%,min(75vh,790px));padding:clamp(7px,1vw,12px);gap:clamp(4px,.65vw,8px);border-radius:20px;background:linear-gradient(145deg,#0a3974,#0e4f98);border:2px solid #79baff;box-shadow:inset 0 5px 14px #001f4b99,0 6px 0 #084486}
 #app .game-cell{background:linear-gradient(145deg,#123f78,#0c3266);border:1px solid #22528a;border-radius:6px;box-shadow:inset 0 2px 3px #001b4266}
@@ -588,6 +599,7 @@ function gameRenderBoard(){
 }
 function gameRenderPieces(){
  $("gamePieces").innerHTML=gamePieces.map((p,i)=>{if(!p)return '<span class="game-piece used" aria-hidden="true"></span>';const h=Math.max(...p.shape.map(v=>v[0]))+1,w=Math.max(...p.shape.map(v=>v[1]))+1;let cells="";for(let r=0;r<5;r++)for(let c=0;c<5;c++){const on=p.shape.some(v=>v[0]===r&&v[1]===c);cells+='<span class="piece-cell '+(on?'on color-'+(gameColors.indexOf(p.color)+1):'')+'" data-r="'+r+'" data-c="'+c+'"></span>'}return '<button type="button" class="game-piece '+(i===gameSelected?'selected':'')+'" data-piece="'+i+'" aria-label="Stein '+(i+1)+'">'+cells+'</button>'}).join("");
+ requestAnimationFrame(()=>{$("gamePieces").querySelectorAll(".game-piece:not(.used)").forEach(el=>{el.classList.remove("slide-in");void el.offsetWidth;el.classList.add("slide-in")})});
  $("gamePieces").querySelectorAll(".game-piece[data-piece]").forEach(el=>{
   const i=Number(el.dataset.piece);
   el.addEventListener("click",()=>{if(gameSuppressPieceClick){gameSuppressPieceClick=false;return}if(gameDrag||gameEnded)return;gameSelected=i;gameRenderPieces();gameSay("Stein "+(i+1)+" ausgewählt. Tippe auf ein freies Feld.")});
@@ -647,6 +659,20 @@ function gameClearLines(){
  const cells=[];for(let r=0;r<GAME_N;r++)for(let c=0;c<GAME_N;c++)if(rows.includes(r)||cols.includes(c)){if(gameGrid[r][c])cells.push({r,c,color:gameGrid[r][c]});gameGrid[r][c]=null}
  return {count:rows.length+cols.length,cells};
 }
+function gameBlast(cells){
+ if(!cells||!cells.length)return;
+ const board=$("gameBoard"),layer=document.createElement("div");layer.className="game-particle-layer";document.body.appendChild(layer);
+ const hues=["#ffb64f","#54d8ff","#ff68b7","#a78bfa","#7dffad","#ffe66d","#ff795e"];
+ cells.forEach(({r,c,color})=>{
+  const cell=board.querySelector('[data-r="'+r+'"][data-c="'+c+'"]');if(!cell)return;
+  const rect=cell.getBoundingClientRect(),hue=hues[Math.max(0,gameColors.indexOf(color))%hues.length];
+  for(let n=0;n<5;n++){const spark=document.createElement("i");spark.className="game-spark";spark.style.color=hue;spark.style.background=hue;spark.style.left=(rect.left+rect.width/2-3)+"px";spark.style.top=(rect.top+rect.height/2-3)+"px";const angle=Math.PI*2*n/5+(Math.random()-.5)*.5,dist=18+Math.random()*34;spark.style.setProperty("--dx",Math.cos(angle)*dist+"px");spark.style.setProperty("--dy",Math.sin(angle)*dist+"px");spark.style.setProperty("--spin",(Math.random()*300-150)+"deg");layer.appendChild(spark)}
+ });
+ setTimeout(()=>layer.remove(),750);
+}
+function gamePlacePop(shape,r,c){
+ shape.forEach(([y,x])=>{const el=$("gameBoard").querySelector('[data-r="'+(r+y)+'"][data-c="'+(c+x)+'"]');if(el&&el.classList.contains("filled")){el.classList.remove("placed");void el.offsetWidth;el.classList.add("placed")}});
+}
 function gameFinish(){
  if(gameEnded)return;gameEnded=true;gameAwarded=true;gamePlaySound("over");gameSay("Spiel vorbei · "+gameScore+" Punkte");
  $("gameOverlayTitle").textContent="Spiel beendet";$("gameOverlayText").textContent="Du hast "+gameScore+" Punkte erreicht. Dein Bestwert: "+gameBest+"."; $("gameOverlayPrimary").textContent="Noch einmal spielen";$("gameOverlay").classList.remove("hidden");
@@ -661,7 +687,8 @@ function gamePlace(r,c,index){
  if(lines){gameStreak++;gameMisses=0;const multi=gameBonus[lines]??(150+(lines-6)*50);const multiplier=gameStreak;earned+=(lines*10+multi)*multiplier;gameSay(lines+" Linie(n) gelöscht · Combo ×"+multiplier+" · +"+earned+" Punkte!");gamePlaySound("clear");$("gameMessage").classList.remove("blast");void $("gameMessage").offsetWidth;$("gameMessage").classList.add("blast")}
  else{gameMisses++;if(gameMisses>=3){gameStreak=0;gameMisses=0;gameSay("Serie zurückgesetzt. Drei Züge ohne Treffer.");}else gameSay("+"+blocks+" Punkte für den Stein. Noch "+(3-gameMisses)+" Zug/Züge bis zum Serien-Reset.");}
  gameScore+=earned;gameScorePop(earned);if(gameScore>gameBest){gameBest=gameScore;localStorage.setItem("blockBlastBestScore",String(gameBest))}
- if(gamePieces.every(x=>!x))gameNewHand();gameRender();
+ if(gamePieces.every(x=>!x))gameNewHand();gameRender();gamePlacePop(p.shape,r,c);
+ if(lines){gameBlast(cleared.cells);if(lines>=2){const board=$("gameBoard");board.classList.remove("screen-shake");void board.offsetWidth;board.classList.add("screen-shake");board.addEventListener("animationend",()=>board.classList.remove("screen-shake"),{once:true})}}
  if(!gameHasMove())gameFinish();return true;
 }
 function gameReset(){
