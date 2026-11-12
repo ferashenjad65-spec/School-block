@@ -365,6 +365,13 @@ hr{border-color:#315d91!important}
 #app .game-message.blast{animation:gameMessageBlast .42s ease-out}
 @keyframes gameTilePop{0%{transform:scale(.82);filter:brightness(1.6)}100%{transform:scale(1);filter:brightness(1)}}
 @keyframes gameMessageBlast{0%{transform:scale(.92);color:#fff;background:#347fcb;border-radius:12px}100%{transform:scale(1);color:#456c98;background:transparent}}
+#app .game-cell.color-1,.game-piece .piece-cell.color-1{background:linear-gradient(145deg,#8df4ff,#21b7df 52%,#0879ad)}
+#app .game-cell.color-2,.game-piece .piece-cell.color-2{background:linear-gradient(145deg,#9dbdff,#477ce9 52%,#2347b8)}
+#app .game-cell.color-3,.game-piece .piece-cell.color-3{background:linear-gradient(145deg,#b7ff91,#58d968 52%,#168b3b)}
+#app .game-cell.color-4,.game-piece .piece-cell.color-4{background:linear-gradient(145deg,#fff49b,#ffc928 52%,#db850c)}
+#app .game-cell.color-5,.game-piece .piece-cell.color-5{background:linear-gradient(145deg,#ff9da9,#ed4563 52%,#b71e45)}
+#app .game-cell.color-6,.game-piece .piece-cell.color-6{background:linear-gradient(145deg,#e0b5ff,#a75be9 52%,#6829b7)}
+#app .game-cell.color-7,.game-piece .piece-cell.color-7{background:linear-gradient(145deg,#ffb9eb,#ed69c6 52%,#b42d91)}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -477,7 +484,7 @@ const gameShapes=[
  [[0,0],[0,1],[1,1],[1,2]],[[0,1],[0,2],[1,0],[1,1]],
  [[0,0],[0,1],[0,2],[1,0],[1,1],[1,2]],[[0,0],[0,1],[1,0],[1,1],[2,0],[2,1]]
 ];
-const gameColors=["orange","purple","green","cyan","pink"];
+const gameColors=["cyan","blue","green","yellow","red","purple","pink"];
 const GAME_N=8;
 let gameGrid=Array.from({length:GAME_N},()=>Array(GAME_N).fill(null));
 let gameScore=0,gameStreak=0,gameMisses=0,gamePieces=[],gameSelected=-1,gameEnded=false,gameAwarded=false,gameDrag=null,gameSoundOn=localStorage.getItem("schoolblogSound")!=="off",gameAudio=null;
