@@ -114,7 +114,7 @@ main{max-width:1700px;margin:14px auto;padding:0 clamp(10px,1.8vw,26px)}.hero{di
 #app .game-head h2{font-size:clamp(25px,3vw,38px);color:#153f79;text-shadow:0 1px #fff;margin:4px 0}#app .game-head .eyebrow{color:#2877cf}#app .game-head p{color:#5e7fa5}
 #app .game-best{background:linear-gradient(145deg,#ffe48a,#f5ad2d);border:1px solid #ffe9a5;color:#85510b;box-shadow:inset 0 2px #fff9,0 4px 0 #bf7817}#app .game-best strong{color:#754006}
 #app .game-meta{display:flex;align-items:center;gap:12px;margin:16px 0}
-.score-crown{display:flex;align-items:center;gap:8px;padding:7px 13px;border-radius:14px;background:linear-gradient(145deg,#ffe58d,#f7b632);box-shadow:inset 0 2px #fff9,0 4px 0 #bd781b;color:#87520b}.score-crown span{font-size:10px;font-weight:900;letter-spacing:.6px}.score-crown b{font-size:22px;color:#704006}
+.score-crown{position:relative;overflow:visible;display:flex;align-items:center;gap:8px;padding:7px 13px;border-radius:14px;background:linear-gradient(145deg,#ffe58d,#f7b632);box-shadow:inset 0 2px #fff9,0 4px 0 #bd781b;color:#87520b}.score-crown span{font-size:10px;font-weight:900;letter-spacing:.6px}.score-crown b{font-size:22px;color:#704006}.score-crown b.score-pop{animation:scorePop .42s cubic-bezier(.2,.8,.2,1)}.score-float{position:absolute;right:4px;top:-20px;z-index:5;pointer-events:none;color:#087b36;font-size:20px;font-weight:1000;text-shadow:0 2px #fff,0 0 8px #fff;animation:scoreFloat .9s ease-out forwards}@keyframes scorePop{0%{transform:scale(1)}35%{transform:scale(1.55);color:#138a43;text-shadow:0 0 14px #7dffad}100%{transform:scale(1)}}@keyframes scoreFloat{0%{opacity:0;transform:translateY(10px) scale(.7)}18%{opacity:1;transform:translateY(0) scale(1.15)}100%{opacity:0;transform:translateY(-34px) scale(1)}}
 .record-score{font-size:12px;color:#54749b;font-weight:800}.record-score b{color:#194d88}#gameNew{margin-left:auto;background:linear-gradient(145deg,#fff,#e3f0ff);color:#2365ad;box-shadow:0 3px 0 #a9c9ec}
 #app .game-board{width:min(100%,min(75vh,790px));padding:clamp(7px,1vw,12px);gap:clamp(4px,.65vw,8px);border-radius:20px;background:linear-gradient(145deg,#0a3974,#0e4f98);border:2px solid #79baff;box-shadow:inset 0 5px 14px #001f4b99,0 6px 0 #084486}
 #app .game-cell{background:linear-gradient(145deg,#123f78,#0c3266);border:1px solid #22528a;border-radius:6px;box-shadow:inset 0 2px 3px #001b4266}
@@ -567,7 +567,7 @@ function gamePlaySound(kind){
     o.type="sawtooth";filter.type="lowpass";filter.frequency.setValueAtTime(1250,start);
     o.frequency.setValueAtTime(i?430:560,start);o.frequency.exponentialRampToValueAtTime(i?230:285,start+.105);
     o.frequency.exponentialRampToValueAtTime(i?350:420,start+.15);
-    g.gain.setValueAtTime(.0001,start);g.gain.exponentialRampToValueAtTime(.12,start+.018);
+    g.gain.setValueAtTime(.0001,start);g.gain.exponentialRampToValueAtTime(.28,start+.018);
     g.gain.exponentialRampToValueAtTime(.0001,start+.16);
     o.connect(filter);filter.connect(g);g.connect(gameAudio.destination);o.start(start);o.stop(start+.17);
    });
@@ -652,6 +652,7 @@ function gameFinish(){
  $("gameOverlayTitle").textContent="Spiel beendet";$("gameOverlayText").textContent="Du hast "+gameScore+" Punkte erreicht. Dein Bestwert: "+gameBest+"."; $("gameOverlayPrimary").textContent="Noch einmal spielen";$("gameOverlay").classList.remove("hidden");
  if(gameScore>0){api("game_score",{score:gameScore}).then(()=>{gameSay("Dein Ergebnis ("+gameScore+" Punkte) wurde in der Gruppenrangliste gespeichert.");load().catch(()=>{})}).catch(e=>gameSay("Spiel vorbei · "+gameScore+" Punkte. Gruppenpunkte konnten nicht gespeichert werden: "+e.message))}
 }
+function gameScorePop(points){const score=$("gameScore"),host=document.querySelector(".score-crown");if(!score||!host)return;score.classList.remove("score-pop");void score.offsetWidth;score.classList.add("score-pop");const floater=document.createElement("span");floater.className="score-float";floater.textContent="+"+points;host.appendChild(floater);floater.addEventListener("animationend",()=>floater.remove(),{once:true});}
 function gamePlace(r,c,index){
  if(gameEnded||index<0||!gamePieces[index])return false;const p=gamePieces[index];if(!gameCanPlace(p.shape,r,c)){gamePlaySound("wrong");gameSay("Hier passt der Stein nicht hin.");return false}
  p.shape.forEach(([y,x])=>gameGrid[r+y][c+x]=p.color);gamePieces[index]=null;gameSelected=-1;gamePlaySound("duck");
@@ -659,7 +660,7 @@ function gamePlace(r,c,index){
  let earned=blocks;
  if(lines){gameStreak++;gameMisses=0;const multi=gameBonus[lines]??(150+(lines-6)*50);const multiplier=gameStreak;earned+=(lines*10+multi)*multiplier;gameSay(lines+" Linie(n) gelöscht · Combo ×"+multiplier+" · +"+earned+" Punkte!");gamePlaySound("clear");$("gameMessage").classList.remove("blast");void $("gameMessage").offsetWidth;$("gameMessage").classList.add("blast")}
  else{gameMisses++;if(gameMisses>=3){gameStreak=0;gameMisses=0;gameSay("Serie zurückgesetzt. Drei Züge ohne Treffer.");}else gameSay("+"+blocks+" Punkte für den Stein. Noch "+(3-gameMisses)+" Zug/Züge bis zum Serien-Reset.");}
- gameScore+=earned;if(gameScore>gameBest){gameBest=gameScore;localStorage.setItem("blockBlastBestScore",String(gameBest))}
+ gameScore+=earned;gameScorePop(earned);if(gameScore>gameBest){gameBest=gameScore;localStorage.setItem("blockBlastBestScore",String(gameBest))}
  if(gamePieces.every(x=>!x))gameNewHand();gameRender();
  if(!gameHasMove())gameFinish();return true;
 }
