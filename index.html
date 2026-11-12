@@ -29,7 +29,7 @@ main{color:#e8eefc}.hero p,.muted{color:#a2b0c8}.eyebrow{color:#9bb0ff}
 .game-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.game-head h2{font-size:24px;margin:5px 0}.game-head p{margin:0;line-height:1.5}
 .game-best{background:#203252;border:1px solid #3a5077;border-radius:14px;padding:10px 14px;text-align:center;color:#aebddd;font-size:12px;white-space:nowrap}.game-best strong{font-size:23px;color:#fff}
 .game-meta{display:flex;align-items:center;gap:16px;margin:18px 0 12px;color:#b7c5df;font-size:13px}.game-meta b{color:#fff;font-size:17px;margin-left:4px}.game-meta button{margin-left:auto}
-.game-board{width:min(100%,430px);aspect-ratio:1;margin:0 auto;padding:7px;display:grid;grid-template-columns:repeat(8,1fr);gap:5px;background:#080f1c;border:1px solid #344766;border-radius:15px;touch-action:manipulation}
+.game-board{width:min(100%,430px);aspect-ratio:1;margin:0 auto;padding:7px;display:grid;grid-template-columns:repeat(10,1fr);gap:5px;background:#080f1c;border:1px solid #344766;border-radius:15px;touch-action:manipulation}
 .game-cell{border-radius:5px;background:#1b2a42;border:1px solid #253a59;min-width:0;aspect-ratio:1;cursor:pointer}
 .game-cell.filled{background:linear-gradient(145deg,#8da7ff,#526fe0);border-color:#a8baff;box-shadow:inset 0 1px 2px #ffffff55}
 .game-cell.preview{background:#627fe8;border-color:#a8baff;opacity:.8}
@@ -354,10 +354,10 @@ hr{border-color:#315d91!important}
 <section class="card game-card">
   <div class="game-head"><div><span class="eyebrow">BLOCK BLAST</span><h2>Blast</h2><p class="muted">Ziehe deine Blöcke auf das Spielfeld und sammle Punkte.</p></div><div class="game-best">👑 Bestwert<br><strong id="gameBest">0</strong></div></div>
   <div class="game-meta"><div class="score-crown">👑 <span>PUNKTE</span><b id="gameScore">0</b></div><span class="record-score">Rekord <b id="gameBestSmall">0</b></span><button id="gameNew" class="btn light">Neues Spiel</button></div>
-  <div id="gameBoard" class="game-board" aria-label="8 mal 8 Spielfeld"></div>
-  <p id="gameMessage" class="game-message">Ziehe deine Blöcke auf das Spielfeld!</p>
+  <div id="gameBoard" class="game-board" aria-label="10 mal 10 Spielfeld"></div>
+  <p id="gameMessage" class="game-message">Ziehe deine Blöcke auf das 10×10-Spielfeld!</p>
   <div id="gamePieces" class="game-pieces"></div>
-  <p class="game-help">Vollständige Reihen und Spalten verschwinden. Deine Punkte zählen für die Gruppenrangliste.</p>
+  <p class="game-help">Lösche vollständige Reihen und Spalten. Mehrere Treffer hintereinander bringen Combo-Punkte für die Gruppenrangliste.</p>
 </section>
 <section class="card"><h2>Neuigkeiten</h2><div id="postComposer" class="hidden"><input id="postTitle" class="field" placeholder="Überschrift"><textarea id="postBody" class="field" rows="3" placeholder="Was gibt es Neues?"></textarea><button id="publishPost" class="btn primary">Beitrag veröffentlichen</button><hr style="border:0;border-top:1px solid var(--line);margin:18px 0"></div><div id="posts"><div class="empty">Noch keine Beiträge.</div></div></section>
 <section class="card"><h2>Mitglieder</h2><div id="members"></div></section>
@@ -398,24 +398,29 @@ catch(e){$("join").classList.add("hidden");$("app").classList.add("hidden");$("a
 
 
 const gameShapes=[
- [[0,0]],[[0,0],[0,1]],[[0,0],[0,1],[0,2]],[[0,0],[1,0],[2,0]],
- [[0,0],[1,0],[2,0],[3,0]],[[0,0],[0,1],[0,2],[0,3]],
- [[0,0],[1,0],[0,1],[1,1]],
- [[0,0],[0,1],[0,2],[1,0],[1,1],[1,2],[2,0],[2,1],[2,2]],
+ [[0,0]],
+ [[0,0],[0,1]],[[0,0],[0,1],[0,2]],[[0,0],[0,1],[0,2],[0,3]],
+ [[0,0],[1,0]],[[0,0],[1,0],[2,0]],[[0,0],[1,0],[2,0],[3,0]],
+ [[0,0],[0,1],[1,0],[1,1]],
+ [[0,0],[0,1],[0,2],[1,0],[1,1],[1,2]],
+ [[0,0],[0,1],[1,0],[1,1],[2,0],[2,1]],
  [[0,0],[1,0],[1,1]],[[0,1],[1,0],[1,1]],
- [[0,0],[1,0],[1,1],[2,1]],[[0,0],[0,1],[0,2],[1,1]],
- [[0,0],[1,0],[2,0],[2,1]],[[0,0],[0,1],[0,2],[1,2]],
- [[0,0],[1,0],[2,0],[2,1],[2,2]]
+ [[0,0],[1,0],[2,0],[2,1]],[[0,1],[1,1],[2,0],[2,1]],
+ [[0,0],[0,1],[0,2],[1,1]],[[0,1],[1,0],[1,1],[1,2]],
+ [[0,0],[1,0],[1,1],[2,1]],[[0,1],[1,0],[1,1],[2,0]],
+ [[0,0],[1,0],[2,0],[2,1],[2,2]],
+ [[0,0],[0,1],[0,2],[1,2],[2,2]],
+ [[0,0],[0,1],[0,2],[1,0],[2,0]]
 ];
 const gameColors=["purple","orange","green"];
-let gameGrid=Array.from({length:8},()=>Array(8).fill(null)),gameScore=0,gamePieces=[],gameSelected=-1,gameEnded=false,gameAwarded=false,gameDrag=null;
+let gameGrid=Array.from({length:10},()=>Array(10).fill(null)),gameScore=0,gameCombo=0,gamePieces=[],gameSelected=-1,gameEnded=false,gameAwarded=false,gameDrag=null;
 let gameAudio=null;
 function gameSound(kind){try{const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;if(!gameAudio)gameAudio=new AC();if(gameAudio.state==="suspended")gameAudio.resume();const now=gameAudio.currentTime;const notes=kind==="clear"?[660,880,1100]:kind==="invalid"?[180,130]:kind==="over"?[440,330,220]:kind==="new"?[520,680]:[420,620];notes.forEach((hz,i)=>{const o=gameAudio.createOscillator(),g=gameAudio.createGain();o.type=kind==="clear"?"sine":"triangle";o.frequency.setValueAtTime(hz,now+i*.065);g.gain.setValueAtTime(.0001,now+i*.065);g.gain.exponentialRampToValueAtTime(kind==="clear"?.11:.075,now+i*.065+.012);g.gain.exponentialRampToValueAtTime(.0001,now+i*.065+(kind==="clear"?.22:.13));o.connect(g);g.connect(gameAudio.destination);o.start(now+i*.065);o.stop(now+i*.065+.25)})}catch(e){}}
-let gameBest=Number(localStorage.getItem("blastBest")||localStorage.getItem("schoolBlockBest")||329);
-function newGame(){gameSound("new");gameGrid=Array.from({length:8},()=>Array(8).fill(null));gameScore=0;gameSelected=-1;gameEnded=false;gameAwarded=false;gameDrag=null;gameBest=Math.max(gameBest,Number(localStorage.getItem("blastBest")||329));makeGamePieces();gameRender();say("gameMessage","Halte einen Stein gedrückt und ziehe ihn aufs Spielfeld!")}
+let gameBest=Number(localStorage.getItem("blastBest")||localStorage.getItem("schoolBlockBest")||0);
+function newGame(){gameSound("new");gameGrid=Array.from({length:10},()=>Array(10).fill(null));gameScore=0;gameCombo=0;gameSelected=-1;gameEnded=false;gameAwarded=false;gameDrag=null;gameBest=Math.max(gameBest,Number(localStorage.getItem("blastBest")||0));makeGamePieces();gameRender();say("gameMessage","Halte einen Stein gedrückt und ziehe ihn aufs Spielfeld!")}
 function makeGamePieces(){gamePieces=Array.from({length:3},(_,i)=>({id:Math.random().toString(36).slice(2),shape:gameShapes[Math.floor(Math.random()*gameShapes.length)].map(p=>[...p]),color:gameColors[Math.floor(Math.random()*gameColors.length)]}))}
-function canPlace(shape,r,c){return shape.every(([y,x])=>r+y>=0&&r+y<8&&c+x>=0&&c+x<8&&!gameGrid[r+y][c+x])}
-function anyMove(){return gamePieces.some(p=>p&&Array.from({length:8},(_,r)=>Array.from({length:8},(_,c)=>canPlace(p.shape,r,c))).some(row=>row.some(Boolean)))}
+function canPlace(shape,r,c){return shape.every(([y,x])=>r+y>=0&&r+y<10&&c+x>=0&&c+x<10&&!gameGrid[r+y][c+x])}
+function anyMove(){return gamePieces.some(p=>p&&Array.from({length:10},(_,r)=>Array.from({length:10},(_,c)=>canPlace(p.shape,r,c))).some(row=>row.some(Boolean)))}
 function cellAtPoint(x,y){const el=document.elementFromPoint(x,y)?.closest(".game-cell");return el?{r:Number(el.dataset.r),c:Number(el.dataset.c)}:null}
 function clearGamePreview(){$("gameBoard").querySelectorAll(".preview").forEach(el=>el.classList.remove("preview","invalid"))}
 function previewGamePiece(){clearGamePreview();if(!gameDrag||gameDrag.row===null)return;gameDrag.valid=canPlace(gameDrag.piece.shape,gameDrag.row,gameDrag.col);gameDrag.piece.shape.forEach(([y,x])=>{const cell=$("gameBoard").querySelector('[data-r="'+(gameDrag.row+y)+'"][data-c="'+(gameDrag.col+x)+'"]');if(cell){cell.classList.add("preview");if(!gameDrag.valid)cell.classList.add("invalid")}})}
@@ -438,9 +443,11 @@ window.addEventListener("pointercancel",()=>{if(gameDrag){gameDrag.element.class
 async function gamePlace(r,c,selected=gameSelected){
  if(gameEnded||selected<0||!gamePieces[selected])return;
  const piece=gamePieces[selected];if(!canPlace(piece.shape,r,c)){gameSound("invalid");say("gameMessage","Dort passt der Stein leider nicht hin.");return}
- piece.shape.forEach(([y,x])=>gameGrid[r+y][c+x]=piece.color);gameSound("place");gameScore+=piece.shape.length*10;gamePieces[selected]=null;gameSelected=-1;
- const rows=[];const cols=[];for(let y=0;y<8;y++)if(gameGrid[y].every(Boolean))rows.push(y);for(let x=0;x<8;x++)if(gameGrid.every(row=>row[x]))cols.push(x);
- rows.forEach(y=>gameGrid[y].fill(null));cols.forEach(x=>gameGrid.forEach(row=>row[x]=null));if(rows.length||cols.length){gameSound("clear");gameScore+=(rows.length+cols.length)*100;say("gameMessage",(rows.length+cols.length)+" vollständige Reihe(n)/Spalte(n) gelöscht!")}
+ piece.shape.forEach(([y,x])=>gameGrid[r+y][c+x]=piece.color);gameSound("place");gamePieces[selected]=null;gameSelected=-1;
+ const rows=[];const cols=[];for(let y=0;y<10;y++)if(gameGrid[y].every(Boolean))rows.push(y);for(let x=0;x<10;x++)if(gameGrid.every(row=>row[x]))cols.push(x);
+ rows.forEach(y=>gameGrid[y].fill(null));cols.forEach(x=>gameGrid.forEach(row=>row[x]=null));
+ const cleared=rows.length+cols.length;
+ if(cleared){gameCombo++;gameSound("clear");gameScore+=cleared*100*gameCombo;say("gameMessage",cleared+" Reihe(n)/Spalte(n) gelöscht · Combo x"+gameCombo+" · +"+(cleared*100*gameCombo)+" Punkte!")}else{gameCombo=0;say("gameMessage","Gut platziert! Weiter geht's.")}
  if(gamePieces.every(p=>!p))makeGamePieces();
  if(gameScore>gameBest){gameBest=gameScore;localStorage.setItem("blastBest",String(gameBest));localStorage.setItem("schoolBlockBest",String(gameBest))}
  gameRender();if(!anyMove()){gameEnded=true;gameSound("over");gameRender();say("gameMessage","GAME OVER – Dein Punktestand: "+gameScore);if(!gameAwarded&&gameScore>0){gameAwarded=true;try{await api("game_score",{score:gameScore});say("gameMessage","Game Over – "+gameScore+" Punkte wurden deiner Gruppenrangliste gutgeschrieben.");await load();gameRender()}catch(e){say("gameMessage","Game Over – "+gameScore+" Punkte. Gruppenpunkte konnten nicht gespeichert werden: "+e.message)}}}
