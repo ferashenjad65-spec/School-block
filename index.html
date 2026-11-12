@@ -12,6 +12,36 @@ header{background:var(--navy);color:white;padding:18px max(22px,calc((100vw - 11
 main{max-width:1120px;margin:32px auto;padding:0 20px}.hero{margin-bottom:24px}.eyebrow{color:var(--blue);font-weight:800;font-size:12px;text-transform:uppercase;letter-spacing:1.3px}.hero h1{font-size:clamp(28px,5vw,42px);letter-spacing:-1.5px;margin:8px 0}.hero p{color:var(--muted);margin:0;line-height:1.6}
 .grid{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(280px,.8fr);gap:18px;align-items:start}.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:0 8px 28px #14264b08;margin-bottom:16px}.card h2{font-size:18px;margin:0 0 16px;letter-spacing:-.3px}.muted{color:var(--muted)}.field{width:100%;padding:13px 14px;border:1px solid #dce2ed;border-radius:12px;background:#fbfcff;outline:none;margin:6px 0}.field:focus{border-color:#8298f4;box-shadow:0 0 0 3px #3158d81a}.btn{padding:12px 16px;border-radius:12px;font-weight:800}.primary{background:var(--blue);color:#fff}.light{background:var(--blue2);color:#2949b3}.danger{background:#fff0f0;color:#b63232}.full{width:100%;margin-top:8px}.row{display:flex;gap:9px;align-items:center;flex-wrap:wrap}.row>*{flex:1}.hidden{display:none!important}.tabs{display:flex;gap:8px;margin-bottom:14px}.tabs button{flex:1}.tag{display:inline-flex;padding:5px 9px;border-radius:20px;background:#eef2ff;color:#3655bf;font-size:11px;font-weight:800}.member{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}.avatar{width:42px;height:42px;border-radius:50%;background:#e8edff;color:#3655bf;display:grid;place-items:center;font-weight:900;object-fit:cover}.member-info{flex:1;min-width:0}.member-info strong{display:block}.member-info small{color:var(--muted)}.points{font-weight:900;color:#3158d8}.post{padding:14px 0;border-bottom:1px solid var(--line)}.post h3{margin:0 0 6px;font-size:16px}.post p{white-space:pre-wrap;line-height:1.55;margin:0 0 8px;color:#4e5b72}.post small{color:var(--muted)}.statline{display:flex;gap:10px;margin-bottom:14px}.stat{flex:1;padding:13px;background:#f5f7fc;border-radius:13px}.stat b{display:block;font-size:24px}.stat span{font-size:12px;color:var(--muted)}.admin-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:10px 0;border-bottom:1px solid var(--line)}.admin-row .member-info{min-width:130px}.smallbtn{padding:8px 10px;border-radius:9px;font-size:12px;font-weight:800}.empty{padding:22px;text-align:center;color:var(--muted);background:#f7f8fc;border-radius:14px}.status{font-size:13px;color:var(--muted);margin-top:10px;min-height:18px}footer{text-align:center;color:#9aa5b8;padding:30px;font-size:12px}
 @media(max-width:760px){header{padding:14px 18px}.grid{grid-template-columns:1fr}main{margin:24px auto;padding:0 14px}.card{padding:18px}.hero h1{font-size:30px}}
+
+/* Dunkles Schoolblog-Design */
+:root{color:#e8eefc;background:#0a1220;--navy:#0b1424;--blue:#7895ff;--blue2:#1d2b49;--muted:#a2b0c8;--line:#293750;--card:#121e31}
+body{background:#0a1220;color:#e8eefc}
+header{background:#080f1c;border-bottom:1px solid #26344c}
+main{color:#e8eefc}.hero p,.muted{color:#a2b0c8}.eyebrow{color:#9bb0ff}
+.card{background:#121e31;border-color:#293750;box-shadow:0 12px 34px #0005}
+.field{background:#0b1628;color:#f3f6ff;border-color:#35445f}
+.field::placeholder{color:#8190aa}.field:focus{border-color:#8298f4;box-shadow:0 0 0 3px #7895ff22}
+.light{background:#223252;color:#dce5ff}.primary{background:#526fe0;color:white}
+.danger{background:#48262e;color:#ffc2c8}.stat{background:#1a2941}.empty{background:#1a2941;color:#a2b0c8}
+.member,.post{border-color:#293750}.post p{color:#c2cce0}.avatar{background:#263858;color:#dce5ff}
+.tag{background:#263858;color:#dce5ff}.points{color:#a9bbff}
+.game-card{border:1px solid #34496c;background:linear-gradient(145deg,#15243b,#101a2c)}
+.game-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.game-head h2{font-size:24px;margin:5px 0}.game-head p{margin:0;line-height:1.5}
+.game-best{background:#203252;border:1px solid #3a5077;border-radius:14px;padding:10px 14px;text-align:center;color:#aebddd;font-size:12px;white-space:nowrap}.game-best strong{font-size:23px;color:#fff}
+.game-meta{display:flex;align-items:center;gap:16px;margin:18px 0 12px;color:#b7c5df;font-size:13px}.game-meta b{color:#fff;font-size:17px;margin-left:4px}.game-meta button{margin-left:auto}
+.game-board{width:min(100%,430px);aspect-ratio:1;margin:0 auto;padding:7px;display:grid;grid-template-columns:repeat(8,1fr);gap:5px;background:#080f1c;border:1px solid #344766;border-radius:15px;touch-action:manipulation}
+.game-cell{border-radius:5px;background:#1b2a42;border:1px solid #253a59;min-width:0;aspect-ratio:1;cursor:pointer}
+.game-cell.filled{background:linear-gradient(145deg,#8da7ff,#526fe0);border-color:#a8baff;box-shadow:inset 0 1px 2px #ffffff55}
+.game-cell.preview{background:#627fe8;border-color:#a8baff;opacity:.8}
+.game-message{min-height:22px;text-align:center;color:#c6d3eb;font-size:13px;margin:12px 0}
+.game-pieces{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin:10px auto}
+.game-piece{background:#1a2941;border:1px solid #354967;border-radius:12px;padding:9px;display:grid;grid-template-columns:repeat(4,17px);grid-template-rows:repeat(4,17px);gap:3px;cursor:pointer}
+.game-piece.selected{outline:2px solid #91a8ff;background:#263a60}
+.game-piece:disabled{opacity:.25;cursor:default}
+.piece-cell{border-radius:4px;background:transparent}.piece-cell.on{background:#8da7ff;border:1px solid #b7c7ff}
+.game-help{text-align:center;color:#8fa0bc;font-size:12px;line-height:1.5;margin:14px 0 0}
+@media(max-width:520px){.game-board{gap:3px;padding:5px}.game-cell{border-radius:3px}.game-meta{gap:9px;font-size:12px}.game-piece{grid-template-columns:repeat(4,15px);grid-template-rows:repeat(4,15px)}.game-head h2{font-size:21px}}
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -48,6 +78,15 @@ main{max-width:1120px;margin:32px auto;padding:0 20px}.hero{margin-bottom:24px}.
 <button id="joinAction" class="btn primary full">Gruppe beitreten</button><div id="joinStatus" class="status"></div>
 </section>
 <section id="app" class="hidden">
+
+<section class="card game-card">
+  <div class="game-head"><div><span class="eyebrow">Das Schulspiel</span><h2>School-Block</h2><p class="muted">Setze die Steine, fülle Reihen und Spalten und sammle Punkte für deine Gruppe.</p></div><div class="game-best">Bestleistung<br><strong id="gameBest">0</strong></div></div>
+  <div class="game-meta"><span>Punkte <b id="gameScore">0</b></span><span>Rekord <b id="gameBestSmall">0</b></span><button id="gameNew" class="btn light">Neues Spiel</button></div>
+  <div id="gameBoard" class="game-board" aria-label="8 mal 8 Spielfeld"></div>
+  <p id="gameMessage" class="game-message">Wähle unten einen Stein und tippe dann auf das Feld.</p>
+  <div id="gamePieces" class="game-pieces"></div>
+  <p class="game-help">Volle waagerechte Reihen und senkrechte Spalten verschwinden. Deine Spielpunkte zählen auch für die Gruppenrangliste.</p>
+</section>
 <div class="statline"><div class="stat"><b id="memberCount">0</b><span>Mitglieder</span></div><div class="stat"><b id="postCount">0</b><span>Beiträge</span></div><div class="stat"><b id="myRole">Mitglied</b><span>Deine Rolle</span></div></div>
 <section class="card"><h2>Mein Profil</h2><div class="row" style="align-items:center"><div class="avatar" id="myAvatar" style="width:64px;height:64px;font-size:24px">S</div><div style="flex:2"><strong id="myName">Mein Konto</strong><div class="muted" id="myClass" style="font-size:13px">Deine Klasse</div><label class="smallbtn light" style="display:inline-block;margin-top:7px;cursor:pointer">Profilbild ändern<input id="avatarFile" type="file" accept="image/jpeg,image/png,image/webp" hidden></label></div></div><div class="status" id="profileStatus"></div></section><div class="grid"><div>
 <section class="card"><h2>Neuigkeiten</h2><div id="postComposer" class="hidden"><input id="postTitle" class="field" placeholder="Überschrift"><textarea id="postBody" class="field" rows="3" placeholder="Was gibt es Neues?"></textarea><button id="publishPost" class="btn primary">Beitrag veröffentlichen</button><hr style="border:0;border-top:1px solid var(--line);margin:18px 0"></div><div id="posts"><div class="empty">Noch keine Beiträge.</div></div></section>
@@ -86,6 +125,42 @@ $("ranking").innerHTML=d.members.slice().sort((a,b)=>b.points-a.points).map((m,i
 const storedAdminToken=sessionStorage.getItem("schoolblogAdminToken");const hasAdminAccess=!!storedAdminToken&&Number(storedAdminToken.split(".")[1])>Math.floor(Date.now()/1000);if(storedAdminToken&&!hasAdminAccess)sessionStorage.removeItem("schoolblogAdminToken");$("adminUnlock").classList.toggle("hidden",hasAdminAccess||["owner","admin"].includes(profile.role));$("adminPanel").classList.toggle("hidden",!["owner","admin"].includes(profile.role));$("inviteAdmin").classList.toggle("hidden",profile.role!=="owner");
 if(["owner","admin"].includes(profile.role)){const u=await api("admin_list");$("adminUsers").innerHTML=u.users.map(m=>'<div class="admin-row"><div class="member-info"><strong>'+esc(m.display_name||m.email)+'</strong><small>'+esc(m.class_name||m.email)+' · '+esc(m.role)+'</small></div>'+(m.role==="owner"?"<span class=tag>Hauptadmin</span>":(profile.role==="owner"?'<button class="smallbtn light" onclick="adminAction(\'admin_set_role\',\''+m.user_id+'\',{role:\''+(m.role==="admin"?"member":"admin")+'\'})">'+(m.role==="admin"?"Admin entfernen":"Zum Admin machen")+'</button>':"") )+(m.role!=="owner"?'<button class="smallbtn light" onclick="adminAction(\'admin_points\',\''+m.user_id+'\',{points:'+Math.max(0,m.points+10)+'})">+10 Punkte</button><button class="smallbtn danger" onclick="adminAction(\'admin_suspend\',\''+m.user_id+'\',{suspended:'+(!m.is_suspended)+'})">'+(m.is_suspended?"Freigeben":"Sperren")+'</button>':"")+'</div>').join("")}}
 catch(e){$("join").classList.add("hidden");$("app").classList.add("hidden");$("auth").classList.remove("hidden");say("authStatus",e.message)}}
+
+const gameShapes=[
+ [[1,1],[1,1]], [[1,1,1]], [[1],[1],[1]], [[1,1,1],[0,1,0]],
+ [[1,0],[1,0],[1,1]], [[0,1],[0,1],[1,1]], [[1,1,0],[0,1,1]],
+ [[0,1,1],[1,1,0]], [[1,1,1],[1,0,0]], [[1,1],[0,1],[0,1]],
+ [[1,1,1,1]], [[1],[1],[1],[1]], [[1,1,1],[1,1,1]],
+ [[1,0,0],[1,1,1]], [[0,0,1],[1,1,1]], [[1,1],[1,0]]
+];
+let gameGrid=Array.from({length:8},()=>Array(8).fill(0)),gameScore=0,gamePieces=[],gameSelected=-1,gameEnded=false,gameAwarded=false;
+let gameBest=Number(localStorage.getItem("schoolBlockBest")||0);
+function newGame(){gameGrid=Array.from({length:8},()=>Array(8).fill(0));gameScore=0;gamePieces=[0,1,2].map(()=>gameShapes[Math.floor(Math.random()*gameShapes.length)]);gameSelected=-1;gameEnded=false;gameAwarded=false;gameRender();say("gameMessage","Wähle unten einen Stein und tippe dann auf das Feld.")}
+function canPlace(shape,r,c){for(let y=0;y<shape.length;y++)for(let x=0;x<shape[y].length;x++)if(shape[y][x]&&(r+y>=8||c+x>=8||gameGrid[r+y][c+x]))return false;return true}
+function anyMove(){return gamePieces.some(s=>s&&gameGrid.some((row,r)=>row.some((v,c)=>canPlace(s,r,c))))}
+function gameRender(){
+  $("gameScore").textContent=gameScore;$("gameBest").textContent=gameBest;$("gameBestSmall").textContent=gameBest;
+  $("gameBoard").innerHTML=gameGrid.map((row,r)=>row.map((v,c)=>'<button class="game-cell '+(v?'filled':'')+'" data-r="'+r+'" data-c="'+c+'" aria-label="Feld '+(r+1)+','+(c+1)+'"></button>').join("")).join("");
+  $("gameBoard").querySelectorAll(".game-cell").forEach(cell=>cell.onclick=()=>gamePlace(Number(cell.dataset.r),Number(cell.dataset.c)));
+  $("gamePieces").innerHTML=gamePieces.map((shape,i)=>'<button class="game-piece '+(i===gameSelected?'selected':'')+'" '+(!shape||gameEnded?'disabled':'')+' data-piece="'+i+'" aria-label="Stein '+(i+1)+'">'+Array.from({length:16},(_,n)=>{const y=Math.floor(n/4),x=n%4;return '<span class="piece-cell '+(shape&&shape[y]&&shape[y][x]?'on':'')+'"></span>'}).join("")+'</button>').join("");
+  $("gamePieces").querySelectorAll(".game-piece").forEach(b=>b.onclick=()=>{gameSelected=Number(b.dataset.piece);gameRender()});
+}
+async function gamePlace(r,c){
+  if(gameEnded||gameSelected<0||!gamePieces[gameSelected]){say("gameMessage","Wähle zuerst einen Stein aus.");return}
+  const shape=gamePieces[gameSelected];if(!canPlace(shape,r,c)){say("gameMessage","Dort passt der Stein leider nicht hin.");return}
+  shape.forEach((row,y)=>row.forEach((v,x)=>{if(v)gameGrid[r+y][c+x]=1}));
+  gameScore+=shape.flat().filter(Boolean).length*10;gamePieces[gameSelected]=null;
+  let rows=[];for(let y=0;y<8;y++)if(gameGrid[y].every(Boolean))rows.push(y);
+  let cols=[];for(let x=0;x<8;x++)if(gameGrid.every(row=>row[x]))cols.push(x);
+  if(rows.length||cols.length){rows.forEach(y=>gameGrid[y].fill(0));cols.forEach(x=>gameGrid.forEach(row=>row[x]=0));gameScore+=(rows.length+cols.length)*100;say("gameMessage",(rows.length+cols.length)+" Reihe(n)/Spalte(n) gelöscht!");}
+  if(gamePieces.every(p=>!p)){gamePieces=[0,1,2].map(()=>gameShapes[Math.floor(Math.random()*gameShapes.length)]);gameSelected=-1;}
+  else if(gameSelected>=0){gameSelected=-1}
+  if(gameScore>gameBest){gameBest=gameScore;localStorage.setItem("schoolBlockBest",String(gameBest))}
+  gameRender();
+  if(!anyMove()){gameEnded=true;gameRender();say("gameMessage","Spiel vorbei! Du hast "+gameScore+" Punkte erreicht.");if(!gameAwarded&&gameScore>0){gameAwarded=true;try{await api("game_score",{score:gameScore});say("gameMessage","Spiel vorbei! "+gameScore+" Punkte wurden deiner Gruppenrangliste gutgeschrieben.");await load();gameRender()}catch(e){say("gameMessage","Spiel vorbei: "+gameScore+" Punkte. Gruppenpunkte konnten nicht gespeichert werden: "+e.message)}}}
+}
+$("gameNew").onclick=newGame;
+
 window.adminAction=adminAction;window.deletePost=async id=>{if(confirm("Diesen Beitrag löschen?")){try{await api("admin_delete_post",{postId:id});await load()}catch(e){say("adminStatus",e.message)}}};
 sb.auth.onAuthStateChange((event)=>{if(event==="PASSWORD_RECOVERY"){$("auth").classList.add("hidden");$("join").classList.add("hidden");$("app").classList.add("hidden");$("recovery").classList.remove("hidden")}setTimeout(load,0)});if(new URLSearchParams(window.location.hash.slice(1)).get("type")==="recovery"){$("auth").classList.add("hidden");$("recovery").classList.remove("hidden")}load();
 </script></body></html>
