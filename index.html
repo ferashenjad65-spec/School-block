@@ -372,6 +372,20 @@ hr{border-color:#315d91!important}
 #app .game-cell.color-5,.game-piece .piece-cell.color-5{background:linear-gradient(145deg,#ff9da9,#ed4563 52%,#b71e45)}
 #app .game-cell.color-6,.game-piece .piece-cell.color-6{background:linear-gradient(145deg,#e0b5ff,#a75be9 52%,#6829b7)}
 #app .game-cell.color-7,.game-piece .piece-cell.color-7{background:linear-gradient(145deg,#ffb9eb,#ed69c6 52%,#b42d91)}
+
+/* Einheitliche, exakte Farben für alle sieben Blockfarben */
+#app .game-cell.filled.color-1,#app .piece-cell.on.color-1,.game-drag-ghost .color-1{background:linear-gradient(145deg,#ffc36b 0%,#ff8b22 52%,#d95508 100%)!important;border-color:#ffd09a!important}
+#app .game-cell.filled.color-2,#app .piece-cell.on.color-2,.game-drag-ghost .color-2{background:linear-gradient(145deg,#e0b5ff 0%,#a75be9 52%,#6829b7 100%)!important;border-color:#e8caff!important}
+#app .game-cell.filled.color-3,#app .piece-cell.on.color-3,.game-drag-ghost .color-3{background:linear-gradient(145deg,#b7ff91 0%,#58d968 52%,#168b3b 100%)!important;border-color:#d0ffb9!important}
+#app .game-cell.filled.color-4,#app .piece-cell.on.color-4,.game-drag-ghost .color-4{background:linear-gradient(145deg,#80e9ff 0%,#20a9df 52%,#0874b0 100%)!important;border-color:#b7f2ff!important}
+#app .game-cell.filled.color-5,#app .piece-cell.on.color-5,.game-drag-ghost .color-5{background:linear-gradient(145deg,#ff9da9 0%,#ed4563 52%,#b71e45 100%)!important;border-color:#ffc2cc!important}
+#app .game-cell.filled.color-6,#app .piece-cell.on.color-6,.game-drag-ghost .color-6{background:linear-gradient(145deg,#fff18a 0%,#f4c52e 52%,#c58a08 100%)!important;border-color:#fff3b3!important}
+#app .game-cell.filled.color-7,#app .piece-cell.on.color-7,.game-drag-ghost .color-7{background:linear-gradient(145deg,#ffb4e8 0%,#e65db8 52%,#a92c80 100%)!important;border-color:#ffd0ef!important}
+#app .game-piece{touch-action:none!important;user-select:none;-webkit-user-select:none;-webkit-user-drag:none;cursor:grab}
+#app .game-piece.dragging{opacity:.3;transform:scale(.98);transition:none}
+.game-drag-ghost{position:fixed;z-index:99999;pointer-events:none;display:grid;filter:drop-shadow(0 8px 12px #00142e99);opacity:1;transform:none}
+@media(min-width:901px){#app .game-board{width:min(100%,min(76vh,700px))}#app .grid{grid-template-columns:minmax(0,1fr) 270px}}
+@media(min-width:600px) and (max-width:900px){#app .game-board{width:min(100%,min(76vh,680px))}#app .game-piece{grid-template-columns:repeat(5,clamp(20px,3vw,28px));grid-template-rows:repeat(5,clamp(20px,3vw,28px))}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -508,23 +522,28 @@ function gameRenderPieces(){
  $("gamePieces").querySelectorAll(".game-piece[data-piece]").forEach(el=>{
   const i=Number(el.dataset.piece);
   el.addEventListener("click",()=>{if(gameSuppressPieceClick){gameSuppressPieceClick=false;return}if(gameDrag||gameEnded)return;gameSelected=i;gameRenderPieces();gameSay("Stein "+(i+1)+" ausgewählt. Tippe auf ein freies Feld.")});
-  el.addEventListener("pointerdown",e=>{if(gameEnded||!gamePieces[i])return;const cell=e.target.closest(".piece-cell.on");if(!cell)return;e.preventDefault();gameSelected=i;gameDrag={index:i,piece:gamePieces[i],offsetR:Number(cell.dataset.r),offsetC:Number(cell.dataset.c),row:null,col:null,valid:false,source:el,startX:e.clientX,startY:e.clientY,moved:false};el.classList.add("dragging");gameMakeGhost();gameMoveDrag(e);});
+  el.addEventListener("pointerdown",e=>{if(gameEnded||!gamePieces[i])return;const cell=e.target.closest(".piece-cell.on");if(!cell)return;e.preventDefault();try{el.setPointerCapture(e.pointerId)}catch(_){}gameSelected=i;gameDrag={index:i,piece:gamePieces[i],offsetR:Number(cell.dataset.r),offsetC:Number(cell.dataset.c),row:null,col:null,valid:false,source:el,startX:e.clientX,startY:e.clientY,pointerId:e.pointerId,moved:false};el.classList.add("dragging");gameMakeGhost();gameMoveDrag(e);});
  });
 }
 function gameRender(){
  $("gameScore").textContent=gameScore;$("gameBest").textContent=gameBest;$("gameStreak").textContent="×"+Math.max(1,gameStreak);gameRenderBoard();gameRenderPieces();
 }
 function gameMakeGhost(){
- const p=gameDrag.piece,h=Math.max(...p.shape.map(v=>v[0]))+1,w=Math.max(...p.shape.map(v=>v[1]))+1,g=document.createElement("div");
- g.className="game-drag-ghost";g.style.gridTemplateColumns="repeat("+w+",auto)";g.style.gridTemplateRows="repeat("+h+",auto)";
- for(let r=0;r<h;r++)for(let c=0;c<w;c++){const on=p.shape.some(v=>v[0]===r&&v[1]===c),cell=document.createElement("span");if(on)cell.className="color-"+(gameColors.indexOf(p.color)+1);cell.style.visibility=on?"visible":"hidden";g.appendChild(cell)}
- document.body.appendChild(g);gameDrag.ghost=g;
+ const d=gameDrag,p=d.piece,h=Math.max(...p.shape.map(v=>v[0]))+1,w=Math.max(...p.shape.map(v=>v[1]))+1,g=document.createElement("div");
+ const board=$("gameBoard"),sample=board.querySelector(".game-cell"),boardStyle=getComputedStyle(board);
+ const cellSize=sample?sample.getBoundingClientRect().width:30,gap=parseFloat(boardStyle.gap)||4;
+ d.ghostCellSize=cellSize;d.ghostGap=gap;
+ g.className="game-drag-ghost";g.style.gridTemplateColumns="repeat("+w+","+cellSize+"px)";g.style.gridTemplateRows="repeat("+h+","+cellSize+"px)";g.style.gap=gap+"px";
+ for(let r=0;r<h;r++)for(let c=0;c<w;c++){const on=p.shape.some(v=>v[0]===r&&v[1]===c),cell=document.createElement("span");if(on)cell.className="color-"+(gameColors.indexOf(p.color)+1);cell.style.visibility=on?"visible":"hidden";cell.style.width=cellSize+"px";cell.style.height=cellSize+"px";g.appendChild(cell)}
+ document.body.appendChild(g);d.ghost=g;
 }
 function gameCellAt(x,y){const el=document.elementFromPoint(x,y)?.closest("#gameBoard .game-cell");return el?{r:Number(el.dataset.r),c:Number(el.dataset.c)}:null}
 function gameMoveDrag(e){
- if(!gameDrag)return;const d=gameDrag;d.moved ||= Math.hypot(e.clientX-d.startX,e.clientY-d.startY)>5;
- if(d.ghost){d.ghost.style.left=e.clientX+"px";d.ghost.style.top=(e.clientY-54)+"px"}
- const hit=gameCellAt(e.clientX,e.clientY-54);if(!hit){d.row=null;d.col=null;d.valid=false;gameClearPreview();return}
+ if(!gameDrag)return;const d=gameDrag;
+ d.moved ||= Math.hypot(e.clientX-d.startX,e.clientY-d.startY)>4;
+ if(d.ghost){const cell=d.ghostCellSize||30,gap=d.ghostGap||4;d.ghost.style.left=(e.clientX-d.offsetC*(cell+gap)-cell/2)+"px";d.ghost.style.top=(e.clientY-d.offsetR*(cell+gap)-cell/2)+"px"}
+ const hit=gameCellAt(e.clientX,e.clientY);
+ if(!hit){d.row=null;d.col=null;d.valid=false;gameClearPreview();return}
  d.row=hit.r-d.offsetR;d.col=hit.c-d.offsetC;d.valid=gameCanPlace(d.piece.shape,d.row,d.col);gameClearPreview();
  d.piece.shape.forEach(([y,x])=>{const el=$("gameBoard").querySelector('[data-r="'+(d.row+y)+'"][data-c="'+(d.col+x)+'"]');if(el){el.classList.add("preview");if(!d.valid)el.classList.add("invalid")}});
 }
@@ -571,7 +590,6 @@ $("gameSoundToggle").textContent=gameSoundOn?"Ein":"Aus";
 gameReset();
 
 $("siteSearch").addEventListener("input",()=>{const q=$("siteSearch").value.trim().toLowerCase();const list=visibleMembers.filter(m=>(m.display_name||"").toLowerCase().includes(q)||(m.class_name||"").toLowerCase().includes(q));$("members").innerHTML=list.map(m=>'<div class="member"><div class="avatar">'+esc((m.display_name||"?").slice(0,1).toUpperCase())+'</div><div class="member-info"><strong>'+esc(m.display_name||"Mitglied")+'</strong><small>'+esc(m.class_name||"Klasse offen")+'</small></div><span class="points">'+m.points+' Pkt.</span></div>').join("")||'<div class="empty">Keine Spieler gefunden.</div>';});
-$("gameNew").onclick=newGame;
 window.adminAction=adminAction;window.deletePost=async id=>{if(confirm("Diesen Beitrag löschen?")){try{await api("admin_delete_post",{postId:id});await load()}catch(e){say("adminStatus",e.message)}}};
-sb.auth.onAuthStateChange((event)=>{if(event==="PASSWORD_RECOVERY"){$("auth").classList.add("hidden");$("join").classList.add("hidden");$("app").classList.add("hidden");$("recovery").classList.remove("hidden")}setTimeout(load,0)});if(new URLSearchParams(window.location.hash.slice(1)).get("type")==="recovery"){$("auth").classList.add("hidden");$("recovery").classList.remove("hidden")}newGame();load();
+sb.auth.onAuthStateChange((event)=>{if(event==="PASSWORD_RECOVERY"){$("auth").classList.add("hidden");$("join").classList.add("hidden");$("app").classList.add("hidden");$("recovery").classList.remove("hidden")}setTimeout(load,0)});if(new URLSearchParams(window.location.hash.slice(1)).get("type")==="recovery"){$("auth").classList.add("hidden");$("recovery").classList.remove("hidden")}load();
 </script></body></html>
