@@ -361,6 +361,10 @@ hr{border-color:#315d91!important}
 @media(max-width:560px){#app .game-board{gap:3px;padding:6px;border-radius:15px}#app .game-cell{border-radius:4px}#app .game-pieces{min-height:96px;gap:4px}#app .game-piece{grid-template-columns:repeat(5,15px);grid-template-rows:repeat(5,15px);gap:2px;padding:7px}#app .game-head{gap:8px}#app .game-best{padding:8px 10px;font-size:10px}#app .game-best strong{font-size:20px}}
 @media(prefers-reduced-motion:reduce){.game-dialog{animation:none}#app .game-piece{transition:none}}
 
+#app .game-cell.filled{animation:gameTilePop .18s ease-out}
+#app .game-message.blast{animation:gameMessageBlast .42s ease-out}
+@keyframes gameTilePop{0%{transform:scale(.82);filter:brightness(1.6)}100%{transform:scale(1);filter:brightness(1)}}
+@keyframes gameMessageBlast{0%{transform:scale(.92);color:#fff;background:#347fcb;border-radius:12px}100%{transform:scale(1);color:#456c98;background:transparent}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -476,7 +480,7 @@ const gameShapes=[
 const gameColors=["orange","purple","green","cyan","pink"];
 const GAME_N=8;
 let gameGrid=Array.from({length:GAME_N},()=>Array(GAME_N).fill(null));
-let gameScore=0,gameStreak=0,gameMisses=0,gamePieces=[],gameSelected=-1,gameEnded=false,gameAwarded=false,gameDrag=null,gameSoundOn=localStorage.getItem("schoolblogSound")!=="off",gameAudio=null,gameParticles=[];
+let gameScore=0,gameStreak=0,gameMisses=0,gamePieces=[],gameSelected=-1,gameEnded=false,gameAwarded=false,gameDrag=null,gameSoundOn=localStorage.getItem("schoolblogSound")!=="off",gameAudio=null;
 let gameBest=Math.max(0,Number(localStorage.getItem("blockBlastBestScore")||0));let gameSuppressPieceClick=false;
 const gameBonus={1:0,2:10,3:30,4:60,5:100,6:150};
 function gamePlaySound(kind){
@@ -532,7 +536,7 @@ function gamePlace(r,c,index){
  p.shape.forEach(([y,x])=>gameGrid[r+y][c+x]=p.color);gamePieces[index]=null;gameSelected=-1;gamePlaySound("place");
  const blocks=p.shape.length,cleared=gameClearLines(),lines=cleared.count;
  let earned=blocks;
- if(lines){gameStreak++;gameMisses=0;const multi=gameBonus[lines]??(150+(lines-6)*50);const multiplier=gameStreak;earned+=(lines*10+multi)*multiplier;gameSay(lines+" Linie(n) gelöscht · Combo ×"+multiplier+" · +"+earned+" Punkte!");gamePlaySound("clear");cleared.cells.forEach(cell=>{for(let k=0;k<5;k++)gameParticles.push({x:cell.c,y:cell.r,vx:(Math.random()-.5)*.18,vy:(Math.random()-.5)*.18,life:1,color:cell.color})})}
+ if(lines){gameStreak++;gameMisses=0;const multi=gameBonus[lines]??(150+(lines-6)*50);const multiplier=gameStreak;earned+=(lines*10+multi)*multiplier;gameSay(lines+" Linie(n) gelöscht · Combo ×"+multiplier+" · +"+earned+" Punkte!");gamePlaySound("clear");$("gameMessage").classList.remove("blast");void $("gameMessage").offsetWidth;$("gameMessage").classList.add("blast")}
  else{gameMisses++;if(gameMisses>=3){gameStreak=0;gameMisses=0;gameSay("Serie zurückgesetzt. Drei Züge ohne Treffer.");}else gameSay("+"+blocks+" Punkte für den Stein. Noch "+(3-gameMisses)+" Zug/Züge bis zum Serien-Reset.");}
  gameScore+=earned;if(gameScore>gameBest){gameBest=gameScore;localStorage.setItem("blockBlastBestScore",String(gameBest))}
  if(gamePieces.every(x=>!x))gameNewHand();gameRender();
