@@ -54,21 +54,6 @@ main{color:#e8eefc}.hero p,.muted{color:#a2b0c8}.eyebrow{color:#9bb0ff}
 .game-cell.preview{background:#829cff!important;outline:2px solid #d1dcff}
 .game-board{touch-action:none}
 @media(max-width:760px){.grid{grid-template-columns:1fr}.game-card{position:static}.ranking-top #ranking{grid-template-columns:repeat(2,minmax(0,1fr))}}
-
-/* Klassischer, farbenfroher Block-Puzzle-Look */
-:root{--tile-blue:#438cff;--tile-cyan:#22c8d8;--tile-green:#49c96b;--tile-yellow:#ffd447;--tile-orange:#ff9845;--tile-pink:#f064a6;--tile-purple:#9b73f5}
-.game-card{background:#17243a;border:2px solid #3b5273;border-radius:17px;box-shadow:0 7px 0 #080f1c}
-.game-board{background:#101a2b;border:3px solid #405675;border-radius:12px;gap:4px;padding:6px;box-shadow:inset 0 3px 10px #0007}
-.game-cell{background:#263750;border:1px solid #344b68;border-radius:4px;box-shadow:inset 0 2px 3px #ffffff12}
-.game-cell.filled{background:linear-gradient(145deg,color-mix(in srgb,var(--tile-color) 75%,white),var(--tile-color));border:1px solid color-mix(in srgb,var(--tile-color) 70%,white);box-shadow:inset 0 2px 3px #ffffff70,inset 0 -3px 4px #0002}
-.game-cell.preview{background:var(--tile-color)!important;opacity:.75;outline:2px solid #fff}
-.game-piece{background:#22334d;border:2px solid #405675;border-radius:10px;box-shadow:0 3px 0 #0b1424;padding:8px;gap:3px}
-.game-piece.selected{outline:3px solid #ffd447;background:#304766}
-.piece-cell.on{background:linear-gradient(145deg,color-mix(in srgb,var(--piece-color) 75%,white),var(--piece-color));border:1px solid color-mix(in srgb,var(--piece-color) 70%,white);box-shadow:inset 0 2px 3px #ffffff75,inset 0 -2px 3px #0002}
-.game-best{background:#253b5b;border-color:#526d94}.game-best strong{color:#ffd447}
-.game-message{color:#ffe08a;font-weight:700}.game-help{color:#b9c9e2}
-.ranking-top .member:nth-child(1) .points{color:#ffd447}.ranking-top .member:nth-child(2) .points{color:#cbd5e1}.ranking-top .member:nth-child(3) .points{color:#e6a16b}
-
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -162,21 +147,19 @@ const gameShapes=[
  [[1,1,1,1]], [[1],[1],[1],[1]], [[1,1,1],[1,1,1]],
  [[1,0,0],[1,1,1]], [[0,0,1],[1,1,1]], [[1,1],[1,0]]
 ];
-const gamePalette=["#438cff","#22c8d8","#49c96b","#ffd447","#ff9845","#f064a6","#9b73f5"];
-function makeGamePiece(){const p=gameShapes[Math.floor(Math.random()*gameShapes.length)].map(row=>row.slice());p.color=gamePalette[Math.floor(Math.random()*gamePalette.length)];return p}
 let gameGrid=Array.from({length:8},()=>Array(8).fill(0)),gameScore=0,gamePieces=[],gameSelected=-1,gameEnded=false,gameAwarded=false,dragPiece=-1,dragCell=null,dragMoved=false;
 let gameBest=Number(localStorage.getItem("schoolBlockBest")||0);
-function newGame(){gameGrid=Array.from({length:8},()=>Array(8).fill(0));gameScore=0;gamePieces=[0,1,2].map(()=>makeGamePiece());gameSelected=-1;gameEnded=false;gameAwarded=false;dragPiece=-1;dragCell=null;gameRender();say("gameMessage","Ziehe einen Stein mit dem Finger oder der Maus auf das Spielfeld.")}
+function newGame(){gameGrid=Array.from({length:8},()=>Array(8).fill(0));gameScore=0;gamePieces=[0,1,2].map(()=>gameShapes[Math.floor(Math.random()*gameShapes.length)]);gameSelected=-1;gameEnded=false;gameAwarded=false;dragPiece=-1;dragCell=null;gameRender();say("gameMessage","Ziehe einen Stein mit dem Finger oder der Maus auf das Spielfeld.")}
 function canPlace(shape,r,c){for(let y=0;y<shape.length;y++)for(let x=0;x<shape[y].length;x++)if(shape[y][x]&&(r+y>=8||c+x>=8||gameGrid[r+y][c+x]))return false;return true}
 function anyMove(){return gamePieces.some(s=>s&&gameGrid.some((row,r)=>row.some((v,c)=>canPlace(s,r,c))))}
 function cellAtPoint(x,y){const el=document.elementFromPoint(x,y)?.closest(".game-cell");return el?{r:Number(el.dataset.r),c:Number(el.dataset.c)}:null}
 function clearPreview(){document.querySelectorAll(".game-cell.preview").forEach(x=>x.classList.remove("preview"))}
-function showPreview(cell){clearPreview();if(!cell||dragPiece<0||!gamePieces[dragPiece])return;const sh=gamePieces[dragPiece];if(!canPlace(sh,cell.r,cell.c))return;sh.forEach((row,y)=>row.forEach((v,x)=>{if(v){const el=$("gameBoard").querySelector('[data-r="'+(cell.r+y)+'"][data-c="'+(cell.c+x)+'"]');if(el){el.style.setProperty("--tile-color",sh.color);el.classList.add("preview")}}}))}
+function showPreview(cell){clearPreview();if(!cell||dragPiece<0||!gamePieces[dragPiece])return;const sh=gamePieces[dragPiece];if(!canPlace(sh,cell.r,cell.c))return;sh.forEach((row,y)=>row.forEach((v,x)=>{if(v){const el=$("gameBoard").querySelector('[data-r="'+(cell.r+y)+'"][data-c="'+(cell.c+x)+'"]');if(el)el.classList.add("preview")}}))}
 function gameRender(){
  $("gameScore").textContent=gameScore;$("gameBest").textContent=gameBest;$("gameBestSmall").textContent=gameBest;
- $("gameBoard").innerHTML=gameGrid.map((row,r)=>row.map((v,c)=>'<button type="button" class="game-cell '+(v?'filled':'')+'" style="'+(v?'--tile-color:'+v+';':'')+'" data-r="'+r+'" data-c="'+c+'" aria-label="Feld '+(r+1)+','+(c+1)+'"></button>').join("")).join("");
+ $("gameBoard").innerHTML=gameGrid.map((row,r)=>row.map((v,c)=>'<button type="button" class="game-cell '+(v?'filled':'')+'" data-r="'+r+'" data-c="'+c+'" aria-label="Feld '+(r+1)+','+(c+1)+'"></button>').join("")).join("");
  $("gameBoard").querySelectorAll(".game-cell").forEach(cell=>cell.onclick=()=>{if(dragMoved){dragMoved=false;return}if(gameSelected>=0)gamePlace(Number(cell.dataset.r),Number(cell.dataset.c))});
- $("gamePieces").innerHTML=gamePieces.map((shape,i)=>'<button type="button" class="game-piece '+(i===gameSelected?'selected':'')+'" '+(!shape||gameEnded?'disabled':'')+' data-piece="'+i+'" aria-label="Stein '+(i+1)+'">'+Array.from({length:16},(_,n)=>{const y=Math.floor(n/4),x=n%4;return '<span class="piece-cell '+(shape&&shape[y]&&shape[y][x]?'on':'')+'" style="'+(shape&&shape[y]&&shape[y][x]?'--piece-color:'+shape.color+';':'')+'"></span>'}).join("")+'</button>').join("");
+ $("gamePieces").innerHTML=gamePieces.map((shape,i)=>'<button type="button" class="game-piece '+(i===gameSelected?'selected':'')+'" '+(!shape||gameEnded?'disabled':'')+' data-piece="'+i+'" aria-label="Stein '+(i+1)+'">'+Array.from({length:16},(_,n)=>{const y=Math.floor(n/4),x=n%4;return '<span class="piece-cell '+(shape&&shape[y]&&shape[y][x]?'on':'')+'"></span>'}).join("")+'</button>').join("");
  $("gamePieces").querySelectorAll(".game-piece").forEach(b=>{
   b.onclick=()=>{if(dragMoved){dragMoved=false;return}gameSelected=Number(b.dataset.piece);gameRender()};
   b.onpointerdown=e=>{if(b.disabled||gameEnded)return;e.preventDefault();dragPiece=Number(b.dataset.piece);gameSelected=dragPiece;dragMoved=false;b.classList.add("dragging");b.setPointerCapture?.(e.pointerId);say("gameMessage","Ziehe den Stein auf ein freies Feld.");};
@@ -188,12 +171,12 @@ function gameRender(){
 async function gamePlace(r,c,selected=gameSelected){
  if(gameEnded||selected<0||!gamePieces[selected]){say("gameMessage","Wähle zuerst einen Stein aus.");return}
  const shape=gamePieces[selected];if(!canPlace(shape,r,c)){say("gameMessage","Dort passt der Stein leider nicht hin.");return}
- shape.forEach((row,y)=>row.forEach((v,x)=>{if(v)gameGrid[r+y][c+x]=shape.color}));
+ shape.forEach((row,y)=>row.forEach((v,x)=>{if(v)gameGrid[r+y][c+x]=1}));
  gameScore+=shape.flat().filter(Boolean).length*10;gamePieces[selected]=null;gameSelected=-1;
  let rows=[];for(let y=0;y<8;y++)if(gameGrid[y].every(Boolean))rows.push(y);
  let cols=[];for(let x=0;x<8;x++)if(gameGrid.every(row=>row[x]))cols.push(x);
  if(rows.length||cols.length){rows.forEach(y=>gameGrid[y].fill(0));cols.forEach(x=>gameGrid.forEach(row=>row[x]=0));gameScore+=(rows.length+cols.length)*100;say("gameMessage",(rows.length+cols.length)+" Reihe(n)/Spalte(n) gelöscht!")}
- if(gamePieces.every(p=>!p))gamePieces=[0,1,2].map(()=>makeGamePiece());
+ if(gamePieces.every(p=>!p))gamePieces=[0,1,2].map(()=>gameShapes[Math.floor(Math.random()*gameShapes.length)]);
  if(gameScore>gameBest){gameBest=gameScore;localStorage.setItem("schoolBlockBest",String(gameBest))}
  gameRender();
  if(!anyMove()){gameEnded=true;gameRender();say("gameMessage","Spiel vorbei! Du hast "+gameScore+" Punkte erreicht.");if(!gameAwarded&&gameScore>0){gameAwarded=true;try{await api("game_score",{score:gameScore});say("gameMessage","Spiel vorbei! "+gameScore+" Punkte wurden deiner Gruppenrangliste gutgeschrieben.");await load();gameRender()}catch(e){say("gameMessage","Spiel vorbei: "+gameScore+" Punkte. Gruppenpunkte konnten nicht gespeichert werden: "+e.message)}}}
