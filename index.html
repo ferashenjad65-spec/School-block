@@ -42,6 +42,18 @@ main{color:#e8eefc}.hero p,.muted{color:#a2b0c8}.eyebrow{color:#9bb0ff}
 .game-help{text-align:center;color:#8fa0bc;font-size:12px;line-height:1.5;margin:14px 0 0}
 @media(max-width:520px){.game-board{gap:3px;padding:5px}.game-cell{border-radius:3px}.game-meta{gap:9px;font-size:12px}.game-piece{grid-template-columns:repeat(4,15px);grid-template-rows:repeat(4,15px)}.game-head h2{font-size:21px}}
 
+
+/* Ursprünglicher Spiel-Aufbau: Rangliste oben, Spiel links */
+.ranking-top{margin:0 0 18px}
+.ranking-top .card{margin-bottom:0}
+.ranking-top #ranking{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:0 16px}
+.grid{grid-template-columns:minmax(340px,1.05fr) minmax(280px,.95fr)}
+.game-card{position:sticky;top:14px}
+.game-piece{touch-action:none;user-select:none;-webkit-user-select:none;-webkit-user-drag:none}
+.game-piece.dragging{opacity:.35;transform:scale(1.05)}
+.game-cell.preview{background:#829cff!important;outline:2px solid #d1dcff}
+.game-board{touch-action:none}
+@media(max-width:760px){.grid{grid-template-columns:1fr}.game-card{position:static}.ranking-top #ranking{grid-template-columns:repeat(2,minmax(0,1fr))}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -79,6 +91,9 @@ main{color:#e8eefc}.hero p,.muted{color:#a2b0c8}.eyebrow{color:#9bb0ff}
 </section>
 <section id="app" class="hidden">
 
+
+<div class="statline"><div class="stat"><b id="memberCount">0</b><span>Mitglieder</span></div><div class="stat"><b id="postCount">0</b><span>Beiträge</span></div><div class="stat"><b id="myRole">Mitglied</b><span>Deine Rolle</span></div></div>
+<section class="card"><h2>Mein Profil</h2><div class="row" style="align-items:center"><div class="avatar" id="myAvatar" style="width:64px;height:64px;font-size:24px">S</div><div style="flex:2"><strong id="myName">Mein Konto</strong><div class="muted" id="myClass" style="font-size:13px">Deine Klasse</div><label class="smallbtn light" style="display:inline-block;margin-top:7px;cursor:pointer">Profilbild ändern<input id="avatarFile" type="file" accept="image/jpeg,image/png,image/webp" hidden></label></div></div><div class="status" id="profileStatus"></div></section><div class="ranking-top"><section class="card"><h2>Rangliste</h2><p class="muted" style="font-size:13px">Die besten Spieler der Gruppe</p><div id="ranking"></div></section></div><div class="grid"><div>
 <section class="card game-card">
   <div class="game-head"><div><span class="eyebrow">Das Schulspiel</span><h2>School-Block</h2><p class="muted">Setze die Steine, fülle Reihen und Spalten und sammle Punkte für deine Gruppe.</p></div><div class="game-best">Bestleistung<br><strong id="gameBest">0</strong></div></div>
   <div class="game-meta"><span>Punkte <b id="gameScore">0</b></span><span>Rekord <b id="gameBestSmall">0</b></span><button id="gameNew" class="btn light">Neues Spiel</button></div>
@@ -87,12 +102,10 @@ main{color:#e8eefc}.hero p,.muted{color:#a2b0c8}.eyebrow{color:#9bb0ff}
   <div id="gamePieces" class="game-pieces"></div>
   <p class="game-help">Volle waagerechte Reihen und senkrechte Spalten verschwinden. Deine Spielpunkte zählen auch für die Gruppenrangliste.</p>
 </section>
-<div class="statline"><div class="stat"><b id="memberCount">0</b><span>Mitglieder</span></div><div class="stat"><b id="postCount">0</b><span>Beiträge</span></div><div class="stat"><b id="myRole">Mitglied</b><span>Deine Rolle</span></div></div>
-<section class="card"><h2>Mein Profil</h2><div class="row" style="align-items:center"><div class="avatar" id="myAvatar" style="width:64px;height:64px;font-size:24px">S</div><div style="flex:2"><strong id="myName">Mein Konto</strong><div class="muted" id="myClass" style="font-size:13px">Deine Klasse</div><label class="smallbtn light" style="display:inline-block;margin-top:7px;cursor:pointer">Profilbild ändern<input id="avatarFile" type="file" accept="image/jpeg,image/png,image/webp" hidden></label></div></div><div class="status" id="profileStatus"></div></section><div class="grid"><div>
 <section class="card"><h2>Neuigkeiten</h2><div id="postComposer" class="hidden"><input id="postTitle" class="field" placeholder="Überschrift"><textarea id="postBody" class="field" rows="3" placeholder="Was gibt es Neues?"></textarea><button id="publishPost" class="btn primary">Beitrag veröffentlichen</button><hr style="border:0;border-top:1px solid var(--line);margin:18px 0"></div><div id="posts"><div class="empty">Noch keine Beiträge.</div></div></section>
 <section class="card"><h2>Mitglieder</h2><div id="members"></div></section>
 </div><aside>
-<section class="card"><h2>Rangliste</h2><p class="muted" style="font-size:13px">Punkte werden vom Admin vergeben. Keine Beliebtheitswertung.</p><div id="ranking"></div></section>
+
 <section id="adminUnlock" class="card"><h2>Admin-Zugang</h2><p class="muted" style="font-size:13px">Nur für die Person mit dem Admin-Code.</p><input id="adminUnlockCode" class="field" type="password" placeholder="Admin-Code" autocomplete="off"><button id="adminUnlockBtn" class="btn light full">Admin-Bereich freischalten</button><div id="adminUnlockStatus" class="status"></div></section>
 <section id="adminPanel" class="card hidden"><h2>Admin-Bereich</h2><p class="muted" style="font-size:13px">Verwalte Mitglieder, Rollen und Punkte.</p><div id="inviteAdmin" class="hidden"><input id="adminEmail" class="field" placeholder="E-Mail des neuen Admins"><button id="inviteAdminBtn" class="btn light full">Admin einladen</button></div><div id="adminUsers"></div><div id="adminStatus" class="status"></div></section>
 </aside></div>
@@ -126,6 +139,7 @@ const storedAdminToken=sessionStorage.getItem("schoolblogAdminToken");const hasA
 if(["owner","admin"].includes(profile.role)){const u=await api("admin_list");$("adminUsers").innerHTML=u.users.map(m=>'<div class="admin-row"><div class="member-info"><strong>'+esc(m.display_name||m.email)+'</strong><small>'+esc(m.class_name||m.email)+' · '+esc(m.role)+'</small></div>'+(m.role==="owner"?"<span class=tag>Hauptadmin</span>":(profile.role==="owner"?'<button class="smallbtn light" onclick="adminAction(\'admin_set_role\',\''+m.user_id+'\',{role:\''+(m.role==="admin"?"member":"admin")+'\'})">'+(m.role==="admin"?"Admin entfernen":"Zum Admin machen")+'</button>':"") )+(m.role!=="owner"?'<button class="smallbtn light" onclick="adminAction(\'admin_points\',\''+m.user_id+'\',{points:'+Math.max(0,m.points+10)+'})">+10 Punkte</button><button class="smallbtn danger" onclick="adminAction(\'admin_suspend\',\''+m.user_id+'\',{suspended:'+(!m.is_suspended)+'})">'+(m.is_suspended?"Freigeben":"Sperren")+'</button>':"")+'</div>').join("")}}
 catch(e){$("join").classList.add("hidden");$("app").classList.add("hidden");$("auth").classList.remove("hidden");say("authStatus",e.message)}}
 
+
 const gameShapes=[
  [[1,1],[1,1]], [[1,1,1]], [[1],[1],[1]], [[1,1,1],[0,1,0]],
  [[1,0],[1,0],[1,1]], [[0,1],[0,1],[1,1]], [[1,1,0],[0,1,1]],
@@ -133,34 +147,41 @@ const gameShapes=[
  [[1,1,1,1]], [[1],[1],[1],[1]], [[1,1,1],[1,1,1]],
  [[1,0,0],[1,1,1]], [[0,0,1],[1,1,1]], [[1,1],[1,0]]
 ];
-let gameGrid=Array.from({length:8},()=>Array(8).fill(0)),gameScore=0,gamePieces=[],gameSelected=-1,gameEnded=false,gameAwarded=false;
+let gameGrid=Array.from({length:8},()=>Array(8).fill(0)),gameScore=0,gamePieces=[],gameSelected=-1,gameEnded=false,gameAwarded=false,dragPiece=-1,dragCell=null,dragMoved=false;
 let gameBest=Number(localStorage.getItem("schoolBlockBest")||0);
-function newGame(){gameGrid=Array.from({length:8},()=>Array(8).fill(0));gameScore=0;gamePieces=[0,1,2].map(()=>gameShapes[Math.floor(Math.random()*gameShapes.length)]);gameSelected=-1;gameEnded=false;gameAwarded=false;gameRender();say("gameMessage","Wähle unten einen Stein und tippe dann auf das Feld.")}
+function newGame(){gameGrid=Array.from({length:8},()=>Array(8).fill(0));gameScore=0;gamePieces=[0,1,2].map(()=>gameShapes[Math.floor(Math.random()*gameShapes.length)]);gameSelected=-1;gameEnded=false;gameAwarded=false;dragPiece=-1;dragCell=null;gameRender();say("gameMessage","Ziehe einen Stein mit dem Finger oder der Maus auf das Spielfeld.")}
 function canPlace(shape,r,c){for(let y=0;y<shape.length;y++)for(let x=0;x<shape[y].length;x++)if(shape[y][x]&&(r+y>=8||c+x>=8||gameGrid[r+y][c+x]))return false;return true}
 function anyMove(){return gamePieces.some(s=>s&&gameGrid.some((row,r)=>row.some((v,c)=>canPlace(s,r,c))))}
+function cellAtPoint(x,y){const el=document.elementFromPoint(x,y)?.closest(".game-cell");return el?{r:Number(el.dataset.r),c:Number(el.dataset.c)}:null}
+function clearPreview(){document.querySelectorAll(".game-cell.preview").forEach(x=>x.classList.remove("preview"))}
+function showPreview(cell){clearPreview();if(!cell||dragPiece<0||!gamePieces[dragPiece])return;const sh=gamePieces[dragPiece];if(!canPlace(sh,cell.r,cell.c))return;sh.forEach((row,y)=>row.forEach((v,x)=>{if(v){const el=$("gameBoard").querySelector('[data-r="'+(cell.r+y)+'"][data-c="'+(cell.c+x)+'"]');if(el)el.classList.add("preview")}}))}
 function gameRender(){
-  $("gameScore").textContent=gameScore;$("gameBest").textContent=gameBest;$("gameBestSmall").textContent=gameBest;
-  $("gameBoard").innerHTML=gameGrid.map((row,r)=>row.map((v,c)=>'<button class="game-cell '+(v?'filled':'')+'" data-r="'+r+'" data-c="'+c+'" aria-label="Feld '+(r+1)+','+(c+1)+'"></button>').join("")).join("");
-  $("gameBoard").querySelectorAll(".game-cell").forEach(cell=>cell.onclick=()=>gamePlace(Number(cell.dataset.r),Number(cell.dataset.c)));
-  $("gamePieces").innerHTML=gamePieces.map((shape,i)=>'<button class="game-piece '+(i===gameSelected?'selected':'')+'" '+(!shape||gameEnded?'disabled':'')+' data-piece="'+i+'" aria-label="Stein '+(i+1)+'">'+Array.from({length:16},(_,n)=>{const y=Math.floor(n/4),x=n%4;return '<span class="piece-cell '+(shape&&shape[y]&&shape[y][x]?'on':'')+'"></span>'}).join("")+'</button>').join("");
-  $("gamePieces").querySelectorAll(".game-piece").forEach(b=>b.onclick=()=>{gameSelected=Number(b.dataset.piece);gameRender()});
+ $("gameScore").textContent=gameScore;$("gameBest").textContent=gameBest;$("gameBestSmall").textContent=gameBest;
+ $("gameBoard").innerHTML=gameGrid.map((row,r)=>row.map((v,c)=>'<button type="button" class="game-cell '+(v?'filled':'')+'" data-r="'+r+'" data-c="'+c+'" aria-label="Feld '+(r+1)+','+(c+1)+'"></button>').join("")).join("");
+ $("gameBoard").querySelectorAll(".game-cell").forEach(cell=>cell.onclick=()=>{if(dragMoved){dragMoved=false;return}if(gameSelected>=0)gamePlace(Number(cell.dataset.r),Number(cell.dataset.c))});
+ $("gamePieces").innerHTML=gamePieces.map((shape,i)=>'<button type="button" class="game-piece '+(i===gameSelected?'selected':'')+'" '+(!shape||gameEnded?'disabled':'')+' data-piece="'+i+'" aria-label="Stein '+(i+1)+'">'+Array.from({length:16},(_,n)=>{const y=Math.floor(n/4),x=n%4;return '<span class="piece-cell '+(shape&&shape[y]&&shape[y][x]?'on':'')+'"></span>'}).join("")+'</button>').join("");
+ $("gamePieces").querySelectorAll(".game-piece").forEach(b=>{
+  b.onclick=()=>{if(dragMoved){dragMoved=false;return}gameSelected=Number(b.dataset.piece);gameRender()};
+  b.onpointerdown=e=>{if(b.disabled||gameEnded)return;e.preventDefault();dragPiece=Number(b.dataset.piece);gameSelected=dragPiece;dragMoved=false;b.classList.add("dragging");b.setPointerCapture?.(e.pointerId);say("gameMessage","Ziehe den Stein auf ein freies Feld.");};
+  b.onpointermove=e=>{if(dragPiece<0)return;const next=cellAtPoint(e.clientX,e.clientY);if(next){dragMoved=true;dragCell=next;showPreview(next)}};
+  b.onpointerup=async e=>{if(dragPiece<0)return;const index=dragPiece,cell=cellAtPoint(e.clientX,e.clientY)||dragCell;dragPiece=-1;dragCell=null;clearPreview();b.classList.remove("dragging");if(cell){dragMoved=true;await gamePlace(cell.r,cell.c,index)}else{gameSelected=index;gameRender()}};
+  b.onpointercancel=()=>{dragPiece=-1;dragCell=null;clearPreview();b.classList.remove("dragging")};
+ });
 }
-async function gamePlace(r,c){
-  if(gameEnded||gameSelected<0||!gamePieces[gameSelected]){say("gameMessage","Wähle zuerst einen Stein aus.");return}
-  const shape=gamePieces[gameSelected];if(!canPlace(shape,r,c)){say("gameMessage","Dort passt der Stein leider nicht hin.");return}
-  shape.forEach((row,y)=>row.forEach((v,x)=>{if(v)gameGrid[r+y][c+x]=1}));
-  gameScore+=shape.flat().filter(Boolean).length*10;gamePieces[gameSelected]=null;
-  let rows=[];for(let y=0;y<8;y++)if(gameGrid[y].every(Boolean))rows.push(y);
-  let cols=[];for(let x=0;x<8;x++)if(gameGrid.every(row=>row[x]))cols.push(x);
-  if(rows.length||cols.length){rows.forEach(y=>gameGrid[y].fill(0));cols.forEach(x=>gameGrid.forEach(row=>row[x]=0));gameScore+=(rows.length+cols.length)*100;say("gameMessage",(rows.length+cols.length)+" Reihe(n)/Spalte(n) gelöscht!");}
-  if(gamePieces.every(p=>!p)){gamePieces=[0,1,2].map(()=>gameShapes[Math.floor(Math.random()*gameShapes.length)]);gameSelected=-1;}
-  else if(gameSelected>=0){gameSelected=-1}
-  if(gameScore>gameBest){gameBest=gameScore;localStorage.setItem("schoolBlockBest",String(gameBest))}
-  gameRender();
-  if(!anyMove()){gameEnded=true;gameRender();say("gameMessage","Spiel vorbei! Du hast "+gameScore+" Punkte erreicht.");if(!gameAwarded&&gameScore>0){gameAwarded=true;try{await api("game_score",{score:gameScore});say("gameMessage","Spiel vorbei! "+gameScore+" Punkte wurden deiner Gruppenrangliste gutgeschrieben.");await load();gameRender()}catch(e){say("gameMessage","Spiel vorbei: "+gameScore+" Punkte. Gruppenpunkte konnten nicht gespeichert werden: "+e.message)}}}
+async function gamePlace(r,c,selected=gameSelected){
+ if(gameEnded||selected<0||!gamePieces[selected]){say("gameMessage","Wähle zuerst einen Stein aus.");return}
+ const shape=gamePieces[selected];if(!canPlace(shape,r,c)){say("gameMessage","Dort passt der Stein leider nicht hin.");return}
+ shape.forEach((row,y)=>row.forEach((v,x)=>{if(v)gameGrid[r+y][c+x]=1}));
+ gameScore+=shape.flat().filter(Boolean).length*10;gamePieces[selected]=null;gameSelected=-1;
+ let rows=[];for(let y=0;y<8;y++)if(gameGrid[y].every(Boolean))rows.push(y);
+ let cols=[];for(let x=0;x<8;x++)if(gameGrid.every(row=>row[x]))cols.push(x);
+ if(rows.length||cols.length){rows.forEach(y=>gameGrid[y].fill(0));cols.forEach(x=>gameGrid.forEach(row=>row[x]=0));gameScore+=(rows.length+cols.length)*100;say("gameMessage",(rows.length+cols.length)+" Reihe(n)/Spalte(n) gelöscht!")}
+ if(gamePieces.every(p=>!p))gamePieces=[0,1,2].map(()=>gameShapes[Math.floor(Math.random()*gameShapes.length)]);
+ if(gameScore>gameBest){gameBest=gameScore;localStorage.setItem("schoolBlockBest",String(gameBest))}
+ gameRender();
+ if(!anyMove()){gameEnded=true;gameRender();say("gameMessage","Spiel vorbei! Du hast "+gameScore+" Punkte erreicht.");if(!gameAwarded&&gameScore>0){gameAwarded=true;try{await api("game_score",{score:gameScore});say("gameMessage","Spiel vorbei! "+gameScore+" Punkte wurden deiner Gruppenrangliste gutgeschrieben.");await load();gameRender()}catch(e){say("gameMessage","Spiel vorbei: "+gameScore+" Punkte. Gruppenpunkte konnten nicht gespeichert werden: "+e.message)}}}
 }
 $("gameNew").onclick=newGame;
-
 window.adminAction=adminAction;window.deletePost=async id=>{if(confirm("Diesen Beitrag löschen?")){try{await api("admin_delete_post",{postId:id});await load()}catch(e){say("adminStatus",e.message)}}};
 sb.auth.onAuthStateChange((event)=>{if(event==="PASSWORD_RECOVERY"){$("auth").classList.add("hidden");$("join").classList.add("hidden");$("app").classList.add("hidden");$("recovery").classList.remove("hidden")}setTimeout(load,0)});if(new URLSearchParams(window.location.hash.slice(1)).get("type")==="recovery"){$("auth").classList.add("hidden");$("recovery").classList.remove("hidden")}newGame();load();
 </script></body></html>
