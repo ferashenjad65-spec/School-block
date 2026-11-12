@@ -25,9 +25,14 @@ main{max-width:1120px;margin:32px auto;padding:0 20px}.hero{margin-bottom:24px}.
 <input id="displayName" class="field" maxlength="32" placeholder="Dein Name" autocomplete="name">
 <input id="className" class="field" maxlength="24" placeholder="Deine Klasse (z. B. 7A)">
 <input id="groupCode" class="field" placeholder="Gruppencode" value="cyberangriff" autocomplete="off">
-<input id="adminCode" class="field" type="password" placeholder="Admin-Code (nur für Admins, optional)" autocomplete="off">
 <button id="authAction" class="btn primary full">Gruppe beitreten</button>
 <div id="authStatus" class="status"></div>
+<div style="border-top:1px solid var(--line);margin:22px 0 18px"></div>
+<h2>Administrator-Zugang</h2>
+<p class="muted">Als Administrator brauchst du nur deinen Administrator-Code. Name, Klasse und Gruppencode sind nicht nötig.</p>
+<input id="adminLoginCode" class="field" type="password" placeholder="Administrator-Code" autocomplete="off">
+<button id="adminLoginBtn" class="btn light full">Als Administrator anmelden</button>
+<div id="adminLoginStatus" class="status"></div>
 </section>
 <section id="recovery" class="card hidden" style="max-width:520px;margin:16px auto">
 <h2>Neues Passwort festlegen</h2><p class="muted">Gib dein neues Passwort ein. Es muss mindestens 8 Zeichen lang sein.</p>
@@ -62,7 +67,8 @@ const $=id=>document.getElementById(id);
 function say(id,msg){$(id).textContent=msg}
 function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 async function api(action,extra={}){const {data:{session:s}}=await sb.auth.getSession();const token=s?.access_token||SB_KEY;let adminToken=sessionStorage.getItem("schoolblogAdminToken");if(adminToken&&Number(adminToken.split(".")[1])<=Math.floor(Date.now()/1000)){sessionStorage.removeItem("schoolblogAdminToken");adminToken=null}const headers={"Content-Type":"application/json","apikey":SB_KEY,"Authorization":"Bearer "+token};if(adminToken)headers["x-schoolblog-admin"]=adminToken;const r=await fetch(SB_URL+"/functions/v1/school-block-api",{method:"POST",headers,body:JSON.stringify({action,...extra})});const d=await r.json();if(!r.ok)throw new Error(d.error||"Fehler");return d}
-$("authAction").onclick=async()=>{say("authStatus","");const name=$("displayName").value.trim(),className=$("className").value.trim(),code=$("groupCode").value.trim(),adminCode=$("adminCode").value.trim();if(name.length<2||!className||!code){say("authStatus","Bitte Namen, Klasse und Gruppencode eingeben.");return}try{say("authStatus","Du wirst angemeldet …");let {data:{session:s}}=await sb.auth.getSession();if(!s){const signed=await sb.auth.signInAnonymously();if(signed.error)throw signed.error;s=signed.data.session}session=s;await api("join_group",{name,className,code});if(adminCode){const a=await api("admin_login",{adminCode});sessionStorage.setItem("schoolblogAdminToken",a.adminToken)}await load()}catch(e){say("authStatus",e.message)}};
+$("authAction").onclick=async()=>{say("authStatus","");const name=$("displayName").value.trim(),className=$("className").value.trim(),code=$("groupCode").value.trim();if(name.length<2||!className||!code){say("authStatus","Bitte Namen, Klasse und Gruppencode eingeben.");return}try{say("authStatus","Du wirst angemeldet …");let {data:{session:s}}=await sb.auth.getSession();if(!s){const signed=await sb.auth.signInAnonymously();if(signed.error)throw signed.error;s=signed.data.session}session=s;await api("join_group",{name,className,code});await load()}catch(e){say("authStatus",e.message)}};
+$("adminLoginBtn").onclick=async()=>{say("adminLoginStatus","");const adminCode=$("adminLoginCode").value.trim();if(!adminCode){say("adminLoginStatus","Bitte Administrator-Code eingeben.");return}try{say("adminLoginStatus","Administrator-Zugang wird geprüft …");let {data:{session:s}}=await sb.auth.getSession();if(!s){const signed=await sb.auth.signInAnonymously();if(signed.error)throw signed.error;s=signed.data.session}session=s;const a=await api("admin_login",{adminCode});sessionStorage.setItem("schoolblogAdminToken",a.adminToken);$("adminLoginCode").value="";await load()}catch(e){say("adminLoginStatus",e.message)}};
 $("adminUnlockBtn").onclick=async()=>{try{say("adminUnlockStatus","Admin-Zugang wird geprüft …");const a=await api("admin_login",{adminCode:$("adminUnlockCode").value});sessionStorage.setItem("schoolblogAdminToken",a.adminToken);$("adminUnlockCode").value="";say("adminUnlockStatus","Admin-Zugang freigeschaltet.");await load()}catch(e){say("adminUnlockStatus",e.message)}};
 $("joinAction").onclick=async()=>{try{say("joinStatus","Wird gespeichert …");await api("join_group",{name:$("displayName").value,className:$("className").value,code:$("groupCode").value});await load()}catch(e){say("joinStatus",e.message)}};
 $("logout").onclick=()=>{sessionStorage.removeItem("schoolblogAdminToken");sb.auth.signOut()};
