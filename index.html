@@ -287,6 +287,30 @@ hr{border-color:#315d91!important}
 .game-drag-ghost .color-3{background:linear-gradient(145deg,#b2ff8a,#52d45c 55%,#168a39)}
 @media(max-width:560px){.game-drag-ghost span{width:25px;height:25px}}
 
+
+/* Klassische, klare Block-Puzzle-Steine: Farbe und Form stimmen überall überein */
+#app .game-pieces{display:flex;align-items:center;justify-content:center;gap:clamp(16px,3vw,34px);min-height:120px;padding:12px 4px 8px}
+#app .game-piece{width:max-content;min-width:0;min-height:0;display:grid;grid-template-columns:repeat(4,clamp(21px,2.35vw,30px));grid-template-rows:repeat(4,clamp(21px,2.35vw,30px));gap:4px;padding:12px;border-radius:15px;align-content:center;justify-content:center;touch-action:none;transition:transform .12s ease,filter .12s ease,box-shadow .12s ease}
+#app .game-piece:hover{transform:translateY(-3px);filter:brightness(1.08)}
+#app .game-piece.selected{transform:translateY(-4px) scale(1.04);box-shadow:0 0 0 3px #ffd34f,0 8px 0 #062654,0 12px 20px #00163888!important}
+#app .piece-cell{width:100%;height:100%;min-width:0;min-height:0;border-radius:5px;background:transparent;border:0;box-shadow:none}
+#app .piece-cell.on{border:1px solid #ffffffa8;box-shadow:inset 0 2px 2px #ffffff8a,inset 0 -4px 3px #0004,0 2px 2px #001b3d88}
+#app .piece-cell.on.color-1{background:linear-gradient(145deg,#ffc36b 0%,#ff8b22 52%,#d95508 100%)}
+#app .piece-cell.on.color-2{background:linear-gradient(145deg,#e0b5ff 0%,#a75be9 52%,#6829b7 100%)}
+#app .piece-cell.on.color-3{background:linear-gradient(145deg,#b7ff91 0%,#58d968 52%,#168b3b 100%)}
+#app .game-cell.filled.color-1{background:linear-gradient(145deg,#ffc36b 0%,#ff8b22 52%,#d95508 100%)!important;border-color:#ffd09a!important}
+#app .game-cell.filled.color-2{background:linear-gradient(145deg,#e0b5ff 0%,#a75be9 52%,#6829b7 100%)!important;border-color:#e8caff!important}
+#app .game-cell.filled.color-3{background:linear-gradient(145deg,#b7ff91 0%,#58d968 52%,#168b3b 100%)!important;border-color:#d0ffb9!important}
+#app .game-cell.filled{box-shadow:inset 0 3px 2px #ffffff80,inset 0 -4px 4px #001b3d66,0 2px 2px #001b3d88!important}
+#app .game-cell.preview{background:linear-gradient(145deg,#ffe68a,#f7bb31)!important;border:2px solid #fff2bd!important;opacity:.95}
+#app .game-piece.used{visibility:hidden;pointer-events:none}
+.game-drag-ghost span{border-radius:5px!important}
+@media(max-width:560px){
+ #app .game-pieces{gap:10px;min-height:92px}
+ #app .game-piece{grid-template-columns:repeat(4,19px);grid-template-rows:repeat(4,19px);gap:3px;padding:8px;border-radius:11px}
+ #app .piece-cell.on{border-radius:4px}
+}
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -397,9 +421,9 @@ function clearGamePreview(){$("gameBoard").querySelectorAll(".preview").forEach(
 function previewGamePiece(){clearGamePreview();if(!gameDrag||gameDrag.row===null)return;gameDrag.valid=canPlace(gameDrag.piece.shape,gameDrag.row,gameDrag.col);gameDrag.piece.shape.forEach(([y,x])=>{const cell=$("gameBoard").querySelector('[data-r="'+(gameDrag.row+y)+'"][data-c="'+(gameDrag.col+x)+'"]');if(cell){cell.classList.add("preview");if(!gameDrag.valid)cell.classList.add("invalid")}})}
 function gameRender(){
  $("gameScore").textContent=gameScore;$("gameBest").textContent=gameBest;$("gameBestSmall").textContent=gameBest;
- $("gameBoard").innerHTML=gameGrid.map((row,r)=>row.map((v,c)=>'<button type="button" class="game-cell '+(v?'filled '+v:'')+'" data-r="'+r+'" data-c="'+c+'" aria-label="Feld '+(r+1)+','+(c+1)+'"></button>').join("")).join("");
+ $("gameBoard").innerHTML=gameGrid.map((row,r)=>row.map((v,c)=>'<button type="button" class="game-cell '+(v?'filled color-'+(gameColors.indexOf(v)+1):'')+'" data-r="'+r+'" data-c="'+c+'" aria-label="Feld '+(r+1)+','+(c+1)+'"></button>').join("")).join("");
  $("gameBoard").querySelectorAll(".game-cell").forEach(cell=>cell.onclick=()=>{if(gameDrag)return;if(gameSelected>=0)gamePlace(Number(cell.dataset.r),Number(cell.dataset.c),gameSelected)});
- $("gamePieces").innerHTML=gamePieces.map((piece,i)=>{if(!piece)return '<span class="game-piece used" aria-hidden="true"></span>';const maxR=Math.max(...piece.shape.map(p=>p[0])),maxC=Math.max(...piece.shape.map(p=>p[1]));return '<button type="button" class="game-piece '+(i===gameSelected?'selected':'')+'" data-piece="'+i+'" data-color="'+piece.color+'" aria-label="Stein '+(i+1)+'">'+Array.from({length:(maxR+1)*(maxC+1)},(_,n)=>{const r=Math.floor(n/(maxC+1)),c=n%(maxC+1);return '<span class="piece-cell '+(piece.shape.some(p=>p[0]===r&&p[1]===c)?'on':'')+'" data-r="'+r+'" data-c="'+c+'"></span>'}).join("")+'</button>'}).join("");
+ $("gamePieces").innerHTML=gamePieces.map((piece,i)=>{if(!piece)return '<span class="game-piece used" aria-hidden="true"></span>';const maxR=Math.max(...piece.shape.map(p=>p[0])),maxC=Math.max(...piece.shape.map(p=>p[1]));return '<button type="button" class="game-piece '+(i===gameSelected?'selected':'')+'" data-piece="'+i+'" data-color="'+piece.color+'" aria-label="Stein '+(i+1)+'">'+Array.from({length:(maxR+1)*(maxC+1)},(_,n)=>{const r=Math.floor(n/(maxC+1)),c=n%(maxC+1),on=piece.shape.some(p=>p[0]===r&&p[1]===c);return '<span class="piece-cell '+(on?'on color-'+(gameColors.indexOf(piece.color)+1):'')+'" data-r="'+r+'" data-c="'+c+'"></span>'}).join("")+'</button>'}).join("");
  $("gamePieces").querySelectorAll(".game-piece[data-piece]").forEach(el=>{
   const index=Number(el.dataset.piece);
   el.onclick=()=>{if(gameDrag)return;gameSelected=index;gameRender()};
