@@ -477,7 +477,7 @@ const gameColors=["orange","purple","green","cyan","pink"];
 const GAME_N=8;
 let gameGrid=Array.from({length:GAME_N},()=>Array(GAME_N).fill(null));
 let gameScore=0,gameStreak=0,gameMisses=0,gamePieces=[],gameSelected=-1,gameEnded=false,gameAwarded=false,gameDrag=null,gameSoundOn=localStorage.getItem("schoolblogSound")!=="off",gameAudio=null,gameParticles=[];
-let gameBest=Math.max(0,Number(localStorage.getItem("blockBlastBestScore")||0));
+let gameBest=Math.max(0,Number(localStorage.getItem("blockBlastBestScore")||0));let gameSuppressPieceClick=false;
 const gameBonus={1:0,2:10,3:30,4:60,5:100,6:150};
 function gamePlaySound(kind){
  if(!gameSoundOn)return;
@@ -485,7 +485,7 @@ function gamePlaySound(kind){
 }
 function gameSay(msg){$("gameMessage").textContent=msg}
 function gameRandomPiece(){return {shape:gameShapes[Math.floor(Math.random()*gameShapes.length)].map(p=>p.slice()),color:gameColors[Math.floor(Math.random()*gameColors.length)]}}
-function gameNewHand(){gamePieces=Array.from({length:3},gameRandomPiece);gameSelected=-1;gameRenderPieces()}
+function gameNewHand(){const occupied=gameGrid.flat().filter(Boolean).length,fill=occupied/(GAME_N*GAME_N),maxBlocks=fill>.85?2:fill>.75?3:fill>.65?4:fill>.4?6:9;const pool=gameShapes.filter(shape=>shape.length<=maxBlocks);gamePieces=Array.from({length:3},()=>{let options=pool.length?pool:gameShapes;for(let tries=0;tries<80;tries++){const shape=options[Math.floor(Math.random()*options.length)];if(Array.from({length:GAME_N},(_,r)=>Array.from({length:GAME_N},(_,c)=>gameCanPlace(shape,r,c))).some(row=>row.some(Boolean)))return {shape:shape.map(p=>p.slice()),color:gameColors[Math.floor(Math.random()*gameColors.length)]}}return gameRandomPiece()});gameSelected=-1;gameRenderPieces()}
 function gameCanPlace(shape,r,c,grid=gameGrid){return shape.every(([y,x])=>r+y>=0&&r+y<GAME_N&&c+x>=0&&c+x<GAME_N&&!grid[r+y][c+x])}
 function gameHasMove(){return gamePieces.some(p=>p&&Array.from({length:GAME_N},(_,r)=>Array.from({length:GAME_N},(_,c)=>gameCanPlace(p.shape,r,c))).some(row=>row.some(Boolean)))}
 function gameClearPreview(){document.querySelectorAll("#gameBoard .preview").forEach(el=>el.classList.remove("preview","invalid"))}
@@ -496,7 +496,7 @@ function gameRenderPieces(){
  $("gamePieces").innerHTML=gamePieces.map((p,i)=>{if(!p)return '<span class="game-piece used" aria-hidden="true"></span>';const h=Math.max(...p.shape.map(v=>v[0]))+1,w=Math.max(...p.shape.map(v=>v[1]))+1;let cells="";for(let r=0;r<5;r++)for(let c=0;c<5;c++){const on=p.shape.some(v=>v[0]===r&&v[1]===c);cells+='<span class="piece-cell '+(on?'on color-'+(gameColors.indexOf(p.color)+1):'')+'" data-r="'+r+'" data-c="'+c+'"></span>'}return '<button type="button" class="game-piece '+(i===gameSelected?'selected':'')+'" data-piece="'+i+'" aria-label="Stein '+(i+1)+'">'+cells+'</button>'}).join("");
  $("gamePieces").querySelectorAll(".game-piece[data-piece]").forEach(el=>{
   const i=Number(el.dataset.piece);
-  el.addEventListener("click",()=>{if(gameDrag||gameEnded)return;gameSelected=i;gameRenderPieces();gameSay("Stein "+(i+1)+" ausgewählt. Tippe auf ein freies Feld.")});
+  el.addEventListener("click",()=>{if(gameSuppressPieceClick){gameSuppressPieceClick=false;return}if(gameDrag||gameEnded)return;gameSelected=i;gameRenderPieces();gameSay("Stein "+(i+1)+" ausgewählt. Tippe auf ein freies Feld.")});
   el.addEventListener("pointerdown",e=>{if(gameEnded||!gamePieces[i])return;const cell=e.target.closest(".piece-cell.on");if(!cell)return;e.preventDefault();gameSelected=i;gameDrag={index:i,piece:gamePieces[i],offsetR:Number(cell.dataset.r),offsetC:Number(cell.dataset.c),row:null,col:null,valid:false,source:el,startX:e.clientX,startY:e.clientY,moved:false};el.classList.add("dragging");gameMakeGhost();gameMoveDrag(e);});
  });
 }
@@ -545,7 +545,7 @@ function gameDrop(){
  if(!gameDrag)return;const d=gameDrag;gameDrag=null;gameClearPreview();d.source.classList.remove("dragging");d.ghost?.remove();if(d.row!==null&&d.valid){gamePlace(d.row,d.col,d.index)}else if(d.moved){gamePlaySound("wrong");gameSay("Der Stein muss vollständig auf freie Felder passen.")}else{gameSelected=d.index;gameRenderPieces()}
 }
 window.addEventListener("pointermove",e=>{if(gameDrag)gameMoveDrag(e)},{passive:false});
-window.addEventListener("pointerup",()=>{if(gameDrag)gameDrop()});
+window.addEventListener("pointerup",e=>{if(gameDrag)gameDrop(e)});
 window.addEventListener("pointercancel",()=>{if(gameDrag){gameDrag.ghost?.remove();gameDrag=null;gameClearPreview()}});
 $("gameBoard").addEventListener("click",e=>{const cell=e.target.closest(".game-cell");if(!cell||gameSelected<0||gameEnded||gameDrag)return;gamePlace(Number(cell.dataset.r),Number(cell.dataset.c),gameSelected)});
 $("gameNew").onclick=()=>{gameReset()};
