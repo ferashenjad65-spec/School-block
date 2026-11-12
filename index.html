@@ -137,6 +137,59 @@ main{max-width:1700px;margin:14px auto;padding:0 clamp(10px,1.8vw,26px)}.hero{di
 @media(max-width:900px){#app .grid{grid-template-columns:minmax(0,1fr)}#app aside{position:static;min-height:0;display:grid;grid-template-columns:1fr}#app aside .ranking-mini{margin-top:0;order:2}#app .game-board{width:min(100%,min(78vw,680px))}#app #ranking{max-height:260px}}
 @media(max-width:560px){header.blast-header{flex-wrap:wrap;padding:9px 12px;gap:8px}.blast-header .brand .mark{width:38px;height:38px}.blast-header .brand strong{font-size:17px}.blast-search{order:3;max-width:none;flex-basis:100%;height:38px}.header-account{margin-left:auto}.header-profile-info strong{font-size:11px}.header-profile-info small{font-size:10px}#logout{font-size:10px;padding:7px}main{margin:8px auto}#app{padding:7px;border-radius:17px}#app .game-card{padding:10px;border-radius:17px}#app .game-board{width:min(100%,94vw);gap:3px;padding:5px;border-radius:12px}#app .game-cell{border-radius:3px}#app .game-piece{grid-template-columns:repeat(4,17px);grid-template-rows:repeat(4,17px);padding:8px;gap:3px}.score-crown{padding:6px 8px;gap:5px}.score-crown span{font-size:9px}.score-crown b{font-size:19px}.record-score{font-size:10px}}
 
+
+/* Neues Block-Blast-Layout nach dem bereitgestellten HTML */
+body{background:linear-gradient(145deg,#2863bd,#17458f) fixed;color:#fff}
+header.blast-header{height:90px;min-height:90px;background:#f5f5f5;color:#e65b70;padding:15px clamp(12px,2vw,28px);box-shadow:none}
+.blast-header .brand .mark{background:linear-gradient(145deg,#ff777f,#d93650);box-shadow:inset 0 2px 3px #fff9,0 3px 0 #a52239;border-radius:12px}
+.blast-header .brand strong{color:#e65b70;font-size:35px;letter-spacing:0}
+.blast-header .brand small{display:none}
+.blast-search{background:#eee;border:0;border-radius:30px;height:48px;padding:0 20px;color:#999}
+.blast-search input{color:#555}
+.header-profile-info strong{color:#17385f}.header-profile-info small{color:#6f89ab}
+.header-profile .avatar{border-color:#dce8f7}
+#logout,.header-profile-info .smallbtn{background:#e8f2ff;color:#2266b8}
+main{max-width:1100px;margin:16px auto;padding:0 14px}
+#app{background:transparent;border:0;border-radius:0;padding:0;box-shadow:none}
+#app .grid{grid-template-columns:minmax(0,1fr) 260px;gap:18px}
+#app .game-card{background:transparent;border:0;box-shadow:none;padding:8px 4px;color:#fff}
+#app .game-head{justify-content:center;text-align:center}
+#app .game-head>div:first-child p{color:#e0edff}
+#app .game-head h2{display:none}
+#app .game-head .eyebrow{color:#e7f2ff}
+#app .game-best{display:none}
+#app .game-meta{justify-content:center;gap:38px;margin:20px 0 28px;color:#fff;font-size:25px}
+#app .score-crown{background:transparent;border:0;box-shadow:none;padding:0;color:#ffdc35;font-size:26px}
+#app .score-crown span{display:none}
+#app .score-crown b{font-size:35px;color:#fff}
+#app .record-score{font-size:30px;color:#fff}
+#app .record-score b{color:#fff}
+#app #gameNew{font-size:12px;margin-left:0;background:#ffcc36;color:#543d06;box-shadow:0 3px 0 #c58e17}
+#app .game-board{width:min(90vw,500px);max-width:100%;padding:5px;gap:3px;background:#243c70;border:0;border-radius:5px;box-shadow:none}
+#app .game-cell{background:#354b80;border:1px solid #293e70;border-radius:4px;aspect-ratio:1}
+#app .game-cell.filled{border:2px solid #ffffff80;box-shadow:inset 2px 2px 4px #ffffff66,inset -3px -3px 4px #0005}
+#app .game-cell.color-1{background:linear-gradient(145deg,#ff9a38,#e65a00);border-color:#ffae53}
+#app .game-cell.color-2{background:linear-gradient(145deg,#c36bff,#8435ce);border-color:#a75ce8}
+#app .game-cell.color-3{background:linear-gradient(145deg,#57e77c,#12a94a);border-color:#71ef8b}
+#app .game-cell.preview{background:#fff!important;outline:2px solid #fff;opacity:.8}
+#app .game-message{color:#fff;font-size:18px;margin:20px 0;min-height:24px}
+#app .game-pieces{width:min(95vw,500px);justify-content:space-around;gap:14px;margin:24px auto 12px}
+#app .game-piece{background:transparent;border:0;border-radius:0;box-shadow:none;padding:4px;gap:3px;grid-template-columns:repeat(4,clamp(15px,5vw,24px));grid-template-rows:repeat(4,clamp(15px,5vw,24px))}
+#app .game-piece.selected{outline:2px solid #ffdc35;background:#ffffff20}
+#app .piece-cell.on{border-radius:4px;border:2px solid #ffae53;background:linear-gradient(145deg,#ff9a38,#e65a00);box-shadow:inset 2px 2px 3px #ffc078}
+#app .game-piece[data-piece="1"] .piece-cell.on{background:linear-gradient(145deg,#c36bff,#8435ce);border-color:#a75ce8}
+#app .game-piece[data-piece="2"] .piece-cell.on{background:linear-gradient(145deg,#57e77c,#12a94a);border-color:#71ef8b}
+#app .game-help{color:#dceaff}
+#app aside{position:static;min-height:0;gap:12px}
+#app aside .card{background:#fff;color:#1a426e;border:1px solid #d5e9ff;box-shadow:0 6px 18px #082c6540}
+#app aside .card h2{color:#1a426e}
+#app aside .ranking-mini{margin-top:0}
+#app .ranking-mini .member{border-color:#d7e8fa}
+#app .ranking-mini .member-info strong{color:#1a4779}
+#app #ranking{max-height:300px}
+@media(max-width:760px){header.blast-header{height:auto;min-height:70px;flex-wrap:wrap;padding:10px 12px}.blast-header .brand strong{font-size:27px}.blast-search{order:3;flex-basis:100%;max-width:none}#app .grid{grid-template-columns:1fr}#app aside{display:grid;grid-template-columns:1fr}#app .game-meta{gap:22px;font-size:23px}#app .score-crown b{font-size:30px}#app .record-score{font-size:26px}}
+@media(max-width:500px){#app .game-board{width:90vw;gap:3px;padding:5px}#app .game-meta{gap:18px;margin:16px 0 22px}#app .record-score{font-size:23px}#app .score-crown b{font-size:27px}#app #gameNew{padding:9px 12px}#app .game-message{font-size:15px}}
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -178,12 +231,12 @@ main{max-width:1700px;margin:14px auto;padding:0 clamp(10px,1.8vw,26px)}.hero{di
 <div class="statline"><div class="stat"><b id="memberCount">0</b><span>Mitglieder</span></div><div class="stat"><b id="postCount">0</b><span>Beiträge</span></div><div class="stat"><b id="myRole">Mitglied</b><span>Deine Rolle</span></div></div>
 <div class="grid"><div>
 <section class="card game-card">
-  <div class="game-head"><div><span class="eyebrow">Das Schulspiel</span><h2>School-Block</h2><p class="muted">Setze die Steine, fülle Reihen und Spalten und sammle Punkte für deine Gruppe.</p></div><div class="game-best">Bestleistung<br><strong id="gameBest">0</strong></div></div>
-  <div class="game-meta"><div class="score-crown">👑 <span>DEIN SCORE</span><b id="gameScore">0</b></div><span class="record-score">🏆 Bestwert <b id="gameBestSmall">0</b></span><button id="gameNew" class="btn light">↻ Neustart</button></div>
+  <div class="game-head"><div><span class="eyebrow">BLOCK BLAST</span><h2>Blast</h2><p class="muted">Ziehe deine Blöcke auf das Spielfeld und sammle Punkte.</p></div><div class="game-best">👑 Bestwert<br><strong id="gameBest">0</strong></div></div>
+  <div class="game-meta"><div class="score-crown">👑 <span>PUNKTE</span><b id="gameScore">0</b></div><span class="record-score">Rekord <b id="gameBestSmall">0</b></span><button id="gameNew" class="btn light">Neues Spiel</button></div>
   <div id="gameBoard" class="game-board" aria-label="8 mal 8 Spielfeld"></div>
-  <p id="gameMessage" class="game-message">Wähle unten einen Stein und tippe dann auf das Feld.</p>
+  <p id="gameMessage" class="game-message">Ziehe deine Blöcke auf das Spielfeld!</p>
   <div id="gamePieces" class="game-pieces"></div>
-  <p class="game-help">Volle waagerechte Reihen und senkrechte Spalten verschwinden. Deine Spielpunkte zählen auch für die Gruppenrangliste.</p>
+  <p class="game-help">Vollständige Reihen und Spalten verschwinden. Deine Punkte zählen für die Gruppenrangliste.</p>
 </section>
 <section class="card"><h2>Neuigkeiten</h2><div id="postComposer" class="hidden"><input id="postTitle" class="field" placeholder="Überschrift"><textarea id="postBody" class="field" rows="3" placeholder="Was gibt es Neues?"></textarea><button id="publishPost" class="btn primary">Beitrag veröffentlichen</button><hr style="border:0;border-top:1px solid var(--line);margin:18px 0"></div><div id="posts"><div class="empty">Noch keine Beiträge.</div></div></section>
 <section class="card"><h2>Mitglieder</h2><div id="members"></div></section>
@@ -224,11 +277,10 @@ catch(e){$("join").classList.add("hidden");$("app").classList.add("hidden");$("a
 
 
 const gameShapes=[
- [[1,1],[1,1]], [[1,1,1]], [[1],[1],[1]], [[1,1,1],[0,1,0]],
- [[1,0],[1,0],[1,1]], [[0,1],[0,1],[1,1]], [[1,1,0],[0,1,1]],
- [[0,1,1],[1,1,0]], [[1,1,1],[1,0,0]], [[1,1],[0,1],[0,1]],
- [[1,1,1,1]], [[1],[1],[1],[1]], [[1,1,1],[1,1,1]],
- [[1,0,0],[1,1,1]], [[0,0,1],[1,1,1]], [[1,1],[1,0]]
+ [[1]], [[1,1]], [[1,1,1]], [[1],[1],[1]],
+ [[1,1],[1,1]], [[1,1,1],[1,1,1],[1,1,1]],
+ [[1,1],[1,0]], [[1,0],[1,1]],
+ [[1],[1],[1],[1]], [[1,1,1,1]]
 ];
 let gameGrid=Array.from({length:8},()=>Array(8).fill(0)),gameScore=0,gamePieces=[],gamePieceColors=[1,2,3],gameSelected=-1,gameEnded=false,gameAwarded=false,dragPiece=-1,dragCell=null,dragMoved=false;
 let gameBest=Number(localStorage.getItem("schoolBlockBest")||0);
