@@ -73,7 +73,7 @@ main{max-width:1600px;margin:18px auto;padding:0 clamp(12px,2vw,28px)}
 #app .game-board{width:min(100%,min(72vh,760px));gap:clamp(4px,.7vw,8px);padding:clamp(6px,1vw,10px)}
 #app .game-pieces{gap:clamp(12px,2vw,24px);margin:18px auto}
 #app .game-piece{grid-template-columns:repeat(4,clamp(18px,2.2vw,26px));grid-template-rows:repeat(4,clamp(18px,2.2vw,26px));gap:4px;padding:12px}
-#app aside{display:flex;flex-direction:column;gap:14px;position:sticky;top:12px}
+#app aside{display:flex;flex-direction:column;gap:14px;position:sticky;top:12px;min-height:calc(100vh - 110px)}
 #app aside .card{margin:0;padding:15px}
 #app .ranking-mini{order:2;margin-top:auto}
 #app #ranking{max-height:34vh;overflow:auto}
@@ -82,7 +82,7 @@ main{max-width:1600px;margin:18px auto;padding:0 clamp(12px,2vw,28px)}
 #app .ranking-mini .member-info strong{font-size:13px}
 #app .ranking-mini .member-info small{font-size:11px}
 #app .ranking-mini .points{font-size:12px}
-#app aside #adminUnlock,#app aside #adminPanel{order:3}
+#app aside #adminUnlock,#app aside #adminPanel{order:1}
 @media(max-width:850px){
  #app .grid{grid-template-columns:minmax(0,1fr)}
  #app aside{position:static;display:grid;grid-template-columns:1fr}
