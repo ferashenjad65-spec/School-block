@@ -233,6 +233,60 @@ main{max-width:1100px;margin:12px auto;padding:0 10px}
 @media(max-width:900px){#app .grid{grid-template-columns:1fr}#app aside{display:grid;grid-template-columns:1fr}}
 @media(max-width:500px){header.blast-header{height:68px;min-height:68px}.blast-header .brand strong{font-size:29px}.blast-search{width:145px;padding:0 12px;flex:0 0 145px}.header-account{gap:6px}#app .game-meta{gap:45px;margin-bottom:22px;height:56px}#app .score-crown b{font-size:31px}#app .game-pieces{margin-top:22px}}
 
+
+/* Einheitliches blau-goldenes Spiel-Design – keine weißen Flächen */
+:root{color:#eaf3ff!important;background:#071a38!important;--navy:#071a38!important;--blue:#4f91ff!important;--blue2:#173d70!important;--muted:#a9c7ed!important;--line:#28518a!important;--card:#102d55!important}
+body{background:radial-gradient(ellipse at 50% -20%,#2679d8 0%,#104b9a 48%,#071a38 100%) fixed!important;color:#eaf3ff!important}
+header.blast-header{background:linear-gradient(110deg,#123d78,#0b2b59)!important;color:#ffd45a!important;border-bottom:2px solid #f5bd3b!important;box-shadow:0 6px 24px #00132f88!important}
+.blast-header .brand strong{color:#ffd45a!important}.blast-header .brand small{color:#b8d6ff!important}
+.blast-search{background:#08234a!important;border:1px solid #477dbd!important;color:#b9d9ff!important}
+.blast-search input{color:#fff!important}.blast-search input::placeholder{color:#9bbce5!important}
+.header-profile-info strong{color:#fff!important}.header-profile-info small{color:#b7d2f2!important}
+.header-profile .avatar{border-color:#f4c34f!important}
+#logout,.header-profile-info .smallbtn{background:linear-gradient(145deg,#ffdf75,#e9a91e)!important;color:#553900!important}
+#app{background:linear-gradient(145deg,#0c2e5d,#09234a)!important;border:1px solid #3c73b2!important;box-shadow:0 18px 50px #00163888!important}
+#app .game-card{background:linear-gradient(155deg,#164b89,#0d3264)!important;border:2px solid #4b8ed4!important;color:#f2f7ff!important;box-shadow:0 8px 0 #062654,0 18px 35px #00163888!important}
+#app .game-head h2,#app .game-head p,#app .game-head .eyebrow{color:#e8f3ff!important}
+#app .game-best{background:linear-gradient(145deg,#ffe58d,#f2ae26)!important;color:#714500!important}
+#app .game-best strong{color:#714500!important}
+#app .score-crown{background:linear-gradient(145deg,#ffe58d,#f2ae26)!important;color:#714500!important;padding:8px 13px;border-radius:14px;box-shadow:inset 0 2px #fff6,0 4px 0 #9e6811!important}
+#app .score-crown b{color:#603b00!important}#app .record-score,#app .record-score b{color:#eaf3ff!important}
+#app #gameNew{background:linear-gradient(145deg,#ffe58d,#f2ae26)!important;color:#593900!important;box-shadow:0 4px 0 #9e6811!important}
+#app .game-board{background:linear-gradient(145deg,#061d40,#0a2b57)!important;border:2px solid #4b8ed4!important}
+#app .game-cell{background:linear-gradient(145deg,#123c70,#0c2d59)!important;border-color:#24548b!important}
+#app .game-cell.preview{background:#ffdf67!important;outline:2px solid #fff0a8!important;box-shadow:0 0 14px #ffd34d!important}
+#app .game-message{color:#e5f1ff!important}
+#app .game-piece{background:linear-gradient(145deg,#174a83,#0d3264)!important;border:1px solid #5c96d3!important;box-shadow:inset 0 2px #ffffff20,0 4px 0 #062654,0 8px 14px #00163855!important}
+#app .game-piece.selected{outline:3px solid #ffd34f!important;background:#1e5794!important}
+#app aside .ranking-mini{background:linear-gradient(155deg,#16477e,#0b2d59)!important;color:#eff7ff!important;border:2px solid #4c8bc9!important;box-shadow:0 6px 0 #062654,0 14px 25px #00163866!important}
+#app .ranking-mini h2,#app .ranking-mini .member-info strong{color:#fff!important}
+#app .ranking-mini .muted,#app .ranking-mini .member-info small{color:#b9d4f3!important}
+#app .ranking-mini .member{border-color:#315d91!important}
+#app .ranking-mini .avatar{background:#204f83!important;color:#fff!important}
+#app .ranking-mini .points{color:#ffd45a!important}
+#app .card:not(.game-card):not(.ranking-mini),#auth.auth-panel{background:linear-gradient(150deg,#164477,#0d2e59)!important;color:#eff7ff!important;border-color:#3e75ad!important}
+#app .card:not(.game-card):not(.ranking-mini) h2,#auth.auth-panel h2{color:#fff!important}
+#app .card:not(.game-card):not(.ranking-mini) .muted,#auth.auth-panel .muted{color:#b9d4f3!important}
+.field{background:#08264e!important;color:#fff!important;border-color:#4778ae!important}
+.field::placeholder{color:#9dbbe0!important}
+.btn.primary{background:linear-gradient(145deg,#5ca6ff,#2369c6)!important;color:#fff!important}
+.btn.light,.smallbtn.light{background:linear-gradient(145deg,#ffe58d,#f2ae26)!important;color:#553900!important}
+.btn.danger,.smallbtn.danger{background:#71334a!important;color:#ffe2e8!important}
+.member,.post,.admin-row{border-color:#315d91!important}
+.member-info strong,.post h3{color:#fff!important}.member-info small,.post p,.post small{color:#c1d9f5!important}
+.avatar{background:#204f83!important;color:#fff!important}
+.tag{background:#254f7e!important;color:#ffe08a!important}
+.stat{background:#123c70!important;color:#fff!important}
+.empty{background:#123c70!important;color:#c6dcf6!important}
+.status,footer{color:#b9d4f3!important}
+hr{border-color:#315d91!important}
+.game-drag-ghost{position:fixed;z-index:99999;pointer-events:none;display:grid;gap:4px;filter:drop-shadow(0 8px 12px #00142e99);opacity:.98;transform:translate(12px,12px)}
+.game-drag-ghost span{width:clamp(23px,3vw,34px);height:clamp(23px,3vw,34px);border-radius:6px;border:1px solid #ffffffa8;box-shadow:inset 0 2px 2px #ffffff70,inset 0 -3px 3px #0004}
+.game-drag-ghost .color-1{background:linear-gradient(145deg,#ffbd63,#f47c16 55%,#c64a06)}
+.game-drag-ghost .color-2{background:linear-gradient(145deg,#e0b4ff,#a55ce9 55%,#6428b2)}
+.game-drag-ghost .color-3{background:linear-gradient(145deg,#b2ff8a,#52d45c 55%,#168a39)}
+@media(max-width:560px){.game-drag-ghost span{width:25px;height:25px}}
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -331,8 +385,10 @@ const gameShapes=[
 ];
 const gameColors=["purple","orange","green"];
 let gameGrid=Array.from({length:8},()=>Array(8).fill(null)),gameScore=0,gamePieces=[],gameSelected=-1,gameEnded=false,gameAwarded=false,gameDrag=null;
+let gameAudio=null;
+function gameSound(kind){try{const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;if(!gameAudio)gameAudio=new AC();if(gameAudio.state==="suspended")gameAudio.resume();const now=gameAudio.currentTime;const notes=kind==="clear"?[660,880,1100]:kind==="invalid"?[180,130]:kind==="over"?[440,330,220]:kind==="new"?[520,680]:[420,620];notes.forEach((hz,i)=>{const o=gameAudio.createOscillator(),g=gameAudio.createGain();o.type=kind==="clear"?"sine":"triangle";o.frequency.setValueAtTime(hz,now+i*.065);g.gain.setValueAtTime(.0001,now+i*.065);g.gain.exponentialRampToValueAtTime(kind==="clear"?.11:.075,now+i*.065+.012);g.gain.exponentialRampToValueAtTime(.0001,now+i*.065+(kind==="clear"?.22:.13));o.connect(g);g.connect(gameAudio.destination);o.start(now+i*.065);o.stop(now+i*.065+.25)})}catch(e){}}
 let gameBest=Number(localStorage.getItem("blastBest")||localStorage.getItem("schoolBlockBest")||329);
-function newGame(){gameGrid=Array.from({length:8},()=>Array(8).fill(null));gameScore=0;gameSelected=-1;gameEnded=false;gameAwarded=false;gameDrag=null;gameBest=Math.max(gameBest,Number(localStorage.getItem("blastBest")||329));makeGamePieces();gameRender();say("gameMessage","Halte einen Stein gedrückt und ziehe ihn aufs Spielfeld!")}
+function newGame(){gameSound("new");gameGrid=Array.from({length:8},()=>Array(8).fill(null));gameScore=0;gameSelected=-1;gameEnded=false;gameAwarded=false;gameDrag=null;gameBest=Math.max(gameBest,Number(localStorage.getItem("blastBest")||329));makeGamePieces();gameRender();say("gameMessage","Halte einen Stein gedrückt und ziehe ihn aufs Spielfeld!")}
 function makeGamePieces(){gamePieces=Array.from({length:3},(_,i)=>({id:Math.random().toString(36).slice(2),shape:gameShapes[Math.floor(Math.random()*gameShapes.length)].map(p=>[...p]),color:gameColors[Math.floor(Math.random()*gameColors.length)]}))}
 function canPlace(shape,r,c){return shape.every(([y,x])=>r+y>=0&&r+y<8&&c+x>=0&&c+x<8&&!gameGrid[r+y][c+x])}
 function anyMove(){return gamePieces.some(p=>p&&Array.from({length:8},(_,r)=>Array.from({length:8},(_,c)=>canPlace(p.shape,r,c))).some(row=>row.some(Boolean)))}
@@ -347,22 +403,23 @@ function gameRender(){
  $("gamePieces").querySelectorAll(".game-piece[data-piece]").forEach(el=>{
   const index=Number(el.dataset.piece);
   el.onclick=()=>{if(gameDrag)return;gameSelected=index;gameRender()};
-  el.onpointerdown=e=>{if(gameEnded||!gamePieces[index])return;e.preventDefault();const mini=e.target.closest(".piece-cell");if(!mini||!mini.classList.contains("on"))return;gameSelected=index;gameDrag={piece:gamePieces[index],index,offsetR:Number(mini.dataset.r),offsetC:Number(mini.dataset.c),row:null,col:null,valid:false,element:el};el.classList.add("dragging");moveGameDrag(e)};
+  el.onpointerdown=e=>{if(gameEnded||!gamePieces[index])return;e.preventDefault();const mini=e.target.closest(".piece-cell");if(!mini||!mini.classList.contains("on"))return;gameSelected=index;gameDrag={piece:gamePieces[index],index,offsetR:Number(mini.dataset.r),offsetC:Number(mini.dataset.c),row:null,col:null,valid:false,element:el};el.classList.add("dragging");makeGameDragGhost();moveGameDrag(e)};
  });
 }
-function moveGameDrag(e){if(!gameDrag)return;const rect=$("gameBoard").getBoundingClientRect();if(e.clientX<rect.left||e.clientX>=rect.right||e.clientY<rect.top||e.clientY>=rect.bottom){gameDrag.row=null;gameDrag.col=null;gameDrag.valid=false;clearGamePreview();return}const cellW=rect.width/8,cellH=rect.height/8;gameDrag.col=Math.floor((e.clientX-rect.left)/cellW)-gameDrag.offsetC;gameDrag.row=Math.floor((e.clientY-rect.top)/cellH)-gameDrag.offsetR;previewGamePiece()}
+function makeGameDragGhost(){const p=gameDrag?.piece;if(!p)return;const maxR=Math.max(...p.shape.map(v=>v[0])),maxC=Math.max(...p.shape.map(v=>v[1]));const ghost=document.createElement("div");ghost.className="game-drag-ghost";ghost.style.gridTemplateColumns="repeat("+(maxC+1)+",auto)";ghost.style.gridTemplateRows="repeat("+(maxR+1)+",auto)";for(let r=0;r<=maxR;r++)for(let c=0;c<=maxC;c++){const s=document.createElement("span");if(p.shape.some(v=>v[0]===r&&v[1]===c))s.className="color-"+(gameColors.indexOf(p.color)+1);s.style.visibility=p.shape.some(v=>v[0]===r&&v[1]===c)?"visible":"hidden";ghost.appendChild(s)}document.body.appendChild(ghost);gameDrag.ghost=ghost}
+function moveGameDrag(e){if(!gameDrag)return;if(gameDrag.ghost){gameDrag.ghost.style.left=e.clientX+"px";gameDrag.ghost.style.top=e.clientY+"px"}const cell=cellAtPoint(e.clientX,e.clientY);if(!cell){gameDrag.row=null;gameDrag.col=null;gameDrag.valid=false;clearGamePreview();return}gameDrag.col=cell.c-gameDrag.offsetC;gameDrag.row=cell.r-gameDrag.offsetR;previewGamePiece()}
 window.addEventListener("pointermove",e=>{if(gameDrag)moveGameDrag(e)});
-window.addEventListener("pointerup",e=>{if(!gameDrag)return;const d=gameDrag;const target=cellAtPoint(e.clientX,e.clientY);gameDrag=null;clearGamePreview();d.element.classList.remove("dragging");if(target){const r=target.r-d.offsetR,c=target.c-d.offsetC;if(canPlace(d.piece.shape,r,c))gamePlace(r,c,d.index);else say("gameMessage","Dort passt der Stein leider nicht hin.")}});
-window.addEventListener("pointercancel",()=>{if(gameDrag){gameDrag.element.classList.remove("dragging");gameDrag=null;clearGamePreview()}});
+window.addEventListener("pointerup",e=>{if(!gameDrag)return;const d=gameDrag;const target=cellAtPoint(e.clientX,e.clientY);gameDrag=null;clearGamePreview();d.element.classList.remove("dragging");if(d.ghost)d.ghost.remove();if(target){const r=target.r-d.offsetR,c=target.c-d.offsetC;if(canPlace(d.piece.shape,r,c))gamePlace(r,c,d.index);else{gameSound("invalid");say("gameMessage","Dort passt der Stein leider nicht hin.")}}});
+window.addEventListener("pointercancel",()=>{if(gameDrag){gameDrag.element.classList.remove("dragging");if(gameDrag.ghost)gameDrag.ghost.remove();gameDrag=null;clearGamePreview()}});
 async function gamePlace(r,c,selected=gameSelected){
  if(gameEnded||selected<0||!gamePieces[selected])return;
- const piece=gamePieces[selected];if(!canPlace(piece.shape,r,c)){say("gameMessage","Dort passt der Stein leider nicht hin.");return}
- piece.shape.forEach(([y,x])=>gameGrid[r+y][c+x]=piece.color);gameScore+=piece.shape.length*10;gamePieces[selected]=null;gameSelected=-1;
+ const piece=gamePieces[selected];if(!canPlace(piece.shape,r,c)){gameSound("invalid");say("gameMessage","Dort passt der Stein leider nicht hin.");return}
+ piece.shape.forEach(([y,x])=>gameGrid[r+y][c+x]=piece.color);gameSound("place");gameScore+=piece.shape.length*10;gamePieces[selected]=null;gameSelected=-1;
  const rows=[];const cols=[];for(let y=0;y<8;y++)if(gameGrid[y].every(Boolean))rows.push(y);for(let x=0;x<8;x++)if(gameGrid.every(row=>row[x]))cols.push(x);
- rows.forEach(y=>gameGrid[y].fill(null));cols.forEach(x=>gameGrid.forEach(row=>row[x]=null));if(rows.length||cols.length){gameScore+=(rows.length+cols.length)*100;say("gameMessage",(rows.length+cols.length)+" vollständige Reihe(n)/Spalte(n) gelöscht!")}
+ rows.forEach(y=>gameGrid[y].fill(null));cols.forEach(x=>gameGrid.forEach(row=>row[x]=null));if(rows.length||cols.length){gameSound("clear");gameScore+=(rows.length+cols.length)*100;say("gameMessage",(rows.length+cols.length)+" vollständige Reihe(n)/Spalte(n) gelöscht!")}
  if(gamePieces.every(p=>!p))makeGamePieces();
  if(gameScore>gameBest){gameBest=gameScore;localStorage.setItem("blastBest",String(gameBest));localStorage.setItem("schoolBlockBest",String(gameBest))}
- gameRender();if(!anyMove()){gameEnded=true;gameRender();say("gameMessage","GAME OVER – Dein Punktestand: "+gameScore);if(!gameAwarded&&gameScore>0){gameAwarded=true;try{await api("game_score",{score:gameScore});say("gameMessage","Game Over – "+gameScore+" Punkte wurden deiner Gruppenrangliste gutgeschrieben.");await load();gameRender()}catch(e){say("gameMessage","Game Over – "+gameScore+" Punkte. Gruppenpunkte konnten nicht gespeichert werden: "+e.message)}}}
+ gameRender();if(!anyMove()){gameEnded=true;gameSound("over");gameRender();say("gameMessage","GAME OVER – Dein Punktestand: "+gameScore);if(!gameAwarded&&gameScore>0){gameAwarded=true;try{await api("game_score",{score:gameScore});say("gameMessage","Game Over – "+gameScore+" Punkte wurden deiner Gruppenrangliste gutgeschrieben.");await load();gameRender()}catch(e){say("gameMessage","Game Over – "+gameScore+" Punkte. Gruppenpunkte konnten nicht gespeichert werden: "+e.message)}}}
 }
 $("siteSearch").addEventListener("input",()=>{const q=$("siteSearch").value.trim().toLowerCase();const list=visibleMembers.filter(m=>(m.display_name||"").toLowerCase().includes(q)||(m.class_name||"").toLowerCase().includes(q));$("members").innerHTML=list.map(m=>'<div class="member"><div class="avatar">'+esc((m.display_name||"?").slice(0,1).toUpperCase())+'</div><div class="member-info"><strong>'+esc(m.display_name||"Mitglied")+'</strong><small>'+esc(m.class_name||"Klasse offen")+'</small></div><span class="points">'+m.points+' Pkt.</span></div>').join("")||'<div class="empty">Keine Spieler gefunden.</div>';});
 $("gameNew").onclick=newGame;
