@@ -162,5 +162,5 @@ async function gamePlace(r,c){
 $("gameNew").onclick=newGame;
 
 window.adminAction=adminAction;window.deletePost=async id=>{if(confirm("Diesen Beitrag löschen?")){try{await api("admin_delete_post",{postId:id});await load()}catch(e){say("adminStatus",e.message)}}};
-sb.auth.onAuthStateChange((event)=>{if(event==="PASSWORD_RECOVERY"){$("auth").classList.add("hidden");$("join").classList.add("hidden");$("app").classList.add("hidden");$("recovery").classList.remove("hidden")}setTimeout(load,0)});if(new URLSearchParams(window.location.hash.slice(1)).get("type")==="recovery"){$("auth").classList.add("hidden");$("recovery").classList.remove("hidden")}load();
+sb.auth.onAuthStateChange((event)=>{if(event==="PASSWORD_RECOVERY"){$("auth").classList.add("hidden");$("join").classList.add("hidden");$("app").classList.add("hidden");$("recovery").classList.remove("hidden")}setTimeout(load,0)});if(new URLSearchParams(window.location.hash.slice(1)).get("type")==="recovery"){$("auth").classList.add("hidden");$("recovery").classList.remove("hidden")}newGame();load();
 </script></body></html>
