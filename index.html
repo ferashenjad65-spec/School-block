@@ -636,9 +636,70 @@ a{color:#d7bd76!important}
 @media(max-width:600px){#sb-xmas-decor{font-size:25px}#sb-xmas-decor span:nth-child(2),#sb-xmas-decor span:nth-child(4){display:none}}
 @media(prefers-reduced-motion:reduce){#sb-snow,#sb-xmas-decor span{animation:none}}
 </style>
+
+<style id="schoolblog-dark-fix">
+/* HARD OVERRIDE: keine hellen/weißen Karten oder Dialoge */
+html,body{background:#03080d!important;color:#dce8e1!important;color-scheme:dark!important}
+body{background:radial-gradient(ellipse at 50% 0%,#102a20 0%,#09151a 48%,#02060a 100%) fixed!important}
+body:before,body:after,body::before,body::after{content:none!important;display:none!important;background:none!important}
+header.blast-header{background:linear-gradient(100deg,#050d0a,#10271d 55%,#0b1722)!important;color:#ead9aa!important}
+#app,#auth,#join,.hero,.panel,.card,.game-card,.ranking-mini,.game-dialog,.game-overlay,.modal,.member,.post,.stat,.empty,.setting-row,.admin-row{background-color:#0b1918!important;background-image:linear-gradient(145deg,#10231d,#09141b)!important;color:#dce8e1!important;border-color:#304b3b!important;box-shadow:0 8px 24px #0008!important}
+#app{background:linear-gradient(145deg,#091715,#071017)!important;border:1px solid #426044!important}
+#app .game-card,#app .card,#app aside .card,#app .ranking-mini,#auth,#join,.hero,.game-dialog{background:linear-gradient(145deg,#12251e,#0a151b)!important;color:#e0e9df!important;border:1px solid #5b5938!important}
+#app h1,#app h2,#app h3,#auth h1,#auth h2,#join h1,#join h2,.hero h1,.hero h2{color:#e5d19a!important}
+#app p,#app label,#app small,#auth p,#join p,.muted{color:#aebfb5!important}
+#app .game-piece{background:linear-gradient(145deg,#10231d,#0a171a)!important;border-color:#365744!important}
+#app .game-piece.selected{background:#1b3827!important}
+#app .game-board{background:#030a0e!important;border-color:#3b5a45!important}
+#app .game-cell{background:#102128!important;border-color:#203b3d!important}
+#app .game-cell.preview{background:#92733a!important;border-color:#c5a85f!important;box-shadow:0 0 12px #b18a3c!important}
+.game-dialog{color:#e5eee4!important}
+.game-dialog .game-close{background:#172b24!important;color:#dfc783!important}
+input,textarea,select,.field,.blast-search{background:#061016!important;color:#e7eee9!important;border-color:#355043!important}
+input::placeholder,textarea::placeholder{color:#788e83!important}
+button.primary,.primary{background:linear-gradient(140deg,#922737,#501622)!important;color:#f5e9d2!important}
+button.light,.light{background:#1b3828!important;color:#e2ce91!important}
+button.danger,.danger{background:#411923!important;color:#f0c2c2!important}
+.tag,.stat,.empty{background:#132720!important;color:#d5e1d8!important}
+a{color:#d7bd76!important}
+footer{color:#758b7d!important}
+/* Nur echte Schneeflocken-Symbole fallen herunter, keine runden Punkte */
+#sb-snow{display:block!important;position:fixed!important;inset:0!important;z-index:99990!important;overflow:hidden!important;pointer-events:none!important;background:none!important}
+#sb-snow .sb-flake{position:absolute;top:-12vh;left:var(--x);font-family:Arial,sans-serif;font-size:var(--size);line-height:1;color:#dcecf0;text-shadow:0 0 8px #b9e7ee88;opacity:var(--opacity);animation:sbRealSnow var(--duration) linear var(--delay) infinite;will-change:transform}
+.f1{--x:7%;--size:14px;--opacity:0.45;--duration:9s;--delay:-0s}
+.f2{--x:48%;--size:21px;--opacity:0.5800000000000001;--duration:20s;--delay:-7s}
+.f3{--x:89%;--size:28px;--opacity:0.71;--duration:17s;--delay:-14s}
+.f4{--x:30%;--size:18px;--opacity:0.8400000000000001;--duration:14s;--delay:-21s}
+.f5{--x:71%;--size:25px;--opacity:0.47000000000000003;--duration:11s;--delay:-6s}
+.f6{--x:12%;--size:15px;--opacity:0.6;--duration:22s;--delay:-13s}
+.f7{--x:53%;--size:22px;--opacity:0.73;--duration:19s;--delay:-20s}
+.f8{--x:94%;--size:29px;--opacity:0.86;--duration:16s;--delay:-5s}
+.f9{--x:35%;--size:19px;--opacity:0.49;--duration:13s;--delay:-12s}
+.f10{--x:76%;--size:26px;--opacity:0.62;--duration:10s;--delay:-19s}
+.f11{--x:17%;--size:16px;--opacity:0.75;--duration:21s;--delay:-4s}
+.f12{--x:58%;--size:23px;--opacity:0.88;--duration:18s;--delay:-11s}
+.f13{--x:99%;--size:30px;--opacity:0.51;--duration:15s;--delay:-18s}
+.f14{--x:40%;--size:20px;--opacity:0.64;--duration:12s;--delay:-3s}
+.f15{--x:81%;--size:27px;--opacity:0.77;--duration:9s;--delay:-10s}
+.f16{--x:22%;--size:17px;--opacity:0.9;--duration:20s;--delay:-17s}
+.f17{--x:63%;--size:24px;--opacity:0.53;--duration:17s;--delay:-2s}
+.f18{--x:4%;--size:14px;--opacity:0.66;--duration:14s;--delay:-9s}
+.f19{--x:45%;--size:21px;--opacity:0.79;--duration:11s;--delay:-16s}
+.f20{--x:86%;--size:28px;--opacity:0.9199999999999999;--duration:22s;--delay:-1s}
+.f21{--x:27%;--size:18px;--opacity:0.55;--duration:19s;--delay:-8s}
+.f22{--x:68%;--size:25px;--opacity:0.68;--duration:16s;--delay:-15s}
+.f23{--x:9%;--size:15px;--opacity:0.81;--duration:13s;--delay:-0s}
+.f24{--x:50%;--size:22px;--opacity:0.94;--duration:10s;--delay:-7s}
+@keyframes sbRealSnow{0%{transform:translate3d(0,-8vh,0) rotate(0deg)}50%{transform:translate3d(24px,52vh,0) rotate(180deg)}100%{transform:translate3d(-18px,112vh,0) rotate(360deg)}}
+#sb-xmas-decor{position:fixed!important;z-index:99991!important;pointer-events:none!important;bottom:3px!important;left:0!important;width:100%!important;display:flex!important;align-items:end!important;justify-content:space-around!important;font-size:clamp(25px,4vw,46px)!important;filter:drop-shadow(0 3px 7px #000)!important;opacity:.98!important}
+#sb-xmas-decor span{display:inline-block!important;animation:sbGlow 3s ease-in-out infinite alternate}
+@keyframes sbGlow{from{transform:translateY(0) rotate(-4deg)}to{transform:translateY(-6px) rotate(4deg)}}
+@media(max-width:600px){#sb-xmas-decor{font-size:25px!important}#sb-xmas-decor span:nth-child(2),#sb-xmas-decor span:nth-child(4){display:none!important}}
+@media(prefers-reduced-motion:reduce){#sb-snow .sb-flake,#sb-xmas-decor span{animation:none!important}}
+</style>
 </head>
 <body>
-<div id="sb-snow" aria-hidden="true"></div><div id="sb-xmas-decor" aria-hidden="true"><span>🎄</span><span>🍬</span><span>🎅</span><span>🍭</span><span>🎄</span></div>
+<div id="sb-snow" aria-hidden="true"><span class="sb-flake f1">❄</span><span class="sb-flake f2">❄</span><span class="sb-flake f3">❄</span><span class="sb-flake f4">❄</span><span class="sb-flake f5">❄</span><span class="sb-flake f6">❄</span><span class="sb-flake f7">❄</span><span class="sb-flake f8">❄</span><span class="sb-flake f9">❄</span><span class="sb-flake f10">❄</span><span class="sb-flake f11">❄</span><span class="sb-flake f12">❄</span><span class="sb-flake f13">❄</span><span class="sb-flake f14">❄</span><span class="sb-flake f15">❄</span><span class="sb-flake f16">❄</span><span class="sb-flake f17">❄</span><span class="sb-flake f18">❄</span><span class="sb-flake f19">❄</span><span class="sb-flake f20">❄</span><span class="sb-flake f21">❄</span><span class="sb-flake f22">❄</span><span class="sb-flake f23">❄</span><span class="sb-flake f24">❄</span></div><div id="sb-xmas-decor" aria-hidden="true"><span>🎄</span><span>🍬</span><span>🎅</span><span>🍭</span><span>🎄</span></div>
 <header class="blast-header"><div class="brand"><div class="mark">✦</div><div><strong>BLAST</strong><small>Schoolblog Game</small></div></div><label class="blast-search"><span>⌕</span><input id="siteSearch" type="search" placeholder="Spieler suchen …" autocomplete="off"></label><div class="header-account"><div class="header-profile hidden" id="headerProfile"><div class="avatar" id="myAvatar">S</div><div class="header-profile-info"><strong id="myName">Mein Konto</strong><small id="myClass">Deine Klasse</small><label class="smallbtn light" style="display:inline-block;margin-top:4px;cursor:pointer">Bild ändern<input id="avatarFile" type="file" accept="image/jpeg,image/png,image/webp" hidden></label></div></div><div id="profileStatus" class="status"></div><button id="logout" class="btn light hidden">Abmelden</button></div></header>
 <main>
 <section class="hero"><div class="eyebrow">Deine Schul-Community</div><h1>Willkommen bei Schoolblog.</h1><p>Finde deine Mitschüler, entdecke Neuigkeiten und sieh die gemeinsame Rangliste.</p></section>
