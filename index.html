@@ -599,8 +599,46 @@ body:after{content:"🎄　🍬　🎅　🍬　🎄";position:fixed;z-index:999
 
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style id="schoolblog-christmas-final">
+/* Schoolblog: vollständiges dunkles Weihnachtsdesign */
+:root{color-scheme:dark!important}
+html,body{background:#050910!important;color:#e6eee9!important}
+body{background:radial-gradient(ellipse at 50% -10%,#163329 0%,#0a1719 45%,#03060b 100%) fixed!important;min-height:100vh;overflow-x:hidden}
+body,body *{scrollbar-color:#355747 #08110f}
+header.blast-header{background:linear-gradient(100deg,#07100d,#102b20 55%,#101b2a)!important;color:#f1e5c5!important;border-bottom:1px solid #9b793b!important}
+header .brand strong,header h1,header h2{color:#f1dfae!important}
+#app,.wrap,#app main,#app section{background-color:transparent!important;color:#e6eee9!important}
+#app{background:linear-gradient(145deg,#0c1b1a,#081118)!important;border:1px solid #456047!important;box-shadow:0 18px 55px #000b!important}
+#app .game-card,#app .card,#auth,.auth-panel,.panel,.modal,.overlay .modal-content{background:linear-gradient(145deg,#142821,#0b171c)!important;color:#e6eee9!important;border:1px solid #6e5b32!important}
+#app h1,#app h2,#app h3,#auth h1,#auth h2{color:#e9d49b!important}
+#app p,#app label,#app small,.muted{color:#b4c7bd!important}
+input,textarea,select,.field,.blast-search{background:#071219!important;color:#f0f4ed!important;border:1px solid #3c5949!important}
+input::placeholder,textarea::placeholder{color:#80968b!important}
+button.primary,.primary{background:linear-gradient(140deg,#a52b37,#5e1724)!important;color:#fff0dc!important}
+button.light,.light{background:#1a3829!important;color:#ead59c!important}
+button.danger,.danger{background:#421923!important;color:#f2c6c6!important}
+.member,.post,.stat,.empty,.tag{background:#10221e!important;color:#dce9df!important;border-color:#355343!important}
+#app .game-board{background:#040b10!important;border:2px solid #45634d!important}
+#app .game-cell{background:#11242a!important;border-color:#29413d!important}
+#app .game-cell.preview{background:#9d8045!important;outline-color:#e5d19a!important}
+#app .game-piece{background:#10251f!important;border-color:#45634d!important}
+#app .game-piece.selected{background:#21412d!important;outline-color:#d8b96a!important}
+footer{color:#82968b!important}
+a{color:#d7bd76!important}
+/* Animierter Schneefall – liegt über der Seite, blockiert keine Bedienung */
+#sb-snow{position:fixed;inset:-30vh 0 0;z-index:99990;pointer-events:none;overflow:hidden;background-image:radial-gradient(3px 3px at 25px 35px,#f1f7f4 98%,transparent),radial-gradient(2px 2px at 130px 120px,#d7e9e5 98%,transparent),radial-gradient(3px 3px at 240px 70px,#fff 98%,transparent),radial-gradient(2px 2px at 330px 190px,#d7e9e5 98%,transparent);background-size:370px 230px;opacity:.7;animation:sbSnow 11s linear infinite}
+#sb-xmas-decor{position:fixed;z-index:99991;pointer-events:none;bottom:4px;left:0;width:100%;display:flex;align-items:end;justify-content:space-around;font-size:clamp(25px,4vw,48px);filter:drop-shadow(0 3px 7px #000);opacity:.95}
+#sb-xmas-decor span{display:inline-block;animation:sbGlow 3s ease-in-out infinite alternate}
+#sb-xmas-decor span:nth-child(2n){animation-delay:1s}
+@keyframes sbSnow{from{background-position:0 -230px}to{background-position:0 230px}}
+@keyframes sbGlow{from{transform:translateY(0) rotate(-4deg)}to{transform:translateY(-7px) rotate(4deg)}}
+@media(max-width:600px){#sb-xmas-decor{font-size:25px}#sb-xmas-decor span:nth-child(2),#sb-xmas-decor span:nth-child(4){display:none}}
+@media(prefers-reduced-motion:reduce){#sb-snow,#sb-xmas-decor span{animation:none}}
+</style>
 </head>
 <body>
+<div id="sb-snow" aria-hidden="true"></div><div id="sb-xmas-decor" aria-hidden="true"><span>🎄</span><span>🍬</span><span>🎅</span><span>🍭</span><span>🎄</span></div>
 <header class="blast-header"><div class="brand"><div class="mark">✦</div><div><strong>BLAST</strong><small>Schoolblog Game</small></div></div><label class="blast-search"><span>⌕</span><input id="siteSearch" type="search" placeholder="Spieler suchen …" autocomplete="off"></label><div class="header-account"><div class="header-profile hidden" id="headerProfile"><div class="avatar" id="myAvatar">S</div><div class="header-profile-info"><strong id="myName">Mein Konto</strong><small id="myClass">Deine Klasse</small><label class="smallbtn light" style="display:inline-block;margin-top:4px;cursor:pointer">Bild ändern<input id="avatarFile" type="file" accept="image/jpeg,image/png,image/webp" hidden></label></div></div><div id="profileStatus" class="status"></div><button id="logout" class="btn light hidden">Abmelden</button></div></header>
 <main>
 <section class="hero"><div class="eyebrow">Deine Schul-Community</div><h1>Willkommen bei Schoolblog.</h1><p>Finde deine Mitschüler, entdecke Neuigkeiten und sieh die gemeinsame Rangliste.</p></section>
