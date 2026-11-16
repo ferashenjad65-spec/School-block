@@ -433,6 +433,47 @@ header.blast-header{min-height:calc(76px + env(safe-area-inset-top));height:auto
 #adminUsers .admin-email{font-size:11px;opacity:.9}
 #adminUsers .admin-owner-badge{flex:0 0 auto;white-space:nowrap;max-width:none}
 #adminUsers .smallbtn{flex:0 0 auto;white-space:nowrap}
+
+/* === SCHOOLBLOG WINTER / WEIHNACHTS-SPECIAL === */
+:root{--winter-night:#071b2b;--winter-blue:#103b55;--winter-ice:#dff5f2;--winter-red:#c9364b;--winter-gold:#f4c86a}
+body{background:radial-gradient(ellipse at 50% -18%,#286c79 0%,#12475b 38%,#092b43 76%,#061b2d 100%) fixed!important;color:#f4fbff}
+body::before,body::after{content:"";position:fixed;inset:-12vh 0 auto;height:115vh;pointer-events:none;z-index:0;background-image:radial-gradient(3px 3px at 8% 12%,#fff 98%,transparent),radial-gradient(2px 2px at 22% 38%,#d9f7ff 98%,transparent),radial-gradient(3px 3px at 41% 19%,#fff 98%,transparent),radial-gradient(2px 2px at 63% 54%,#fff 98%,transparent),radial-gradient(3px 3px at 79% 27%,#d9f7ff 98%,transparent),radial-gradient(2px 2px at 92% 68%,#fff 98%,transparent);background-size:310px 290px;opacity:.48;animation:winterSnow 22s linear infinite}
+body::after{background-size:220px 250px;opacity:.25;animation-duration:32s;animation-direction:reverse;transform:translateX(25px)}
+@keyframes winterSnow{from{background-position:0 -10vh}to{background-position:35px 105vh}}
+body>*{position:relative;z-index:1}
+header.blast-header{background:linear-gradient(110deg,#fffdf7,#e8f6f2)!important;border-bottom:4px solid #c9364b;box-shadow:0 5px 22px #001b2d55!important}
+.blast-header .brand .mark{background:linear-gradient(145deg,#e84d5d,#a91f3c)!important;box-shadow:inset 0 2px 3px #fff9,0 4px 0 #761b31!important}
+.blast-header .brand strong{color:#b72d43!important}
+.blast-header .brand small{display:block!important;color:#5c7b83!important}
+#app{background:linear-gradient(145deg,#f5fffcf2,#d8f0ebed)!important;border:2px solid #ffffffb8!important;box-shadow:0 20px 55px #001a2d66!important}
+#app .game-card{background:linear-gradient(155deg,#f8fffc,#d9f0e8 58%,#c5e5db)!important;border:2px solid #fff!important;box-shadow:0 8px 0 #9b293d,0 18px 35px #001c2d55!important;color:#174451!important}
+#app .game-head h2{color:#174451!important}
+#app .game-head .eyebrow{color:#b72d43!important}
+#app .game-head p,#app .game-message{color:#52777a!important}
+#app .game-best,.score-crown{background:linear-gradient(145deg,#fff0b8,#e8b94f)!important;border-color:#fff0bd!important;color:#79500c!important;box-shadow:inset 0 2px #fff9,0 4px 0 #b17b28!important}
+#app .game-best strong,.score-crown b{color:#70430a!important}
+#app .game-board{background:linear-gradient(145deg,#0b354b,#124d5d)!important;border:2px solid #b7e7df!important;box-shadow:inset 0 5px 14px #001b2b99,0 6px 0 #8e253b!important}
+#app .game-cell{background:linear-gradient(145deg,#174c60,#10394d)!important;border-color:#2d6572!important}
+#app .game-cell.filled{border-color:#ffffffa8!important}
+#app .game-cell.color-1{background:linear-gradient(145deg,#fff0a8,#e7b83e 52%,#b77a20)!important}
+#app .game-cell.color-2{background:linear-gradient(145deg,#ff9ba6,#df485d 52%,#a92343)!important}
+#app .game-cell.color-3{background:linear-gradient(145deg,#b9f0d0,#4bbd86 52%,#1d805f)!important}
+#app .game-piece{background:linear-gradient(145deg,#fffefa,#e0f2ec)!important;border:1px solid #fff!important;box-shadow:inset 0 2px #fff,0 4px 0 #9fcbbd,0 8px 14px #17445130!important}
+#app .game-piece.selected{outline:3px solid #e4b94f!important}
+#app .game-piece[data-piece="0"] .piece-cell.on{background:linear-gradient(145deg,#fff0a8,#e7b83e 55%,#b77a20)!important}
+#app .game-piece[data-piece="1"] .piece-cell.on{background:linear-gradient(145deg,#ff9ba6,#df485d 55%,#a92343)!important}
+#app .game-piece[data-piece="2"] .piece-cell.on{background:linear-gradient(145deg,#b9f0d0,#4bbd86 55%,#1d805f)!important}
+#app aside .ranking-mini{background:linear-gradient(155deg,#fffefa,#e2f3ec)!important;border-color:#fff!important;box-shadow:0 6px 0 #9b293d,0 14px 25px #001c2d35!important}
+#app .ranking-mini h2{color:#174451!important}
+#app .ranking-mini .member{border-color:#d0e7de!important}
+#app .ranking-mini .member-info strong{color:#174451!important}
+#app .ranking-mini .points{color:#b72d43!important}
+#app .card:not(.game-card):not(.ranking-mini){background:#f5fcf9!important;border-color:#d4eae2!important}
+#app .card:not(.game-card):not(.ranking-mini) h2{color:#174451!important}
+#auth.auth-panel{border-color:#f0d9b2!important}
+.game-spark{filter:drop-shadow(0 0 4px #fff)}
+@media(prefers-reduced-motion:reduce){body::before,body::after{animation:none}}
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
