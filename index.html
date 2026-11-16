@@ -697,6 +697,61 @@ footer{color:#758b7d!important}
 @media(max-width:600px){#sb-xmas-decor{font-size:25px!important}#sb-xmas-decor span:nth-child(2),#sb-xmas-decor span:nth-child(4){display:none!important}}
 @media(prefers-reduced-motion:reduce){#sb-snow .sb-flake,#sb-xmas-decor span{animation:none!important}}
 </style>
+
+<style id="schoolblog-green-christmas-final">
+/* Einheitlich dunkelgrün: weiße Standardflächen in allen Inhaltsbereichen transparent machen */
+:root{color-scheme:dark!important}
+html,body{background:#04100b!important;color:#e5f0e5!important}
+body{background:radial-gradient(ellipse at 50% 0%,#17452d 0%,#0a2418 48%,#030b07 100%) fixed!important}
+main{background:transparent!important;color:#e5f0e5!important}
+main *:not(button):not(.btn):not(input):not(textarea):not(select):not(.game-cell):not(.piece-cell):not(.avatar):not(svg):not(path):not(img){
+ background-color:transparent!important;
+ background-image:none!important;
+}
+main section,main .card,main .panel,main .hero,main .game-card,main .ranking-mini,main .game-dialog,main .game-overlay,main .modal,main .member,main .post,main .stat,main .empty,main .setting-row,main .admin-row{
+ background:linear-gradient(145deg,#123b27,#092318)!important;
+ color:#e5f0e5!important;border-color:#376344!important;
+}
+main h1,main h2,main h3,main strong{color:#f0dda6!important}
+main p,main label,main small,main .muted{color:#c2d8c6!important}
+main input,main textarea,main select,main .field{
+ background:#06180f!important;color:#f0f5ef!important;border:1px solid #3d704c!important;
+}
+main button.primary,main .primary{background:linear-gradient(140deg,#a72b39,#601923)!important;color:#fff0dc!important}
+main button.light,main .light{background:#245a39!important;color:#f1dda0!important}
+main button.danger,main .danger{background:#481b22!important;color:#f4caca!important}
+#app,#auth,#join,#recovery{background:linear-gradient(145deg,#103522,#071a11)!important;color:#e5f0e5!important;border:1px solid #47734b!important}
+#app .game-board{background:#03100b!important}
+#app .game-cell{background:#143727!important}
+#app .game-cell.color-1{background:linear-gradient(145deg,#d6a64f,#81501e)!important}
+#app .game-cell.color-2{background:linear-gradient(145deg,#c94e59,#6b1c29)!important}
+#app .game-cell.color-3{background:linear-gradient(145deg,#73b77a,#245c37)!important}
+#app .game-piece{background:#103323!important}
+#app .game-piece .piece-cell.on{background:#62a66b!important}
+#app .game-cell.preview{background:#b8954b!important}
+/* Schneeflocken bleiben echte Symbole und fallen dauerhaft */
+#sb-snow{display:block!important;background:transparent!important}
+#sb-snow .sb-flake{animation:sbSnowFall 9s linear infinite!important;will-change:transform!important}
+@keyframes sbSnowFall{
+  0%{transform:translate3d(0,-15vh,0) rotate(0deg)}
+  25%{transform:translate3d(22px,25vh,0) rotate(100deg)}
+  50%{transform:translate3d(-18px,55vh,0) rotate(210deg)}
+  75%{transform:translate3d(24px,85vh,0) rotate(300deg)}
+  100%{transform:translate3d(-10px,115vh,0) rotate(360deg)}
+}
+/* Weihnachts-Emojis bewegen sich sichtbar und unabhängig voneinander */
+#sb-xmas-decor{z-index:99999!important;overflow:visible!important}
+#sb-xmas-decor span{display:inline-block!important;transform-origin:50% 90%;will-change:transform;animation:sbXmasBob 1.8s ease-in-out infinite alternate!important}
+#sb-xmas-decor span:nth-child(1){animation:sbTreeSway 2.1s ease-in-out infinite alternate!important}
+#sb-xmas-decor span:nth-child(2){animation:sbCandySpin 2.8s ease-in-out infinite!important}
+#sb-xmas-decor span:nth-child(3){animation:sbSantaHop 1.5s ease-in-out infinite!important}
+#sb-xmas-decor span:nth-child(4){animation:sbCandySpin 2.3s ease-in-out infinite reverse!important}
+#sb-xmas-decor span:nth-child(5){animation:sbTreeSway 1.8s ease-in-out infinite alternate-reverse!important}
+@keyframes sbXmasBob{from{transform:translateY(0) rotate(-5deg)}to{transform:translateY(-15px) rotate(5deg)}}
+@keyframes sbTreeSway{from{transform:translateY(0) rotate(-9deg)}to{transform:translateY(-10px) rotate(9deg)}}
+@keyframes sbCandySpin{0%{transform:translateY(0) rotate(-20deg) scale(1)}50%{transform:translateY(-18px) rotate(20deg) scale(1.16)}100%{transform:translateY(0) rotate(-20deg) scale(1)}}
+@keyframes sbSantaHop{0%,100%{transform:translateY(0) rotate(-7deg)}50%{transform:translateY(-24px) rotate(8deg)}}
+</style>
 </head>
 <body>
 <div id="sb-snow" aria-hidden="true"><span class="sb-flake f1">❄</span><span class="sb-flake f2">❄</span><span class="sb-flake f3">❄</span><span class="sb-flake f4">❄</span><span class="sb-flake f5">❄</span><span class="sb-flake f6">❄</span><span class="sb-flake f7">❄</span><span class="sb-flake f8">❄</span><span class="sb-flake f9">❄</span><span class="sb-flake f10">❄</span><span class="sb-flake f11">❄</span><span class="sb-flake f12">❄</span><span class="sb-flake f13">❄</span><span class="sb-flake f14">❄</span><span class="sb-flake f15">❄</span><span class="sb-flake f16">❄</span><span class="sb-flake f17">❄</span><span class="sb-flake f18">❄</span><span class="sb-flake f19">❄</span><span class="sb-flake f20">❄</span><span class="sb-flake f21">❄</span><span class="sb-flake f22">❄</span><span class="sb-flake f23">❄</span><span class="sb-flake f24">❄</span></div><div id="sb-xmas-decor" aria-hidden="true"><span>🎄</span><span>🍬</span><span>🎅</span><span>🍭</span><span>🎄</span></div>
