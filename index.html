@@ -533,6 +533,70 @@ body:after{content:"🎄　　 🎄　　　　 🎄　　 🎄";position:fixed;
 @media(prefers-reduced-motion:reduce){body:before{animation:none}}
 @media(max-width:560px){body:after{font-size:25px;letter-spacing:8px;content:"🎄　🎄　🎄"}}
 
+
+/* KOMPLETTES DUNKLES WEIHNACHTS-THEMA – keine hellen oder weissen Flächen */
+html,body{background:#050b14!important;color:#dce8f4!important;color-scheme:dark}
+body{background:radial-gradient(ellipse at 50% 0%,#142b35 0%,#091720 48%,#03070d 100%) fixed!important;overflow-x:hidden}
+header.blast-header{background:linear-gradient(100deg,#050b12,#10251f 55%,#101d2b)!important;color:#d8c28a!important;border-bottom:1px solid #80652f!important;box-shadow:0 5px 28px #000b!important}
+.blast-header .brand strong{color:#e0c985!important;text-shadow:0 0 16px #c59b4055}
+.blast-header .brand .mark{background:linear-gradient(145deg,#a92335,#501421)!important;box-shadow:0 3px 0 #310b14!important}
+.blast-search{background:#0a1821!important;border:1px solid #29433d!important;color:#c5d5d1!important}
+.blast-search input{background:transparent!important;color:#e4eee9!important}
+#app{background:linear-gradient(145deg,#0b1b23f2,#071119f5)!important;border:1px solid #304a3e!important;box-shadow:0 18px 55px #000b!important}
+#app .game-card{background:linear-gradient(145deg,#122a2c,#0b1b23 65%,#10231c)!important;color:#dce9df!important;border:1px solid #80652f!important;box-shadow:0 7px 0 #02070b,0 18px 36px #0009!important}
+#app .game-head h2{color:#e5cf91!important;text-shadow:0 2px 14px #bd933b44!important}
+#app .game-head .eyebrow{color:#c6a65c!important}
+#app .game-head p,#app .game-message{color:#a9c1b8!important}
+#app .game-best{background:#332817!important;border:1px solid #92743b!important;color:#d8c184!important;box-shadow:0 4px 0 #1c1409!important}
+#app .game-best strong{color:#e8d49b!important}
+.score-crown{background:linear-gradient(145deg,#9c762e,#4e3919)!important;color:#f0d99c!important;box-shadow:0 4px 0 #291d0c!important}
+.score-crown b{color:#f3dfa6!important}
+#app .game-board{background:#050d14!important;border:2px solid #36564a!important;box-shadow:inset 0 5px 18px #000c,0 6px 0 #02070b!important}
+#app .game-cell{background:#10232d!important;border:1px solid #1c3941!important;box-shadow:inset 0 2px 3px #0008!important}
+#app .game-cell.color-1{background:linear-gradient(145deg,#c99a4a,#80501e 60%,#4a2d15)!important}
+#app .game-cell.color-2{background:linear-gradient(145deg,#bd4652,#76212d 60%,#40121c)!important}
+#app .game-cell.color-3{background:linear-gradient(145deg,#6da879,#285b3b 60%,#153b29)!important}
+#app .game-cell.preview{background:#c8b16f!important;outline:2px solid #e6d59e!important;box-shadow:0 0 14px #c8a85b!important}
+#app .game-piece{background:#102329!important;border:1px solid #38564a!important;box-shadow:inset 0 2px #ffffff0d,0 4px 0 #02070b,0 8px 14px #0008!important}
+#app .game-piece.selected{outline:3px solid #c7a75d!important;background:#1b3329!important}
+#app .game-piece[data-piece="0"] .piece-cell.on{background:linear-gradient(145deg,#e0bd72,#94652a)!important}
+#app .game-piece[data-piece="1"] .piece-cell.on{background:linear-gradient(145deg,#cf6269,#832532)!important}
+#app .game-piece[data-piece="2"] .piece-cell.on{background:linear-gradient(145deg,#91c18e,#39724b)!important}
+#app aside .card,#app .card:not(.game-card){background:#0d1c24!important;color:#cbdad4!important;border-color:#29463d!important}
+#app aside .card h2,#app .card h2{color:#d8c58f!important}
+#app aside .card .muted,#app .muted{color:#8ea79d!important}
+#app aside .ranking-mini{background:linear-gradient(145deg,#10271e,#091812)!important;color:#dce8d9!important;border:1px solid #80652f!important;box-shadow:0 6px 0 #02070b,0 14px 25px #0008!important}
+#app .ranking-mini h2,#app .ranking-mini .member-info strong{color:#e1cf9d!important}
+#app .ranking-mini .muted,#app .ranking-mini .member-info small{color:#91aa9b!important}
+#app .ranking-mini .member{border-color:#294538!important}
+#app .ranking-mini .avatar{background:#1c3b2c!important;color:#d9c58d!important}
+#app .ranking-mini .points{color:#d4b76d!important}
+#auth.auth-panel{background:#0d1c24!important;color:#dce8df!important;border:1px solid #80652f!important}
+#auth.auth-panel h2{color:#e1cf9d!important}
+#auth.auth-panel .muted{color:#91a99e!important}
+.field{background:#06121a!important;color:#e2ece7!important;border-color:#345047!important}
+.field::placeholder{color:#718c83!important}
+.primary{background:linear-gradient(145deg,#982b39,#561724)!important;color:#f4e8d1!important}
+.light{background:#1b342b!important;color:#d8c58f!important}
+.danger{background:#431b22!important;color:#e8b8bb!important}
+.tag{background:#1b382b!important;color:#d8c58f!important}
+.member,.post{border-color:#29463d!important}
+.post p{color:#b5c8be!important}
+.stat,.empty{background:#10252a!important;color:#cbdad4!important}
+footer{color:#647d73!important}
+.btn,.smallbtn{filter:saturate(.85)}
+/* Schneeflocken schweben über der ganzen Seite, ohne Klicks zu blockieren */
+body:before{content:"";position:fixed;inset:-120px 0 0;z-index:9997;pointer-events:none;background-image:radial-gradient(3px 3px at 24px 38px,#dcecf0 98%,transparent),radial-gradient(2px 2px at 110px 125px,#b8d3d9 98%,transparent),radial-gradient(3px 3px at 205px 68px,#e6eff0 98%,transparent),radial-gradient(2px 2px at 295px 185px,#c5dce0 98%,transparent),radial-gradient(2px 2px at 365px 25px,#e6eff0 98%,transparent);background-size:390px 230px;opacity:.62;animation:schoolblogSnow 9s linear infinite}
+@keyframes schoolblogSnow{from{background-position:0 -230px}to{background-position:0 230px}}
+/* Weihnachtliche Figuren und Deko am unteren Rand */
+body:after{content:"🎄　🍬　🎅　🍬　🎄";position:fixed;z-index:9996;pointer-events:none;bottom:5px;left:0;width:100%;text-align:center;font-size:clamp(25px,4vw,46px);letter-spacing:clamp(2px,2vw,18px);opacity:.82;filter:drop-shadow(0 0 10px #000);white-space:nowrap}
+/* Kleine Zuckerstangen links und rechts */
+#app:before,#app:after{position:fixed;z-index:9995;pointer-events:none;font-size:clamp(25px,3vw,42px);opacity:.72;filter:drop-shadow(0 2px 6px #000)}
+#app:before{content:"🍬";left:8px;top:42%;transform:rotate(-18deg)}
+#app:after{content:"❄️";right:8px;top:35%;transform:rotate(18deg)}
+@media(max-width:560px){body:after{font-size:24px;letter-spacing:5px;content:"🎄 🍬 🎅 🍬 🎄"}#app:before{left:2px;font-size:22px}#app:after{right:2px;font-size:22px}}
+@media(prefers-reduced-motion:reduce){body:before{animation:none}}
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
