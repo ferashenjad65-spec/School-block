@@ -752,8 +752,63 @@ main button.danger,main .danger{background:#481b22!important;color:#f4caca!impor
 @keyframes sbCandySpin{0%{transform:translateY(0) rotate(-20deg) scale(1)}50%{transform:translateY(-18px) rotate(20deg) scale(1.16)}100%{transform:translateY(0) rotate(-20deg) scale(1)}}
 @keyframes sbSantaHop{0%,100%{transform:translateY(0) rotate(-7deg)}50%{transform:translateY(-24px) rotate(8deg)}}
 </style>
+
+<style id="schoolblog-fullscreen-christmas">
+/* ALLE hellen Standardflächen konsequent entfernen */
+:root{color-scheme:dark!important;background:#06170e!important}
+html,body{min-height:100%!important;background:#06170e!important;color:#e7f1e7!important}
+body{background:radial-gradient(ellipse at 50% 0%,#17482d 0%,#0b2b1b 48%,#030c07 100%) fixed!important}
+header.blast-header{background:linear-gradient(100deg,#06150d,#17432a 55%,#0a1c12)!important;color:#f4e7c5!important;border-bottom:1px solid #648047!important}
+main{background:transparent!important;color:#e7f1e7!important}
+main .card,main .panel,main .hero,main .game-card,main .ranking-mini,main .game-dialog,main .game-overlay,main .modal,main #auth,main #join,main #recovery,main .member,main .post,main .stat,main .empty,main .setting-row,main .admin-row,main [role="dialog"]{
+ background:linear-gradient(145deg,#16452c,#0a2418)!important;
+ background-color:#0c2c1c!important;color:#e7f1e7!important;
+ border-color:#47734b!important;box-shadow:0 8px 24px #0008!important;
+}
+#app{background:linear-gradient(145deg,#0a2818,#06170f)!important;color:#e7f1e7!important;border:1px solid #47734b!important}
+#app .game-card{background:linear-gradient(145deg,#17472d,#0a2519)!important;color:#e7f1e7!important}
+#app aside .card,#app .ranking-mini{background:linear-gradient(145deg,#16452c,#0a2418)!important;color:#e7f1e7!important}
+#auth,#join,#recovery{background:linear-gradient(145deg,#16452c,#0a2418)!important;color:#e7f1e7!important}
+main h1,main h2,main h3,main strong{color:#f2dfa8!important}
+main p,main label,main small,main .muted{color:#c6ddca!important}
+main input,main textarea,main select,main .field,.blast-search{
+ background:#06190f!important;background-color:#06190f!important;color:#f0f6ef!important;border:1px solid #47734b!important;
+}
+main input::placeholder,main textarea::placeholder{color:#9bb6a0!important}
+main .primary{background:linear-gradient(140deg,#a72b39,#601923)!important;color:#fff0dc!important}
+main .light{background:#245a39!important;color:#f1dda0!important}
+main .danger{background:#481b22!important;color:#f4caca!important}
+#app .game-board{background:#031009!important;border-color:#47734b!important}
+#app .game-cell{background:#143727!important;border-color:#28543a!important}
+#app .game-cell.color-1{background:linear-gradient(145deg,#d6a64f,#81501e)!important}
+#app .game-cell.color-2{background:linear-gradient(145deg,#c94e59,#6b1c29)!important}
+#app .game-cell.color-3{background:linear-gradient(145deg,#73b77a,#245c37)!important}
+#app .game-cell.preview{background:#b8954b!important}
+#app .game-piece{background:#103323!important;border-color:#47734b!important}
+#app .game-piece.selected{background:#214b30!important}
+#app .piece-cell.on{background:#62a66b!important}
+#app .score-crown,#app .game-best{background:linear-gradient(145deg,#75551e,#3f2c12)!important;color:#f4dfa0!important}
+#app .tag,#app .stat,#app .empty{background:#123a25!important;color:#d5e7d6!important}
+#app .avatar{background:#24583a!important;color:#f4dfa0!important}
+#app .member,#app .post{border-color:#315c3c!important}
+#app a{color:#f1d48c!important}
+/* Flächendeckender, nicht klickbarer Weihnachts-Emoji-Schneesturm */
+#sb-flying-decor{position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;overflow:hidden!important;pointer-events:none!important;z-index:99992!important;background:transparent!important}
+#sb-flying-decor .fly{position:absolute!important;top:-15vh!important;left:var(--x)!important;font-size:var(--s)!important;line-height:1!important;opacity:var(--o)!important;filter:drop-shadow(0 2px 5px #0009)!important;will-change:transform!important;animation:sbFlyAcross var(--t) linear var(--d) infinite!important}
+@keyframes sbFlyAcross{
+ 0%{transform:translate3d(0,-15vh,0) rotate(0deg) scale(.75)}
+ 20%{transform:translate3d(var(--a),20vh,0) rotate(95deg) scale(1.05)}
+ 45%{transform:translate3d(var(--b),48vh,0) rotate(205deg) scale(.9)}
+ 70%{transform:translate3d(var(--c),78vh,0) rotate(300deg) scale(1.12)}
+ 100%{transform:translate3d(var(--a),120vh,0) rotate(420deg) scale(.8)}
+}
+#sb-snow{z-index:99993!important;background:transparent!important}
+#sb-snow .sb-flake{color:#f3fff6!important;text-shadow:0 0 8px #d8fff0!important;animation:sbFlyAcross var(--duration,12s) linear var(--delay,0s) infinite!important}
+#sb-xmas-decor{display:none!important}
+@media(prefers-reduced-motion:reduce){#sb-flying-decor .fly,#sb-snow .sb-flake{animation-duration:30s!important}}
+</style>
 </head>
-<body>
+<body><div id="sb-flying-decor" aria-hidden="true"><span class="fly" style="--x:5%;--s:20px;--t:9s;--d:0s;--o:0.58;--a:-40px;--b:-50px;--c:-45px">🎄</span><span class="fly" style="--x:42%;--s:27px;--t:14s;--d:-3s;--o:0.67;--a:-27px;--b:-31px;--c:-22px">🎅</span><span class="fly" style="--x:79%;--s:34px;--t:19s;--d:-6s;--o:0.76;--a:-14px;--b:-12px;--c:1px">🍬</span><span class="fly" style="--x:19%;--s:41px;--t:11s;--d:-9s;--o:0.85;--a:-1px;--b:7px;--c:24px">🍭</span><span class="fly" style="--x:56%;--s:20px;--t:16s;--d:-12s;--o:0.94;--a:12px;--b:26px;--c:-44px">🎁</span><span class="fly" style="--x:93%;--s:27px;--t:21s;--d:-15s;--o:0.58;--a:25px;--b:45px;--c:-21px">⛄</span><span class="fly" style="--x:33%;--s:34px;--t:13s;--d:-18s;--o:0.67;--a:38px;--b:-37px;--c:2px">🦌</span><span class="fly" style="--x:70%;--s:41px;--t:18s;--d:-2s;--o:0.76;--a:-30px;--b:-18px;--c:25px">⭐</span><span class="fly" style="--x:10%;--s:20px;--t:10s;--d:-5s;--o:0.85;--a:-17px;--b:1px;--c:-43px">❄️</span><span class="fly" style="--x:47%;--s:27px;--t:15s;--d:-8s;--o:0.94;--a:-4px;--b:20px;--c:-20px">🔔</span><span class="fly" style="--x:84%;--s:34px;--t:20s;--d:-11s;--o:0.58;--a:9px;--b:39px;--c:3px">🧦</span><span class="fly" style="--x:24%;--s:41px;--t:12s;--d:-14s;--o:0.67;--a:22px;--b:-43px;--c:26px">✨</span><span class="fly" style="--x:61%;--s:20px;--t:17s;--d:-17s;--o:0.76;--a:35px;--b:-24px;--c:-42px">🎄</span><span class="fly" style="--x:1%;--s:27px;--t:9s;--d:-1s;--o:0.85;--a:-33px;--b:-5px;--c:-19px">🎅</span><span class="fly" style="--x:38%;--s:34px;--t:14s;--d:-4s;--o:0.94;--a:-20px;--b:14px;--c:4px">🍬</span><span class="fly" style="--x:75%;--s:41px;--t:19s;--d:-7s;--o:0.58;--a:-7px;--b:33px;--c:27px">🍭</span><span class="fly" style="--x:15%;--s:20px;--t:11s;--d:-10s;--o:0.67;--a:6px;--b:-49px;--c:-41px">🎁</span><span class="fly" style="--x:52%;--s:27px;--t:16s;--d:-13s;--o:0.76;--a:19px;--b:-30px;--c:-18px">⛄</span><span class="fly" style="--x:89%;--s:34px;--t:21s;--d:-16s;--o:0.85;--a:32px;--b:-11px;--c:5px">🦌</span><span class="fly" style="--x:29%;--s:41px;--t:13s;--d:0s;--o:0.94;--a:-36px;--b:8px;--c:28px">⭐</span><span class="fly" style="--x:66%;--s:20px;--t:18s;--d:-3s;--o:0.58;--a:-23px;--b:27px;--c:-40px">❄️</span><span class="fly" style="--x:6%;--s:27px;--t:10s;--d:-6s;--o:0.67;--a:-10px;--b:46px;--c:-17px">🔔</span><span class="fly" style="--x:43%;--s:34px;--t:15s;--d:-9s;--o:0.76;--a:3px;--b:-36px;--c:6px">🧦</span><span class="fly" style="--x:80%;--s:41px;--t:20s;--d:-12s;--o:0.85;--a:16px;--b:-17px;--c:29px">✨</span><span class="fly" style="--x:20%;--s:20px;--t:12s;--d:-15s;--o:0.94;--a:29px;--b:2px;--c:-39px">🎄</span><span class="fly" style="--x:57%;--s:27px;--t:17s;--d:-18s;--o:0.58;--a:-39px;--b:21px;--c:-16px">🎅</span><span class="fly" style="--x:94%;--s:34px;--t:9s;--d:-2s;--o:0.67;--a:-26px;--b:40px;--c:7px">🍬</span><span class="fly" style="--x:34%;--s:41px;--t:14s;--d:-5s;--o:0.76;--a:-13px;--b:-42px;--c:30px">🍭</span><span class="fly" style="--x:71%;--s:20px;--t:19s;--d:-8s;--o:0.85;--a:0px;--b:-23px;--c:-38px">🎁</span><span class="fly" style="--x:11%;--s:27px;--t:11s;--d:-11s;--o:0.94;--a:13px;--b:-4px;--c:-15px">⛄</span><span class="fly" style="--x:48%;--s:34px;--t:16s;--d:-14s;--o:0.58;--a:26px;--b:15px;--c:8px">🦌</span><span class="fly" style="--x:85%;--s:41px;--t:21s;--d:-17s;--o:0.67;--a:39px;--b:34px;--c:31px">⭐</span><span class="fly" style="--x:25%;--s:20px;--t:13s;--d:-1s;--o:0.76;--a:-29px;--b:-48px;--c:-37px">❄️</span><span class="fly" style="--x:62%;--s:27px;--t:18s;--d:-4s;--o:0.85;--a:-16px;--b:-29px;--c:-14px">🔔</span><span class="fly" style="--x:2%;--s:34px;--t:10s;--d:-7s;--o:0.94;--a:-3px;--b:-10px;--c:9px">🧦</span><span class="fly" style="--x:39%;--s:41px;--t:15s;--d:-10s;--o:0.58;--a:10px;--b:9px;--c:32px">✨</span><span class="fly" style="--x:76%;--s:20px;--t:20s;--d:-13s;--o:0.67;--a:23px;--b:28px;--c:-36px">🎄</span><span class="fly" style="--x:16%;--s:27px;--t:12s;--d:-16s;--o:0.76;--a:36px;--b:47px;--c:-13px">🎅</span><span class="fly" style="--x:53%;--s:34px;--t:17s;--d:0s;--o:0.85;--a:-32px;--b:-35px;--c:10px">🍬</span><span class="fly" style="--x:90%;--s:41px;--t:9s;--d:-3s;--o:0.94;--a:-19px;--b:-16px;--c:33px">🍭</span><span class="fly" style="--x:30%;--s:20px;--t:14s;--d:-6s;--o:0.58;--a:-6px;--b:3px;--c:-35px">🎁</span><span class="fly" style="--x:67%;--s:27px;--t:19s;--d:-9s;--o:0.67;--a:7px;--b:22px;--c:-12px">⛄</span></div>
 <div id="sb-snow" aria-hidden="true"><span class="sb-flake f1">❄</span><span class="sb-flake f2">❄</span><span class="sb-flake f3">❄</span><span class="sb-flake f4">❄</span><span class="sb-flake f5">❄</span><span class="sb-flake f6">❄</span><span class="sb-flake f7">❄</span><span class="sb-flake f8">❄</span><span class="sb-flake f9">❄</span><span class="sb-flake f10">❄</span><span class="sb-flake f11">❄</span><span class="sb-flake f12">❄</span><span class="sb-flake f13">❄</span><span class="sb-flake f14">❄</span><span class="sb-flake f15">❄</span><span class="sb-flake f16">❄</span><span class="sb-flake f17">❄</span><span class="sb-flake f18">❄</span><span class="sb-flake f19">❄</span><span class="sb-flake f20">❄</span><span class="sb-flake f21">❄</span><span class="sb-flake f22">❄</span><span class="sb-flake f23">❄</span><span class="sb-flake f24">❄</span></div><div id="sb-xmas-decor" aria-hidden="true"><span>🎄</span><span>🍬</span><span>🎅</span><span>🍭</span><span>🎄</span></div>
 <header class="blast-header"><div class="brand"><div class="mark">✦</div><div><strong>BLAST</strong><small>Schoolblog Game</small></div></div><label class="blast-search"><span>⌕</span><input id="siteSearch" type="search" placeholder="Spieler suchen …" autocomplete="off"></label><div class="header-account"><div class="header-profile hidden" id="headerProfile"><div class="avatar" id="myAvatar">S</div><div class="header-profile-info"><strong id="myName">Mein Konto</strong><small id="myClass">Deine Klasse</small><label class="smallbtn light" style="display:inline-block;margin-top:4px;cursor:pointer">Bild ändern<input id="avatarFile" type="file" accept="image/jpeg,image/png,image/webp" hidden></label></div></div><div id="profileStatus" class="status"></div><button id="logout" class="btn light hidden">Abmelden</button></div></header>
 <main>
